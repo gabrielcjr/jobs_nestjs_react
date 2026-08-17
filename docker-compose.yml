@@ -1,0 +1,62 @@
+services:
+  # 1. PostgreSQL Database with GIN index support
+  postgres:
+    image: postgres:17-alpine
+    container_name: jobs_ats_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: jobs_db
+    ports:
+      - "127.0.0.1:5435:5432"
+    volumes:
+      - jobs_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d jobs_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jobs_network
+
+  # 2. NestJS Fastify Backend & Multi-ATS Ingestion Engine
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jobs_ats_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgrespassword@postgres:5432/jobs_db?schema=public"
+      PORT: 3001
+      HOST: "0.0.0.0"
+      NODE_ENV: production
+    ports:
+      - "127.0.0.1:3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - jobs_network
+
+  # 3. React 19 Frontend Web UI (Nginx reverse proxy)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: jobs_ats_frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      - backend
+    networks:
+      - jobs_network
+
+volumes:
+  jobs_postgres_data:
+
+networks:
+  jobs_network:
+    driver: bridge
