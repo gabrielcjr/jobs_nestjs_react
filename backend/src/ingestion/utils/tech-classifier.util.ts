@@ -91,14 +91,17 @@ export function inferSeniority(title: string): ExperienceLevel {
 
 export function inferRoleCategory(title: string): RoleCategory {
   const t = title.toLowerCase();
+  // Check management first so Engineering Manager - Platform is correctly classified
+  if (/\b(engineering manager|director of engineering|vp of engineering|cto|head of engineering)\b/i.test(t)) {
+    return RoleCategory.ENGINEERING_MANAGEMENT;
+  }
+  if (/\b(security|infosec|appsec|soc|penetration)\b/i.test(t)) return RoleCategory.SECURITY;
+  if (/\b(data engineer|data scientist|machine learning|ml|ai engineer|nlp|computer vision)\b/i.test(t)) return RoleCategory.DATA_AI_ML;
+  if (/\b(devops|sre|site reliability|infrastructure|platform|cloud engineer)\b/i.test(t)) return RoleCategory.DEVOPS_SRE_INFRA;
+  if (/\b(mobile|ios|android|react native|flutter)\b/i.test(t)) return RoleCategory.MOBILE;
   if (/\b(frontend|front-end|ui|react|vue|web developer)\b/i.test(t)) return RoleCategory.FRONTEND;
   if (/\b(backend|back-end|api|distributed|golang|rust|java developer)\b/i.test(t)) return RoleCategory.BACKEND;
   if (/\b(fullstack|full-stack|full stack)\b/i.test(t)) return RoleCategory.FULLSTACK;
-  if (/\b(devops|sre|site reliability|infrastructure|platform|cloud engineer)\b/i.test(t)) return RoleCategory.DEVOPS_SRE_INFRA;
-  if (/\b(mobile|ios|android|react native|flutter)\b/i.test(t)) return RoleCategory.MOBILE;
-  if (/\b(data engineer|data scientist|machine learning|ml|ai engineer|nlp|computer vision)\b/i.test(t)) return RoleCategory.DATA_AI_ML;
-  if (/\b(security|infosec|appsec|soc|penetration)\b/i.test(t)) return RoleCategory.SECURITY;
-  if (/\b(engineering manager|director of engineering|vp of engineering|cto)\b/i.test(t)) return RoleCategory.ENGINEERING_MANAGEMENT;
   return RoleCategory.OTHER;
 }
 
@@ -132,7 +135,7 @@ export function unescapeHtml(html: string): string {
     .replace(/&#x27;/g, "'")
     .replace(/&#x2F;/g, '/')
     .replace(/&#96;/g, '`')
+    .replace(/&euro;/g, '€')
+    .replace(/&pound;/g, '£')
     .replace(/&nbsp;/g, ' ');
 }
-
-

@@ -65,3 +65,4 @@ scratch/
 docker-data/
 postgres_data/
 jobs_postgres_data/
+*.tsbuildinfo
