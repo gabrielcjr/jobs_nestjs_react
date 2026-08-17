@@ -1,0 +1,629 @@
+tier,company,slug,region,remote_policy,company_size,stack_matches,matched_tags,all_technologies,website,careers_url,known_ats,known_ats_slug,updated_at
+1,MailerLite,mailerlite,worldwide,fully-remote,medium,7,cloud|devops|go|nosql|php|python|sql,cloud|devops|go|javascript|mobile|nosql|php|python|search|sql,https://www.mailerlite.com,https://www.mailerlite.com/jobs/,,,2020-02-29
+1,Zapier,zapier,worldwide,fully-remote,large,7,cloud|data|devops|infrastructure|nosql|python|sql,cloud|data|devops|infrastructure|javascript|nosql|python|sql,https://zapier.com/,https://zapier.com/jobs/,,,2020-10-21
+1,ATOZDEBUG,atozdebug,worldwide,fully-remote,small,6,cloud|devops|nosql|php|python|sql,cloud|devops|javascript|mobile|nosql|php|python|sql,https://atozdebug.com/,https://www.linkedin.com/company/atozdebug/,,,2024-10-08
+1,Bairesdev,bairesdev,worldwide,fully-remote,large,6,cloud|linux|nosql|php|python|sql,cloud|dotnet|java|javascript|linux|ml|mobile|nosql|php|python|ruby|sql,https://bairesdev.com/,https://www.bairesdev.com/join-us/,,,2022-10-10
+1,Code B Solutions,code-b-solutions,worldwide,remote-friendly,small,6,cloud|devops|nosql|php|python|sql,cloud|devops|dotnet|javascript|mobile|nosql|php|python|sql,https://code-b.dev/,https://code-b.dev/,,,2024-04-22
+1,Kake,kake,worldwide,fully-remote,medium,6,cloud|data|go|php|python|sql,cloud|data|dotnet|go|graphql|java|javascript|ml|mobile|php|python|sql,https://kake.co/jobs,,,,
+1,Launch Potato,launch-potato,worldwide,fully-remote,medium,6,api|cloud|data|devops|python|sql,api|cloud|data|devops|graphql|javascript|python|sql,https://launchpotato.com/,https://launchpotato.com/careers,,,2023-10-20
+1,OutsourcingDev,outsourcingdev,worldwide,fully-remote,tiny,6,cloud|linux|nosql|php|python|sql,cloud|dotnet|java|javascript|linux|ml|mobile|nosql|php|python|ruby|sql,https://www.outsourcingdev.com/,https://www.outsourcingdev.com/careers/,,,2022-10-02
+1,Rainforest QA,rainforest-qa,worldwide,fully-remote,small,6,devops|go|linux|nosql|python|sql,devops|elixir|go|javascript|linux|nosql|python|ruby|sql,https://www.rainforestqa.com/jobs,,,,2020-02-22
+1,Sticker Mule,sticker-mule,worldwide,fully-remote,large,6,cloud|devops|go|nosql|python|sql,cloud|devops|dotnet|go|graphql|javascript|nosql|python|ruby|sql,https://www.stickermule.com/,https://www.stickermule.com/careers,,,2022-10-05
+1,,xapo,worldwide,fully-remote,large,6,cloud|data|devops|nosql|python|sql,cloud|data|devops|graphql|java|javascript|ml|mobile|nosql|python|sql,https://xapo.com/,https://xapo.com/en/careers,,,2019-12-13
+1,Zignaly,zignaly,worldwide,fully-remote,small,6,cloud|devops|infrastructure|nosql|php|sql,cloud|devops|infrastructure|javascript|nosql|php|sql,https://zignaly.io/,https://discord.com/invite/r5qRXDJ,,,2022-08-21
+1,42 Technologies,42-technologies,worldwide,fully-remote,tiny,5,cloud|data|devops|python|sql,cloud|data|devops|javascript|python|sql,https://www.42technologies.com/,https://angel.co/company/42,,,2022-05-17
+1,Applied AI Company (AAICO),applied-ai-company-aaico,worldwide,fully-remote,medium,5,api|cloud|devops|python|sql,api|cloud|devops|elixir|javascript|python|sql,https://aaico.com,,,,2024-02-06
+1,Balena,balena,worldwide,remote-first,small,5,cloud|devops|go|linux|sql,cloud|devops|go|javascript|linux|rust|sql,https://www.balena.io/,https://balena.workable.com/,workable,,2019-08-11
+1,BigData Boutique,bigdata-boutique,worldwide,remote-friendly,small,5,cloud|data|devops|nosql|sql,java|data|search|cloud|devops|sql|nosql,https://bigdataboutique.com,https://bigdataboutique.com/careers,,,
+1,Broadwing,broadwing,worldwide,fully-remote,small,5,cloud|devops|go|python|sql,cloud|devops|go|javascript|python|sql,https://broadwing.io,,,,2022-09-22
+1,ChainLink Labs,chainlink-labs,worldwide,remote-friendly,medium,5,cloud|devops|go|python|sql,cloud|devops|go|javascript|python|sql,https://chainlinklabs.com/,https://chainlinklabs.com/careers,,,2022-10-21
+1,Close,close,worldwide,fully-remote,small,5,cloud|devops|nosql|python|sql,cloud|devops|javascript|ml|nosql|python|search|sql,https://close.com,http://jobs.close.com,,,2019-08-23
+1,Coinbase,coinbase,worldwide,remote-first,enterprise,5,cloud|devops|go|nosql|sql,cloud|devops|go|javascript|nosql|ruby|sql,https://www.coinbase.com,https://www.coinbase.com/careers/positions,,,2021-10-29
+1,Deskpass,deskpass,worldwide,fully-remote,small,5,devops|go|nosql|php|sql,devops|go|javascript|nosql|php|sql,https://www.deskpass.com,https://jobs.deskpass.com,,,2022-10-22
+1,Etsy,etsy,worldwide,remote-friendly,large,5,data|devops|go|php|sql,data|devops|go|javascript|php|ruby|search|sql,https://www.etsy.com/,https://careers.etsy.com/,,,2026-02-06
+1,Glitch,glitch,worldwide,remote-friendly,small,5,devops|go|nosql|python|sql,devops|dotnet|go|javascript|ml|nosql|python|ruby|search|sql,https://www.glitch.com/,,,,2021-02-10
+1,Harvest,harvest,worldwide,fully-remote,medium,5,cloud|devops|infrastructure|nosql|sql,cloud|devops|infrastructure|javascript|nosql|ruby|sql,https://www.getharvest.com/,https://www.getharvest.com/careers,,,2022-10-04
+1,Kinsta,kinsta,worldwide,fully-remote,large,5,go|nosql|php|python|sql,go|java|javascript|nosql|php|python|ruby|scala|sql,https://kinsta.com,https://kinsta.com/careers/,,,2022-11-03
+1,NetApp,netapp,worldwide,remote-friendly,enterprise,5,data|devops|go|python|sql,data|devops|go|java|javascript|python|ruby|sql,https://www.netapp.com/,,,,2022-10-07
+1,OmniTI,omniti,worldwide,fully-remote,small,5,devops|go|nosql|python|sql,devops|go|javascript|mobile|nosql|python|ruby|sql,https://omniti.com/,https://omniti.com/is/hiring.html,,,2018-04-16
+1,Optoro,optoro,worldwide,fully-remote,medium,5,data|devops|nosql|python|sql,data|devops|nosql|python|ruby|sql,https://www.optoro.com/,,,,2019-09-16
+1,Rakuten Travel Xchange,rakuten-travel-xchange,worldwide,fully-remote,small,5,cloud|devops|go|nosql|sql,cloud|devops|go|javascript|nosql|sql,https://solutions.travel.rakuten.com,https://solutions.travel.rakuten.com/jobs,,,2022-10-31
+1,Sardine.ai,sardine-ai,worldwide,fully-remote,small,5,cloud|devops|go|infrastructure|python,cloud|devops|go|infrastructure|javascript|python,https://sardine.ai,https://www.sardine.ai/careers,,,2024-01-25
+1,SignEasy,signeasy,worldwide,remote-friendly,,5,api|cloud|devops|python|sql,api|cloud|devops|javascript|python|search|sql,https://signeasy.com/,https://signeasy.com/careers,,,2020-10-19
+1,Smile.io,smile-io,worldwide,fully-remote,small,5,cloud|data|devops|nosql|sql,cloud|data|devops|javascript|nosql|ruby|search|sql,https://smile.io,https://smile.io/careers,,,2021-04-13
+1,Ushahidi,ushahidi,worldwide,fully-remote,small,5,devops|infrastructure|php|python|sql,devops|infrastructure|javascript|php|python|sql,https://www.ushahidi.com,https://ushahidi.workable.com/,workable,,2022-10-03
+1,ZenRows,zenrows,worldwide,remote-first,tiny,5,devops|go|nosql|php|sql,devops|go|javascript|nosql|php|sql,https://zenrows.com,,,,2022-08-31
+1,A-1 Auto Transport,a-1-auto-transport,worldwide,fully-remote,small,4,api|infrastructure|php|sql,api|infrastructure|javascript|ml|php|sql,https://a1autotransport.com,,,,2025-06-11
+1,Acquia,acquia,worldwide,hybrid,large,4,cloud|go|php|python,cloud|go|java|javascript|php|python|ruby,https://www.acquia.com/,https://www.acquia.com/careers/open-positions,,,2022-10-03
+1,Automattic,automattic,worldwide,fully-remote,enterprise,4,data|php|python|sql,data|java|javascript|php|python|search|sql,https://automattic.com/,https://automattic.com/work-with-us/,,,2022-10-30
+1,Cabify,cabify,worldwide,fully-remote,large,4,devops|go|nosql|python,devops|go|java|javascript|mobile|nosql|python,https://cabify.com/,https://cabify.com/en/jobs,,,2019-10-25
+1,CloudApp,cloudapp,worldwide,hybrid,tiny,4,cloud|go|nosql|sql,cloud|go|javascript|nosql|ruby|sql,https://getcloudapp.com,https://www.getcloudapp.com/careers,,,2019-09-15
+1,Codea IT,codea-it,worldwide,fully-remote,tiny,4,nosql|php|python|sql,dotnet|java|javascript|ml|mobile|nosql|php|python|ruby|sql,https://www.codeait.com/,,,,2018-04-16
+1,Convert,convert,worldwide,fully-remote,small,4,cloud|devops|nosql|php,cloud|devops|javascript|nosql|php,https://www.convert.com,https://www.convert.com/jobs,,,2025-07-23
+1,DataRobot,datarobot,worldwide,remote-friendly,large,4,cloud|data|python|sql,python|ml|data|cloud|sql,https://www.datarobot.com/,https://www.datarobot.com/careers/,,,
+1,DataStax,datastax,worldwide,fully-remote,large,4,cloud|devops|go|sql,cloud|devops|go|javascript|sql,https://www.datastax.com/,https://www.datastax.com/company/careers,,,2019-10-25
+1,Dev Spotlight,dev-spotlight,worldwide,fully-remote,tiny,4,cloud|devops|php|python,cloud|devops|dotnet|java|javascript|mobile|php|python|ruby,https://www.devspotlight.com,,,,2019-02-27
+1,DigitalOcean,digitalocean,worldwide,remote-friendly,large,4,data|devops|go|sql,data|devops|go|ruby|sql,https://www.digitalocean.com/,https://www.digitalocean.com/careers,,,2018-10-29
+1,Doist,doist,worldwide,fully-remote,small,4,nosql|php|python|sql,dotnet|javascript|mobile|nosql|php|python|ruby|sql,https://doist.com,https://doist.com/careers,,,2018-04-16
+1,EngineYard (Support Team),engineyard-support-team,worldwide,remote-friendly,small,4,cloud|devops|linux|sql,cloud|devops|javascript|linux|ruby|sql,https://www.engineyard.com,,,,2020-10-29
+1,ExportData,exportdata,worldwide,remote-first,tiny,4,cloud|devops|nosql|sql,cloud|devops|javascript|nosql|ruby|search|sql,https://www.exportdata.io/,https://www.exportdata.io/,,,2021-05-18
+1,FivexL,fivexl,worldwide,fully-remote,tiny,4,cloud|devops|go|python,cloud|devops|go|python,https://fivexl.io,https://fivexl.io/#contact,,,2020-10-19
+1,fleetio,fleetio,worldwide,fully-remote,medium,4,cloud|devops|go|python,cloud|devops|go|javascript|python,https://www.fleetio.com/,https://www.fleetio.com/careers,,,2023-10-17
+1,General Assembly,general-assembly,worldwide,fully-remote,large,4,api|cloud|nosql|sql,api|cloud|javascript|ml|nosql|ruby|scala|sql,https://generalassemb.ly/,https://generalassemb.ly/careers,,,2020-10-17
+1,Inter.link,inter-link,worldwide,fully-remote,small,4,devops|go|python|sql,devops|go|javascript|python|sql,https://inter.link/,https://inter.link/about-interlink/careers/,,,2023-10-11
+1,"Intuition Machines, Inc.",intuition-machines-inc,worldwide,remote-first,medium,4,cloud|data|devops|go,cloud|data|devops|go|javascript,https://www.imachines.com/,https://jobs.imachines.com/,,,2022-04-08
+1,Iterative,iterative,worldwide,fully-remote,small,4,cloud|devops|go|python,cloud|devops|go|javascript|python,https://www.iterative.ai/,,,,2022-03-29
+1,Lightspeed,lightspeed,worldwide,fully-remote,enterprise,4,cloud|data|go|php,cloud|data|go|php,https://www.lightspeedhq.com/,https://www.lightspeedhq.com/careers/,,,2022-10-05
+1,Mattermost,mattermost,worldwide,remote-first,medium,4,cloud|devops|go|python,javascript|go|python|mobile|cloud|devops,https://mattermost.com/careers/,,,,2026-01-17
+1,Meant4,meant4,worldwide,hybrid,small,4,cloud|go|php|python,cloud|go|javascript|mobile|php|python,https://meant4.com/jobs,,,,2025-01-24
+1,Muck Rack,muck-rack,worldwide,remote-friendly,small,4,devops|infrastructure|nosql|python,devops|infrastructure|javascript|nosql|python|search,https://muckrack.com,https://muckrack.com/careers,,,2018-04-16
+1,Namecheap,namecheap,worldwide,hybrid,large,4,infrastructure|linux|php|sql,infrastructure|javascript|linux|php|sql,https://www.namecheap.com,https://www.namecheap.com/careers/openings/,,,2023-10-11
+1,Nettl Edinburgh,nettl-edinburgh,worldwide,fully-remote,tiny,4,infrastructure|linux|php|sql,infrastructure|linux|php|sql,https://www.webdesignedinburgh.com,,,,2022-10-03
+1,Okta,okta,worldwide,fully-remote,enterprise,4,cloud|devops|nosql|sql,cloud|devops|java|javascript|nosql|search|sql,https://www.okta.com,https://www.okta.com/company/careers/,,,2022-10-03
+1,Park Assist,park-assist,worldwide,fully-remote,enterprise,4,cloud|data|devops|sql,cloud|data|devops|javascript|ruby|sql,https://tech.parkassist.com,http://tech.parkassist.com/jobs/,,,2018-04-16
+1,Prezly,prezly,worldwide,remote-friendly,tiny,4,cloud|infrastructure|php|sql,cloud|infrastructure|javascript|php|sql,https://www.prezly.com/,,,,2018-04-16
+1,QuickTrials,quicktrials,worldwide,remote-first,small,4,devops|go|python|sql,devops|go|javascript|python|sql,https://quicktrials.com,https://www.quicktrials.com/open-jobs/,,,2024-11-01
+1,Roundproxies,roundproxies,worldwide,remote-first,tiny,4,cloud|go|nosql|python,cloud|go|javascript|nosql|python,https://roundproxies.com,,,,2025-01-27
+1,ScrapingBee,scrapingbee,worldwide,remote-first,tiny,4,cloud|nosql|python|sql,cloud|javascript|nosql|python|sql,https://scrapingbee.com,,,,2020-04-21
+1,ScyllaDB,scylladb,worldwide,hybrid,small,4,devops|go|linux|python,devops|go|linux|python,https://scylladb.com/,https://www.scylladb.com/company/careers/,,,2021-02-07
+1,ServMask,servmask,worldwide,fully-remote,small,4,devops|infrastructure|php|sql,devops|infrastructure|javascript|php|sql,https://servmask.com,,,,2019-05-08
+1,Shopify,shopify,worldwide,fully-remote,enterprise,4,devops|infrastructure|nosql|sql,devops|infrastructure|javascript|nosql|ruby|sql,https://www.shopify.com,https://www.shopify.com/careers,,,2020-10-29
+1,Sourcegraph,sourcegraph,worldwide,remote-first,medium,4,cloud|devops|go|sql,go|javascript|rust|sql|devops|cloud|search,https://sourcegraph.com/jobs,,,,2026-01-17
+1,TatvaSoft,tatvasoft,worldwide,remote-friendly,large,4,cloud|nosql|php|sql,cloud|dotnet|java|javascript|mobile|nosql|php|ruby|sql,https://www.tatvasoft.com/,https://www.tatvasoft.com/career,,,2022-10-02
+1,Three Movers,three-movers,worldwide,fully-remote,small,4,api|infrastructure|php|sql,api|infrastructure|javascript|ml|php|sql,https://threemovers.com,,,,2025-06-23
+1,Varnish Software,varnish-software,worldwide,fully-remote,small,4,devops|go|linux|python,devops|go|linux|python,https://www.varnish-software.com/about-us,,,,2020-10-19
+1,Abstract,abstract,worldwide,fully-remote,tiny,3,cloud|nosql|python,cloud|nosql|python,https://abstractapi.com,,,,2020-09-08
+1,Ambaum,ambaum,worldwide,fully-remote,tiny,3,nosql|php|sql,javascript|nosql|php|sql,https://ambaum.com/,https://ambaum.com/careers,,,2022-10-03
+1,Aula Education,aula-education,worldwide,remote-first,small,3,cloud|devops|go,cloud|devops|go|javascript,https://aula.education/,https://aulaatcoventry.notion.site/career](https://aulaatcoventry.notion.site/Aula-Work-with-us-b5f19ee874c5435591ac70b804aff8f9,,,2022-11-26
+1,Auth0,auth0,worldwide,hybrid,medium,3,devops|python|sql,devops|javascript|python|ruby|sql,https://auth0.com/,https://auth0.com/jobs,,,2018-04-16
+1,Boldare,boldare,worldwide,fully-remote,medium,3,cloud|php|python,cloud|dotnet|java|javascript|mobile|php|python,https://boldare.com,https://boldare.com/career/,,,2021-03-17
+1,Bounteous,bounteous,worldwide,hybrid,enterprise,3,cloud|php|python,cloud|dotnet|java|javascript|mobile|php|python,https://bounteous.com,https://www.bounteous.com/careers/,,,2022-10-19
+1,Bugfender,bugfender,worldwide,fully-remote,small,3,cloud|linux|php,cloud|java|javascript|linux|ml|mobile|php,https://bugfender.com/,https://mobilejazz.com/jobs,,,2020-10-29
+1,Capchase,capchase,worldwide,fully-remote,tiny,3,devops|go|nosql,devops|go|javascript|nosql,https://www.capchase.com/,https://www.notion.so/9b9e8dbcc5a2415f9da69f1e00617f94?v=cdd6935b11024b68aba4375714c7cc00,,,2020-10-16
+1,Chainguard,chainguard,worldwide,fully-remote,medium,3,cloud|devops|go,go|cloud|devops,https://www.chainguard.dev/,https://www.chainguard.dev/careers,,,
+1,Civo,civo,worldwide,hybrid,small,3,cloud|devops|go,cloud|devops|go|ruby,https://www.civo.com,,,,2022-10-02
+1,CloudBees,cloudbees,worldwide,remote-first,large,3,cloud|devops|go,java|devops|cloud|javascript|go,https://www.cloudbees.com/,https://www.cloudbees.com/careers,,,
+1,Cofense,cofense,worldwide,fully-remote,medium,3,cloud|devops|sql,cloud|devops|ruby|sql,https://cofense.com,,,,2018-04-16
+1,CREEX TEAM,creex-team,worldwide,fully-remote,tiny,3,devops|go|python,devops|go|javascript|python,https://creex.team,,,,2025-08-26
+1,Deel,deel,worldwide,fully-remote,enterprise,3,cloud|devops|sql,cloud|devops|javascript|sql,https://www.deel.com/,https://jobs.ashbyhq.com/Deel,ashby,Deel,2023-10-05
+1,Devsquad,devsquad,worldwide,fully-remote,medium,3,cloud|devops|php,cloud|devops|javascript|php,https://devsquad.com,https://apply.workable.com/devsquad,workable,devsquad,2022-10-03
+1,Drupal Jedi,drupal-jedi,worldwide,fully-remote,medium,3,devops|go|php,devops|go|javascript|php,https://drupaljedi.com/,https://drupaljedi.com/careers,,,2018-06-14
+1,Epsy Health,epsy-health,worldwide,remote-first,small,3,cloud|devops|python,cloud|devops|java|javascript|mobile|python,https://epsyhealth.com/,https://epsyhealth.com/careers,,,2022-12-08
+1,Fingerprint,fingerprint,worldwide,fully-remote,medium,3,cloud|go|sql,cloud|go|javascript|sql,https://fingerprint.com,https://fingerprint.com/careers/,,,2024-03-06
+1,Functionize,functionize,worldwide,fully-remote,small,3,cloud|devops|php,cloud|devops|java|javascript|php,https://www.functionize.com/,https://www.functionize.com/careers/,,,2019-10-25
+1,GoDaddy,godaddy,worldwide,fully-remote,tiny,3,cloud|go|php,cloud|go|java|javascript|php,https://www.godaddy.com/,https://careers.godaddy.com/,,,2022-10-19
+1,HE:labs,he-labs,worldwide,fully-remote,small,3,cloud|devops|sql,cloud|devops|elixir|javascript|ml|ruby|sql,https://www.helabs.com,,,,2022-10-10
+1,Heap,heap,worldwide,fully-remote,small,3,data|nosql|sql,data|javascript|nosql|scala|sql,https://heapanalytics.com/,,,,2018-04-16
+1,Hubspot,hubspot,worldwide,fully-remote,enterprise,3,devops|go|infrastructure,devops|go|infrastructure|javascript|ml,https://www.hubspot.com/,https://www.hubspot.com/careers/jobs?hubs_signup-url=www.hubspot.com%2Fcareers%2Fremote&hubs_signup-cta=careers-location-hero&page=1,,,2023-10-24
+1,iwantmyname,iwantmyname,worldwide,fully-remote,small,3,devops|nosql|python,devops|elixir|javascript|nosql|python,https://iwantmyname.com/,,,,2018-04-16
+1,Kestra,kestra,worldwide,fully-remote,small,3,devops|go|sql,devops|go|java|javascript|sql,https://www.kestra.io/careers,,,,2024-01-16
+1,Klaviyo,klaviyo,worldwide,hybrid,large,3,devops|python|sql,devops|javascript|python|sql,https://www.klaviyo.com/,https://www.klaviyo.com/careers#open-roles,,,2020-10-29
+1,LivePerson,liveperson,worldwide,fully-remote,enterprise,3,data|infrastructure|nosql,data|infrastructure|java|javascript|nosql|search,https://www.liveperson.com/company/careers,,,,2021-06-09
+1,Lorum,lorum,worldwide,remote-friendly,medium,3,cloud|devops|sql,rust|cloud|sql|devops,https://www.lorum.com,https://www.lorum.com/about,,,
+1,Memberful,memberful,worldwide,fully-remote,small,3,api|go|php,api|go|ml|php,https://memberful.com,https://memberful.com/careers,,,2020-10-29
+1,Mixmax,mixmax,worldwide,remote-friendly,small,3,cloud|devops|nosql,cloud|devops|javascript|nosql|search,https://mixmax.com,https://careers.mixmax.com/,,,2019-07-25
+1,MixRank,mixrank,worldwide,remote-friendly,small,3,linux|python|sql,javascript|linux|python|sql,https://mixrank.com,https://www.ycombinator.com/companies/mixrank,,,2022-10-01
+1,Molteo,molteo,worldwide,fully-remote,small,3,cloud|devops|sql,cloud|devops|javascript|mobile|sql,https://molteo.com/,https://molteo.join.com/,,,2020-10-20
+1,Nagarro,nagarro,worldwide,hybrid,enterprise,3,cloud|devops|go,cloud|devops|go|java|ml|mobile,https://www.nagarro.com/en,https://www.nagarro.com/en/careers,,,2022-10-07
+1,Ombu Labs,ombu-labs,worldwide,fully-remote,tiny,3,cloud|nosql|sql,cloud|javascript|nosql|ruby|sql,https://www.ombulabs.com/,https://www.ombulabs.com/jobs,,,2018-11-13
+1,Particular Software,particular-software,worldwide,fully-remote,small,3,cloud|devops|linux,cloud|devops|dotnet|javascript|linux|ml,https://particular.net,https://particular.net/careers,,,2020-10-31
+1,PayU,payu,worldwide,fully-remote,enterprise,3,cloud|data|go,cloud|data|go|java|scala,https://corporate.payu.com,https://corporate.payu.com/job-board/,,,2022-10-02
+1,Pex,pex,worldwide,fully-remote,medium,3,go|python|sql,go|java|javascript|python|search|sql,https://pex.com,https://pex.com/careers/,,,2021-06-02
+1,PostHog,posthog,worldwide,remote-first,medium,3,cloud|data|python,python|javascript|cloud|data,https://posthog.com/,https://posthog.com/careers,,,
+1,Precision Nutrition,precision-nutrition,worldwide,fully-remote,medium,3,cloud|data|devops,cloud|data|devops|elixir|javascript|ruby,https://www.precisionnutrition.com/,https://www.precisionnutrition.com/jobs,,,2022-10-02
+1,Primotly,primotly,worldwide,hybrid,small,3,devops|php|python,devops|javascript|php|python,https://primotly.com,https://primotly.com/career/,,,2023-01-09
+1,Quora,quora,worldwide,remote-first,medium,3,nosql|python|sql,javascript|nosql|python|sql,https://www.quora.com,https://www.quora.com/careers/,,,2021-05-27
+1,Railway,railway,worldwide,fully-remote,small,3,cloud|devops|go,go|javascript|cloud|devops,https://railway.com/,https://railway.com/careers,,,
+1,Red Hat,red-hat,worldwide,hybrid,enterprise,3,cloud|devops|linux,cloud|devops|javascript|linux,https://www.redhat.com,https://www.redhat.com/en/jobs,,,2022-05-11
+1,RemoteMore,remotemore,worldwide,fully-remote,small,3,nosql|python|sql,javascript|nosql|python|sql,https://remotemore.com,https://remotemore.com/careers/,,,2023-10-09
+1,RevenueCat,revenuecat,worldwide,fully-remote,medium,3,cloud|go|python,go|python|mobile|cloud,https://www.revenuecat.com/,https://www.revenuecat.com/careers/,,,
+1,Safeguard Global,safeguard-global,worldwide,fully-remote,large,3,go|python|sql,go|javascript|python|sql,https://www.safeguardglobal.com/,https://www.safeguardglobal.com/company/careers/,,,2022-10-25
+1,Scaloy Technology LLP,scaloy-technology-llp,worldwide,fully-remote,tiny,3,nosql|php|sql,dotnet|javascript|nosql|php|sql,https://scaloy.com/,,,,2025-08-26
+1,Seaplane,seaplane,worldwide,fully-remote,tiny,3,api|cloud|linux,api|cloud|linux|rust,https://www.seaplane.io/,https://careers.smartrecruiters.com/SeaplaneIOInc,smartrecruiters,SeaplaneIOInc,2020-07-19
+1,Seeq,seeq,worldwide,fully-remote,medium,3,cloud|data|nosql,cloud|data|java|nosql,https://www.seeq.com,https://www.seeq.com/careers/,,,2020-11-01
+1,SerpApi,serpapi,worldwide,remote-first,small,3,go|nosql|python,go|javascript|nosql|python|ruby,https://serpapi.com/,https://serpapi.com/careers,,,2025-07-22
+1,Silverfin,silverfin,worldwide,remote-friendly,medium,3,go|nosql|sql,go|javascript|nosql|ruby|sql,https://www.silverfin.com/,https://www.silverfin.com/careers,,,2021-10-18
+1,SmugMug,smugmug,worldwide,fully-remote,medium,3,cloud|linux|php,cloud|dotnet|java|javascript|linux|ml|mobile|php,https://www.smugmug.com/,https://jobs.smugmug.com/,,,2019-11-22
+1,Stairlin,stairlin,worldwide,fully-remote,tiny,3,devops|go|nosql,devops|go|javascript|ml|nosql,https://www.stairlin.com/,,,,2022-10-18
+1,Supabase,supabase,worldwide,fully-remote,medium,3,cloud|go|sql,javascript|go|rust|cloud|sql,https://supabase.com/,https://supabase.com/careers,,,
+1,Temporal,temporal,worldwide,remote-first,medium,3,cloud|devops|go,go|java|javascript|cloud|devops,https://temporal.io/,https://temporal.io/careers,,,
+1,TimeSpot,timespot,worldwide,fully-remote,tiny,3,devops|python|sql,devops|javascript|python|sql,https://timespothq.com/,,,,2018-04-16
+1,toggl,toggl,worldwide,fully-remote,medium,3,devops|go|sql,devops|go|sql,https://toggl.com/,http://jobs.toggl.com,,,2022-10-22
+1,Twilio,twilio,worldwide,hybrid,enterprise,3,devops|go|python,devops|go|java|python,https://www.twilio.com/,https://www.twilio.com/company/jobs,,,2021-10-29
+1,Tyk,tyk,worldwide,fully-remote,medium,3,cloud|devops|go,go|javascript|cloud|devops,https://tyk.io/,,,,
+1,Veryfi,veryfi,worldwide,fully-remote,tiny,3,cloud|python|sql,cloud|java|javascript|ml|mobile|python|sql,https://veryfi.com/about,https://angel.co/company/veryfi/jobs,,,2022-10-02
+1,Wizeline,wizeline,worldwide,hybrid,large,3,go|php|python,dotnet|go|java|javascript|mobile|php|python,https://www.wizeline.com/,https://www.wizeline.com/careers/open-roles/,,,2022-10-03
+1,X-Team,x-team,worldwide,fully-remote,medium,3,go|php|python,go|java|javascript|ml|php|python,https://x-team.com/,,,,2019-10-25
+1,Yahoo!,yahoo,worldwide,fully-remote,enterprise,3,data|devops|nosql,data|devops|javascript|ml|nosql,https://www.yahooinc.com/,https://www.yahooinc.com/careers/,,,2023-10-04
+1,Zaneffi,zaneffi,worldwide,remote-first,tiny,3,cloud|nosql|sql,cloud|javascript|mobile|nosql|sql,https://zaneffi.com/,,,,2024-09-25
+1,Algorithmia,algorithmia,worldwide,fully-remote,small,2,devops|sql,devops|java|sql,https://algorithmia.com/,,,,2018-04-16
+1,Argyle,argyle,worldwide,fully-remote,medium,2,devops|python,devops|javascript|python,https://argyle.com/,https://argyle.com/careers#open-positions,,,2025-07-23
+1,BandLab,bandlab,worldwide,fully-remote,medium,2,cloud|go,cloud|dotnet|go|java|javascript|mobile,https://bandlab.com/,https://apply.workable.com/bandlabtechnologies/,workable,bandlabtechnologies,2021-10-10
+1,BeenVerified,beenverified,worldwide,hybrid,medium,2,go|php,go|javascript|php|ruby,https://www.beenverified.com/,https://www.beenverified.com/careers/,,,2020-01-14
+1,Best Practical Solutions,best-practical-solutions,worldwide,fully-remote,tiny,2,linux|sql,javascript|linux|sql,https://bestpractical.com/,https://bestpractical.com/jobs,,,2019-05-22
+1,BetaPeak,betapeak,worldwide,hybrid,tiny,2,cloud|php,cloud|javascript|php,https://betapeak.com,,,,2019-02-05
+1,Buffer,buffer,worldwide,fully-remote,small,2,data|php,data|javascript|php,https://buffer.com/,https://buffer.com/journey,,,2018-04-16
+1,Cal.com,cal-com,worldwide,fully-remote,small,2,cloud|sql,javascript|cloud|sql,https://cal.com/,https://cal.com/careers,,,
+1,Calibre,calibre,worldwide,fully-remote,tiny,2,cloud|sql,cloud|javascript|ruby|sql,https://calibreapp.com/,https://calibreapp.com/careers,,,2022-05-25
+1,CareCru,carecru,worldwide,fully-remote,small,2,cloud|go,cloud|go|java|javascript,https://carecru.com,,,,2022-06-16
+1,CareMessage,caremessage,worldwide,remote-friendly,small,2,nosql|sql,javascript|nosql|ruby|sql,https://www.caremessage.org/about-us/careers/,,,,2018-04-16
+1,CartoDB,cartodb,worldwide,fully-remote,medium,2,devops|nosql,devops|javascript|nosql|ruby,https://cartodb.com/,https://cartodb.com/jobs/,,,2018-04-16
+1,Chargify,chargify,worldwide,fully-remote,small,2,cloud|devops,cloud|devops|ruby,https://www.chargify.com/,,,,2018-04-16
+1,Chess,chess,worldwide,fully-remote,,2,php|python,javascript|mobile|php|python,https://www.chess.com/jobs,,,,2022-10-21
+1,CircleCI,circleci,worldwide,fully-remote,medium,2,go|python,go|python,https://circleci.com/,https://boards.greenhouse.io/circleci,greenhouse,circleci,2018-10-20
+1,Clevertech,clevertech,worldwide,fully-remote,medium,2,php|python,java|javascript|php|python|ruby,https://clevertech.biz/,https://clevertech.biz/careers,,,2018-04-16
+1,Cognizant,cognizant,worldwide,hybrid,enterprise,2,cloud|python,cloud|dotnet|java|python,https://www.cognizant.com/in/en,https://careers.cognizant.com/in/en,,,2023-10-11
+1,Compucorp,compucorp,worldwide,fully-remote,small,2,devops|python,devops|javascript|python,https://www.compuco.io,https://careers.compuco.io/open-roles,,,2023-10-28
+1,ConsenSys Inc,consensys-inc,worldwide,fully-remote,medium,2,go|python,go|java|javascript|python|rust|scala|search,https://consensys.net/,https://consensys.net/open-positions/,,,2018-04-16
+1,Core-Apps,core-apps,worldwide,fully-remote,small,2,api|go,api|go|scala,https://www.core-apps.com/,https://www.core-apps.com/event-technology-company/jobs/,,,2022-10-10
+1,CrazyGames,crazygames,worldwide,remote-first,small,2,cloud|devops,cloud|devops|graphql|javascript,https://www.crazygames.com,https://jobs.crazygames.com/,,,2024-07-08
+1,Cueup,cueup,worldwide,fully-remote,tiny,2,nosql|sql,javascript|nosql|sql,https://cueup.io,,,,2022-10-22
+1,CWT,cwt,worldwide,fully-remote,enterprise,2,cloud|devops,cloud|devops|dotnet|java|javascript|ml|search,https://www.mycwt.com/,https://careers.mycwt.com/,,,2022-10-18
+1,DappRadar,dappradar,worldwide,fully-remote,small,2,devops|sql,devops|javascript|sql,https://dappradar.com/,https://dappradar.com/careers,,,2021-10-24
+1,darecode,darecode,worldwide,hybrid,small,2,devops|go,devops|dotnet|go|java|javascript,https://darecode.com/,,,,2020-09-30
+1,Edify,edify,worldwide,remote-friendly,small,2,go|php,go|java|javascript|php|ruby,https://edify.cr/,https://edify.cr/careers/open-positions/,,,2018-04-16
+1,Epilocal,epilocal,worldwide,fully-remote,tiny,2,cloud|go,cloud|go|javascript,https://epilocal.com,https://www.epilocal.com/contact/,,,2021-04-02
+1,Evrone,evrone,worldwide,fully-remote,medium,2,go|python,elixir|go|javascript|mobile|python|ruby|rust,https://evrone.com,,,,2020-10-28
+1,FireHire,firehire,worldwide,fully-remote,medium,2,php|python,java|javascript|mobile|php|python|ruby|rust|scala,https://www.firehire.ai,https://www.firehire.ai/talent,,,2023-12-21
+1,GitHub,github,worldwide,fully-remote,large,2,go|sql,go|javascript|ruby|sql,https://github.com/,https://github.com/about/jobs,,,2019-05-13
+1,Glenn Website Design,glenn-website-design,worldwide,fully-remote,tiny,2,php|sql,javascript|ml|php|sql,https://glennwebsitedesign.com/,https://glennwebsitedesign.com/contact/,,,2020-02-22
+1,Grou.ps,grou-ps,worldwide,fully-remote,tiny,2,devops|nosql,devops|javascript|nosql,https://build.gr.ps,https://build.gr.ps/careers/,,,2019-04-26
+1,Hubstaff,hubstaff,worldwide,fully-remote,medium,2,nosql|sql,javascript|ruby|rust|mobile|sql|nosql,https://hubstaff.com/jobs,,,,2026-01-17
+1,Hugging Face,hugging-face,worldwide,remote-first,medium,2,cloud|python,python|ml|cloud,https://huggingface.co/,https://apply.workable.com/huggingface/,workable,huggingface,
+1,Intuit Inc.,intuit-inc,worldwide,fully-remote,enterprise,2,php|python,dotnet|java|javascript|ml|php|python|ruby,https://www.intuit.com/,https://www.intuit.com/careers/,,,2022-10-31
+1,Invesco,invesco,worldwide,hybrid,enterprise,2,cloud|python,cloud|dotnet|java|javascript|python,https://www.invesco.com/corporate,https://careers.invesco.com/,,,2023-10-16
+1,Jitera,jitera,worldwide,fully-remote,small,2,go|sql,go|javascript|mobile|ruby|sql,https://iruuza-inc.com/,https://angel.co/company/iruuza/jobs,,,2021-09-25
+1,Kentik Technologies Inc.,kentik-technologies-inc,worldwide,fully-remote,medium,2,devops|go,devops|go|javascript|scala,https://www.kentik.com/careers,,,,2021-06-16
+1,Kona,kona,worldwide,fully-remote,tiny,2,cloud|python,cloud|javascript|python,https://www.heykona.com,https://www.heykona.com/careers,,,2022-04-14
+1,Kraken,kraken,worldwide,remote-first,large,2,go|php,go|javascript|php|rust,https://kraken.com,https://jobs.lever.co/kraken,lever,kraken,2019-06-06
+1,Labelbox,labelbox,worldwide,fully-remote,medium,2,devops|python,devops|java|javascript|python,https://labelbox.com/,https://labelbox.com/company/careers,,,2021-06-03
+1,Lifetime Value Company,lifetime-value-company,worldwide,hybrid,medium,2,go|php,go|javascript|php|ruby,https://www.ltvco.com/,,,,2020-01-14
+1,Linux Foundation,linux-foundation,worldwide,hybrid,medium,2,devops|go,devops|go,https://www.linuxfoundation.org/,https://www.linuxfoundation.org/careers,,,2020-10-17
+1,LionSher,lionsher,worldwide,fully-remote,small,2,devops|php,devops|javascript|php,https://lionsher.com/careers,,,,2021-10-28
+1,Modern Tribe,modern-tribe,worldwide,fully-remote,small,2,devops|php,devops|javascript|mobile|php|search,https://tri.be/,https://tri.be/careers/,,,2021-10-15
+1,MongoDB,mongodb,worldwide,remote-friendly,enterprise,2,cloud|sql,cloud|sql,https://mongodb.com,https://www.mongodb.com/company/careers,,,2022-10-03
+1,MySQL,mysql,worldwide,remote-friendly,medium,2,php|python,dotnet|java|php|python,https://www.mysql.com/,,,,2020-10-27
+1,Nearform,nearform,worldwide,remote-first,large,2,cloud|data,cloud|data|javascript,https://www.nearform.com,https://www.nearform.com/careers/,,,2025-02-10
+1,Netlify,netlify,worldwide,remote-first,medium,2,cloud|devops,javascript|cloud|devops,https://www.netlify.com/careers,,,,2026-01-17
+1,Netris,netris,worldwide,hybrid,small,2,linux|python,linux|python,https://www.netris.io,,,,2023-04-11
+1,NodeSource,nodesource,worldwide,remote-first,small,2,cloud|devops,cloud|devops|javascript,https://nodesource.com/,,,,2022-10-03
+1,On The Go Systems,on-the-go-systems,worldwide,fully-remote,medium,2,cloud|php,cloud|javascript|php,https://onthegosystems.com/,https://onthegosystems.com/jobs/,,,2020-10-20
+1,Parabol,parabol,worldwide,fully-remote,tiny,2,nosql|sql,graphql|javascript|nosql|sql,https://www.parabol.co/,,,,2021-07-06
+1,Payfully,payfully,worldwide,fully-remote,small,2,cloud|nosql,cloud|javascript|nosql,https://www.payfully.co,https://angel.co/payfully/jobs/,,,2018-04-16
+1,Plaid,plaid,worldwide,hybrid,large,2,kubernetes|python,python|react|typescript|kubernetes,https://plaid.com/,https://plaid.com/careers/,,,2026-03-26
+1,Platform Builders,platform-builders,worldwide,remote-first,medium,2,cloud|sql,cloud|dotnet|javascript|mobile|ruby|search|sql,https://platformbuilders.io/,https://jobs.kenoby.com/sejabuilder,,,2020-10-22
+1,Polygon,polygon,worldwide,fully-remote,tiny,2,nosql|sql,javascript|ml|nosql|sql,https://polygon.technology/careers/#all-roles,,,,2021-10-27
+1,QuestDB,questdb,worldwide,fully-remote,small,2,devops|python,devops|java|javascript|python,https://questdb.io,https://questdb.io/careers,,,2022-10-03
+1,Rackspace,rackspace,worldwide,fully-remote,enterprise,2,linux|python,linux|python,https://rackspace.com/,,,,2018-04-16
+1,Ramp,ramp,worldwide,hybrid,medium,2,python|sql,elixir|javascript|python|sql,https://www.ramp.com/,https://ramp.com/careers,,,2022-01-06
+1,Reaction Commerce,reaction-commerce,worldwide,hybrid,small,2,devops|go,devops|go|javascript,http://reactioncommerce.com/careers,,,,2018-07-18
+1,ReCharge Payments,recharge-payments,worldwide,fully-remote,small,2,python|sql,javascript|python|sql,https://rechargepayments.com/,https://boards.greenhouse.io/recharge,greenhouse,recharge,2019-07-15
+1,Retool,retool,worldwide,remote-first,medium,2,docker|postgres,react|javascript|nodejs|postgres|docker,https://retool.com/,https://retool.com/careers,,,2026-03-26
+1,Revolut,revolut,worldwide,hybrid,enterprise,2,devops|python,devops|java|javascript|python,https://www.revolut.com/,https://www.revolut.com/careers/,,,2022-10-01
+1,Scandit,scandit,worldwide,hybrid,large,2,devops|python,devops|javascript|mobile|python,https://scandit.com,https://www.scandit.com/careers/,,,2020-10-25
+1,SearchApi,searchapi,worldwide,fully-remote,small,2,devops|python,ruby|search|python|javascript|devops,https://www.searchapi.io/,https://www.searchapi.io/careers,,,
+1,Shattered Silicon,shattered-silicon,worldwide,fully-remote,tiny,2,linux|sql,dotnet|linux|sql,https://shatteredsilicon.net,,,,2023-03-15
+1,Sonatype,sonatype,worldwide,remote-first,large,2,cloud|devops,cloud|devops|java|javascript,https://www.sonatype.com,https://www.sonatype.com/company/careers,,,2023-10-18
+1,Spotify,spotify,worldwide,remote-friendly,enterprise,2,cloud|nosql,cloud|nosql|scala,https://www.spotify.com/,https://www.lifeatspotify.com/jobs,,,2022-05-10
+1,Strapi,strapi,worldwide,fully-remote,small,2,devops|sql,devops|graphql|javascript|sql,https://strapi.io/careers,,,,2022-10-22
+1,StudySoup,studysoup,worldwide,fully-remote,tiny,2,go|sql,go|javascript|ruby|sql,https://studysoup.com/,https://studysoup.com/apply,,,2022-10-03
+1,Tag1 Consulting,tag1-consulting,worldwide,fully-remote,small,2,php|python,javascript|php|python|ruby,https://tag1consulting.com/,,,,2021-10-21
+1,Taskade,taskade,worldwide,remote-friendly,tiny,2,nosql|sql,javascript|nosql|sql,https://taskade.com/,https://www.taskade.com/contact,,,2018-04-16
+1,Time Doctor,time-doctor,worldwide,fully-remote,medium,2,data|php,javascript|php|mobile|data,https://www.timedoctor.com/,https://www.timedoctor.com/careers,,,
+1,Travis CI,travis-ci,worldwide,fully-remote,small,2,api|cloud,api|cloud|javascript|ruby,https://travis-ci.org/,,,,2020-10-22
+1,Udacity,udacity,worldwide,fully-remote,medium,2,go|python,go|java|javascript|python|ruby|scala,https://www.udacity.com/,https://www.udacity.com/jobs,,,2018-05-25
+1,VGS,vgs,worldwide,fully-remote,medium,2,devops|python,devops|java|javascript|python,https://www.verygoodsecurity.com/careers,,,,
+1,Yodo1,yodo1,worldwide,fully-remote,medium,2,devops|python,devops|java|mobile|python,https://www.yodo1.com/en/,https://www.yodo1.com/careers,,,2021-10-30
+1,3Blocks,3blocks,worldwide,remote-friendly,tiny,1,cloud,cloud|javascript|ml|scala,https://3blocks.io/,,,,2023-10-02
+1,90 Seconds,90-seconds,worldwide,hybrid,medium,1,php,java|javascript|php,https://90seconds.com/,https://90seconds.com/about/careers/,,,2023-10-11
+1,AlphaSights>,alphasights,worldwide,hybrid,large,1,sql,javascript|ruby|sql,https://engineering.alphasights.com,https://engineering.alphasights.com/#positions,,,2018-04-16
+1,Amazon,amazon,worldwide,fully-remote,large,1,python,dotnet|java|python|ruby,https://www.amazon.jobs/content/en/locations,https://www.amazon.jobs/,,,2020-10-29
+1,Andela,andela,worldwide,fully-remote,large,1,python,java|javascript|python|ruby,https://andela.com/,,,,2021-10-30
+1,Asana,asana,worldwide,remote-first,enterprise,1,go,go|javascript,https://asana.com/,https://asana.com/jobs,,,2024-10-15
+1,Audiense,audiense,worldwide,fully-remote,medium,1,python,ml|python,https://www.audiense.com/,https://aboutus.audiense.com/careers,,,2020-10-17
+1,Axelerant,axelerant,worldwide,remote-friendly,small,1,php,javascript|php|ruby,https://axelerant.com/,https://www.axelerant.com/careers,,,2022-10-10
+1,Bandzoogle,bandzoogle,worldwide,hybrid,small,1,api,api|javascript|ruby,https://bandzoogle.com/,https://bandzoogle.com/jobs,,,2018-04-16
+1,Baremetrics,baremetrics,worldwide,fully-remote,tiny,1,php,javascript|php,https://baremetrics.com/,,,,2018-04-16
+1,Basecamp,basecamp,worldwide,fully-remote,medium,1,sql,javascript|ruby|sql,https://basecamp.com/,https://basecamp.com/about/jobs,,,2019-02-23
+1,Bit Zesty,bit-zesty,worldwide,fully-remote,small,1,python,elixir|javascript|mobile|python|ruby,https://bitzesty.com/,https://bitzesty.com/careers/,,,2022-06-23
+1,Bitwarden,bitwarden,worldwide,fully-remote,medium,1,cloud,dotnet|javascript|rust|mobile|cloud,https://bitwarden.com/,https://bitwarden.com/careers/,,,
+1,Bizink,bizink,worldwide,fully-remote,tiny,1,php,php,https://bizinkonline.com,,,,2019-10-25
+1,Bonsai,bonsai,worldwide,fully-remote,small,1,sql,javascript|mobile|ruby|sql,https://hellobonsai.com,,,,2020-09-08
+1,Brainstorm Force,brainstorm-force,worldwide,hybrid,medium,1,php,javascript|php,https://brainstormforce.com/,https://brainstormforce.com/join/,,,2022-10-25
+1,Brave,brave,worldwide,fully-remote,medium,1,go,javascript|rust|go|mobile,https://brave.com/,https://brave.com/careers/,,,
+1,Canonical,canonical,worldwide,fully-remote,large,1,cloud,cloud|javascript|mobile,https://www.canonical.com/,https://canonical.com/careers/all,,,2022-10-18
+1,Capgemini,capgemini,worldwide,fully-remote,enterprise,1,cloud,cloud|ml,https://www.capgemini.com/us-en/,https://www.capgemini.com/careers/,,,2023-10-03
+1,Capital Placement,capital-placement,worldwide,fully-remote,small,1,cloud,cloud|dotnet|javascript|ml,https://capital-placement.com,https://capital-placement.com/careers,,,2025-07-03
+1,Carbon Black,carbon-black,worldwide,fully-remote,,1,cloud,cloud|javascript,https://www.carbonblack.com/,https://www.carbonblack.com/company/careers/,,,2022-10-10
+1,ClickUp,clickup,worldwide,fully-remote,large,1,go,go|javascript|mobile,https://clickup.com/,https://clickup.com/careers,,,2022-10-08
+1,CodePen,codepen,worldwide,fully-remote,tiny,1,cloud,cloud|javascript|ruby,https://codepen.io,https://blog.codepen.io,,,2018-04-16
+1,Connexa,connexa,worldwide,fully-remote,medium,1,cloud,cloud|javascript,https://www.connexa.com/,https://connexa.breezy.hr,breezy,,2019-06-11
+1,Conversio,conversio,worldwide,fully-remote,tiny,1,nosql,javascript|nosql,https://conversio.com,,,,2018-04-16
+1,Customer.io,customer-io,worldwide,fully-remote,small,1,go,go|javascript|ruby,https://customer.io,https://customer.io/careers,,,2018-04-16
+1,DashboardHub,dashboardhub,worldwide,fully-remote,tiny,1,cloud,cloud|javascript,https://dashboardhub.io/,,,,2018-04-16
+1,Data Science Brigade,data-science-brigade,worldwide,fully-remote,tiny,1,python,python,https://dsbrigade.com,,,,2022-08-21
+1,Data Science Dojo,data-science-dojo,worldwide,fully-remote,small,1,python,javascript|python,https://datasciencedojo.com/,https://datasciencedojo.com/about/careers,,,2022-10-19
+1,Discourse,discourse,worldwide,fully-remote,small,1,cloud,cloud|javascript|ruby,https://discourse.org,,,,2018-04-18
+1,DynaPictures,dynapictures,worldwide,fully-remote,tiny,1,devops,devops|javascript,https://dynapictures.com,,,,2021-10-02
+1,Extreme Networks,extreme-networks,worldwide,fully-remote,large,1,cloud,cloud,https://www.extremenetworks.com/,https://www.extremenetworks.com/about-extreme-networks/career/,,,2023-10-18
+1,Fastly,fastly,worldwide,hybrid,large,1,cloud,cloud,https://www.fastly.com/,https://www.fastly.com/about/careers,,,2020-10-19
+1,Focusnetworks,focusnetworks,worldwide,fully-remote,small,1,go,go,https://focusnetworks.com.br,https://focusnetworks.enlizt.me/?utm_source=jooble&utm_medium=cpc&utm_campaign=jooble,,,2022-10-18
+1,Foh&Boh,foh-boh,worldwide,fully-remote,tiny,1,devops,devops|javascript,https://fohandboh.com/,,,,2025-07-23
+1,folotop,folotop,worldwide,fully-remote,tiny,1,php,php,https://folotop.com/,https://www.folotop.com/job/,,,2023-12-03
+1,Geckoboard,geckoboard,worldwide,remote-friendly,small,1,go,go|javascript,https://www.geckoboard.com,https://www.geckoboard.com/about/careers/,,,2018-10-20
+1,Ghost,the-ghost-foundation,worldwide,fully-remote,small,1,sql,javascript|sql,https://ghost.org/,https://careers.ghost.org/,,,2026-05-02
+1,GoldFire Agency,goldfire-agency,worldwide,hybrid,small,1,go,go,https://goldfireagency.com,,,,2025-01-08
+1,Graylog,graylog,worldwide,fully-remote,small,1,nosql,java|javascript|nosql,https://www.graylog.org/,https://www.graylog.org/careers,,,2019-10-28
+1,HashiCorp,hashicorp,worldwide,fully-remote,large,1,go,go|javascript|ruby,https://www.hashicorp.com/,https://www.hashicorp.com/jobs,,,2019-01-14
+1,Honeybadger,honeybadger,worldwide,fully-remote,tiny,1,cloud,cloud|javascript|ruby,https://www.honeybadger.io/,https://www.honeybadger.io/careers/,,,2020-10-19
+1,Human Made,human-made,worldwide,fully-remote,small,1,php,javascript|php,https://hmn.md,https://hmn.md/hiring/,,,2018-04-16
+1,Interpersonal Frequency (I.F.),interpersonal-frequency-i-f,worldwide,fully-remote,small,1,go,go|javascript|ml,https://ifsight.com,,,,2022-10-10
+1,IQVIA,iqvia,worldwide,hybrid,enterprise,1,api,api|mobile,https://jobs.iqvia.com/our-company,https://jobs.iqvia.com/,,,2022-10-07
+1,iRonin,ironin,worldwide,remote-first,small,1,devops,devops|javascript|mobile|ruby,https://www.ironin.it/,https://careers.ironin.it/,,,2021-10-29
+1,Jitbit,jitbit,worldwide,fully-remote,tiny,1,python,dotnet|javascript|mobile|python,https://jitbit.com,,,,2018-04-16
+1,JupiterOne,jupiterone,worldwide,hybrid,medium,1,cloud,cloud|graphql|javascript,https://www.jupiterone.com/careers,,,,2021-10-08
+1,LeadIQ,leadiq,worldwide,fully-remote,enterprise,1,devops,devops|javascript,https://leadiq.com/,https://leadiq.com/careers,,,2022-10-22
+1,Linaro,linaro,worldwide,fully-remote,large,1,linux,linux,https://www.linaro.org/,https://www.linaro.org/careers/,,,2020-10-22
+1,Linear,linear,worldwide,fully-remote,medium,1,cloud,javascript|cloud,https://linear.app/,https://linear.app/careers,,,
+1,Luxor Technology,luxor-technology,worldwide,fully-remote,medium,1,go,go|javascript|rust,https://luxor.tech/,https://jobs.ashbyhq.com/luxor,ashby,luxor,2025-09-15
+1,MariaDB,mariadb,worldwide,fully-remote,medium,1,sql,sql,https://www.mariadb.com/,https://mariadb.com/about-us/careers/,,,2024-09-04
+1,MarsBased,marsbased,worldwide,fully-remote,small,1,python,javascript|mobile|python|ruby,https://marsbased.com/,https://marsbased.com/jobs,,,2026-02-16
+1,Netguru,netguru,worldwide,hybrid,large,1,python,elixir|java|javascript|mobile|python|ruby,https://www.netguru.com,https://www.netguru.com/career,,,2022-10-03
+1,Octopus Deploy,octopus-deploy,worldwide,remote-first,small,1,go,dotnet|go|javascript,https://octopus.com/,https://octopus.com/company/careers,,,2019-11-20
+1,Oyster HR,oyster-hr,worldwide,fully-remote,large,1,cloud,javascript|cloud,https://www.oysterhr.com/,https://www.oysterhr.com/careers,,,
+1,Parexel,parexel,worldwide,fully-remote,enterprise,1,python,dotnet|java|python|ruby,https://www.parexel.com,https://jobs.parexel.com/,,,2023-08-29
+1,Pathable,pathable,worldwide,fully-remote,medium,1,nosql,javascript|nosql,https://pathable.com/,https://pathable.com/careers/,,,2021-10-21
+1,PhantomBuster,phantombuster,worldwide,fully-remote,small,1,cloud,javascript|cloud,https://phantombuster.com/,https://careers.phantombuster.com/jobs,,,
+1,Primer,primer,worldwide,fully-remote,medium,1,python,javascript|python,https://primer.io/careers,,,,2022-10-17
+1,Prisma,prisma,worldwide,fully-remote,small,1,go,go|javascript|rust,https://www.prisma.io/,https://www.prisma.io/careers,,,2022-10-19
+1,Quantify,quantify,worldwide,fully-remote,tiny,1,cloud,cloud|javascript|ml,https://quantifyhq.com,https://angel.co/company/quantify,,,2020-09-30
+1,RebelMouse,rebelmouse,worldwide,fully-remote,medium,1,python,javascript|mobile|python,https://www.rebelmouse.com/,,,,2019-10-22
+1,Reboot Studio,reboot-studio,worldwide,hybrid,tiny,1,sql,javascript|mobile|sql,https://reboot.studio,,,,2022-10-03
+1,Redlio Designs,redlio-designs,worldwide,hybrid,small,1,php,javascript|php,https://redliodesigns.com,https://redliodesigns.com/career,,,2024-11-04
+1,RenoFi,renofi,worldwide,fully-remote,tiny,1,devops,devops|javascript|ruby,https://renofi.com/,https://renofi.com/careers/,,,2019-05-17
+1,Replit,replit,worldwide,remote-first,medium,1,devops,devops|javascript,https://replit.com,https://replit.com/careers,,,2022-10-25
+1,Rocket.Chat,rocket-chat,worldwide,hybrid,medium,1,go,go|javascript,https://rocket.chat,https://rocket.chat/jobs,,,2022-10-03
+1,Salesforce,salesforce,worldwide,fully-remote,enterprise,1,cloud,cloud|java|javascript|ml,https://www.salesforce.com/,https://salesforce.wd1.myworkdayjobs.com/External_Career_Site,workday,External_Career_Site,2020-10-29
+1,Scrapinghub,scrapinghub,worldwide,fully-remote,medium,1,api,api|ml,https://scrapinghub.com/,,,,2020-10-22
+1,Sendwave (International Remittance),sendwave-international-remittance,worldwide,fully-remote,large,1,go,go|javascript|mobile,https://www.sendwave.com/,,,,2022-10-08
+1,Shogun,shogun,worldwide,fully-remote,small,1,go,go|javascript|ruby,https://getshogun.com,https://angel.co/shogun/jobs,,,2022-10-10
+1,"Soshace, LLC.",soshace-llc,worldwide,fully-remote,small,1,python,java|javascript|python,https://www.soshace.com/,https://soshace.com/careers,,,2018-07-20
+1,StormX,stormx,worldwide,fully-remote,small,1,devops,devops|javascript|mobile,https://stormx.io/,https://stormx.io/careers,,,2021-10-25
+1,StreamNative,streamnative,worldwide,fully-remote,small,1,go,dotnet|go|java,https://streamnative.io/careers,,,,2022-02-05
+1,Sutherland CloudSource,sutherland-cloudsource,worldwide,fully-remote,enterprise,1,cloud,cloud,https://www.sutherlandcloudsource.com,,,,2022-08-21
+1,Syde,syde,worldwide,fully-remote,medium,1,php,javascript|php,https://syde.com/,https://syde.com/career/,,,2024-10-20
+1,Teamflow,teamflow,worldwide,fully-remote,small,1,cloud,cloud|javascript,https://www.teamflowhq.com/,https://teamflowhq.notion.site/Teamflow-Job-Board-225515ad0f824ef8920e9a4db7c7abbf?utm_source=remoteintech,,,2021-10-28
+1,Thinkful,thinkful,worldwide,fully-remote,small,1,python,javascript|python,https://www.thinkful.com/,https://www.thinkful.com/about/careers/,,,2018-04-16
+1,Transloadit,transloadit,worldwide,remote-friendly,tiny,1,cloud,cloud|javascript,https://transloadit.com/,https://x.com/transloadit,,,2022-10-03
+1,Travis,travis,worldwide,fully-remote,tiny,1,devops,devops|javascript,https://travistravis.co,https://www.travistravis.co/career,,,2020-10-28
+1,Uhuru,uhuru,worldwide,fully-remote,small,1,go,go|javascript,https://uhurunetwork.com/,https://uhurunetwork.com/digital-marketing-careers/,,,2020-10-31
+1,Upworthy,upworthy,worldwide,fully-remote,medium,1,go,go|javascript|mobile,https://www.upworthy.com/,,,,2022-10-03
+1,Viperdev,viperdev,worldwide,fully-remote,small,1,php,javascript|php,https://viperdev.io,,,,2020-10-31
+1,VMware,vmware,worldwide,fully-remote,enterprise,1,devops,devops|ml,https://www.vmware.com/,https://careers.vmware.com/main/,,,2022-10-21
+1,WebFX,webfx,worldwide,fully-remote,medium,1,php,javascript|ml|php,https://www.webfx.com,,,,2019-02-14
+1,Wells Fargo,wells-fargo,worldwide,fully-remote,large,1,sql,dotnet|java|javascript|ml|sql,https://www.wellsfargo.com/,https://www.wellsfargo.com/about/careers/,,,2022-10-03
+1,WP-Media,wp-media,worldwide,fully-remote,small,1,php,php,https://wp-media.me/,https://apply.workable.com/wp-media/,workable,wp-media,2022-10-03
+1,XWP,xwp,worldwide,fully-remote,medium,1,php,php,https://xwp.co/,,,,2023-09-30
+1,You Need A Budget,you-need-a-budget,worldwide,fully-remote,medium,1,sql,javascript|ruby|sql,https://www.youneedabudget.com/,https://www.youneedabudget.com/careers/,,,2020-10-29
+1,ZooTools,zootools,worldwide,fully-remote,tiny,1,go,go|javascript,https://zootools.co/,https://zootools.notion.site/Careers-at-ZooTools-2e2815794b14415daca297506c54cb69,,,2023-11-14
+2,37signals,37signals,worldwide,fully-remote,medium,0,,ruby,https://37signals.com,,,,2023-10-18
+2,Akka,akka,worldwide,fully-remote,small,0,,java|scala,https://akka.io/,https://akka.io/contact-us,,,2024-12-04
+2,Appstractor,appstractor,worldwide,fully-remote,,0,,,https://www.appstractor.com/,,,,2018-05-24
+2,Appwrite,appwrite,worldwide,remote-first,tiny,0,,,https://appwrite.io,,,,2021-06-15
+2,Arkency,arkency,worldwide,fully-remote,tiny,0,,javascript|ruby,https://arkency.com/,https://blog.arkency.com/join-our-team/,,,2018-11-10
+2,Articulate,articulate,worldwide,fully-remote,,0,,dotnet,https://www.articulate.com,,,,2018-05-24
+2,Bandcamp,bandcamp,worldwide,fully-remote,small,0,,,https://bandcamp.com/,https://bandcamp.com/jobs,,,2018-05-24
+2,BeBanjo,bebanjo,worldwide,hybrid,,0,,,https://bebanjo.com/,https://www.bebanjo.com/company/careers,,,2022-10-10
+2,CartStack,cartstack,worldwide,fully-remote,tiny,0,,,https://www.cartstack.com/,https://www.cartstack.com/careers/,,,2020-10-17
+2,CloudEra,cloudera,worldwide,hybrid,enterprise,0,,ml,https://www.cloudera.com,https://cloudera.wd5.myworkdayjobs.com/External_Career?remoteType=648856a73acb1001a30bbdb5cbb70002,workday,External_Career,2023-10-10
+2,Coalition Technologies,coalition-technologies,worldwide,fully-remote,large,0,,ml,https://coalitiontechnologies.com/,https://coalitiontechnologies.com/jobs,,,2022-10-29
+2,CodeSandbox,codesandbox,worldwide,remote-first,small,0,,,https://codesandbox.io,https://codesandbox.io/jobs,,,2020-10-31
+2,Collabora,collabora,worldwide,fully-remote,medium,0,,,https://www.collabora.com/,https://www.collabora.com/careers.html,,,2020-10-19
+2,Crowdstrike,crowdstrike,worldwide,fully-remote,large,0,,,https://www.crowdstrike.com,https://jobs.jobvite.com/crowdstrike/jobs,,,2018-06-23
+2,Cuvette,cuvette,worldwide,fully-remote,tiny,0,,javascript,https://cuvette.tech,https://cuvette.tech/app/student/login?type=register,,,2022-10-08
+2,Dashlane,dashlane,worldwide,fully-remote,large,0,,javascript,https://dashlane.com,https://www.dashlane.com/about/careers,,,2022-10-07
+2,Datadog,datadog,worldwide,fully-remote,,0,,,https://www.datadoghq.com/,,,,2024-10-07
+2,DealDash,dealdash,worldwide,fully-remote,small,0,,,http://www.dealdash.com,https://www.dealdash.com/careers,,,2020-10-19
+2,Designcode,designcode,worldwide,fully-remote,small,0,,javascript,https://designcode.io/,,,,2020-10-25
+2,DNSimple,dnsimple,worldwide,remote-friendly,small,0,,javascript,https://dnsimple.com/,,,,2019-03-25
+2,DuckDuckGo,duckduckgo,worldwide,fully-remote,small,0,,java|javascript|mobile,https://duckduckgo.com/,https://duckduckgo.com/hiring/,,,2022-10-10
+2,Ebury,ebury,worldwide,remote-first,large,0,,javascript,https://ebury.com/,https://careers.ebury.com,,,2023-10-25
+2,EPAM,epam,worldwide,fully-remote,enterprise,0,,,https://epam.com/,https://anywhere.epam.com/,,,2020-03-07
+2,Epic Games,epic-games,worldwide,fully-remote,enterprise,0,,,https://www.epicgames.com/site/en-US/careers,,,,2020-10-28
+2,Ergeon,ergeon,worldwide,fully-remote,medium,0,,,https://www.ergeon.com/,https://www.ergeon.com/careers,,,2020-04-21
+2,FDTE,fdte,worldwide,remote-first,medium,0,,java|javascript,https://fdte.org.br/,,,,2023-10-25
+2,Findify,findify,worldwide,fully-remote,tiny,0,,,https://findify.io,https://careers.findify.io,,,2022-10-10
+2,Fire Engine Red,fire-engine-red,worldwide,fully-remote,medium,0,,,https://fire-engine-red.com/,,,,2022-10-10
+2,Flexera,flexera,worldwide,hybrid,enterprise,0,,javascript|ml,https://www.flexera.com/,https://www.flexera.com/about-us/careers,,,2021-10-19
+2,Fly.io,fly-io,worldwide,hybrid,small,0,,elixir|ruby,https://Fly.io,https://fly.io/jobs/,,,2022-10-16
+2,Formstack,formstack,worldwide,hybrid,medium,0,,,https://www.formstack.com/,https://www.formstack.com/careers,,,2018-04-16
+2,Freeagent,freeagent,worldwide,fully-remote,medium,0,,,https://www.freeagent.com/,,,,2018-06-22
+2,GitLab,gitlab,worldwide,fully-remote,large,0,,ruby,https://about.gitlab.com/,https://about.gitlab.com/jobs/,,,2022-10-10
+2,GoHiring,gohiring,worldwide,hybrid,small,0,,javascript|ruby,https://www.gohiring.com/,https://www.gohiring.com/jobs/#jobs,,,2020-10-29
+2,Groove HQ,groove-hq,worldwide,hybrid,small,0,,graphql|javascript|ruby,https://www.groovehq.com,https://www.groovehq.com/about#hiring,,,2019-10-21
+2,Gruntwork,gruntwork,worldwide,fully-remote,medium,0,,ml,https://gruntwork.io,,,,2018-04-16
+2,Help Scout,help-scout,worldwide,remote-first,medium,0,,javascript,https://www.helpscout.net/,https://www.helpscout.com/company/careers/,,,2020-10-18
+2,Hugo,hugo,worldwide,fully-remote,tiny,0,,javascript,https://hugo.events,http://hugo.events/careers,,,2018-04-16
+2,IBM,ibm,worldwide,fully-remote,enterprise,0,,dotnet|java|javascript|mobile,https://www.ibm.com,https://www.ibm.com/careers,,,2022-10-03
+2,IDoneThis,idonethis,worldwide,fully-remote,tiny,0,,javascript,https://www.idonethis.com/,,,,2020-10-23
+2,Igalia,igalia,worldwide,remote-friendly,medium,0,,javascript,https://www.igalia.com/,https://www.igalia.com/jobs/,,,2020-10-22
+2,Instamobile,instamobile,worldwide,remote-friendly,,0,,java|mobile,https://instamobile.io,,,,2022-10-22
+2,IOHK,iohk,worldwide,fully-remote,medium,0,,rust|scala,https://iohk.io/,https://iohk.io/careers/,,,2022-10-10
+2,Jaya Tech,jaya-tech,worldwide,fully-remote,medium,0,,elixir|java|javascript|ruby,http://jaya.tech,,,,2020-10-30
+2,Jolly Good Code,jolly-good-code,worldwide,fully-remote,tiny,0,,ruby,https://jollygoodcode.com,,,,2020-10-29
+2,Karat,karat,worldwide,fully-remote,large,0,,,https://karat.com,,,,2023-10-08
+2,Khan Academy,khan-academy,worldwide,fully-remote,large,0,,javascript,https://www.khanacademy.org/,https://www.khanacademy.org/careers,,,2020-10-19
+2,Leadership Success,leadership-success,worldwide,fully-remote,small,0,,javascript,https://leadershipsuccess.co,,,,2022-10-10
+2,Locus Robotics,locus-robotics,worldwide,hybrid,large,0,,javascript,https://locusrobotics.com/company/careers,,,,2024-08-08
+2,LogDog,logdog,worldwide,fully-remote,tiny,0,,java|javascript|mobile,https://log.dog,,,,2025-08-07
+2,Luxoft,luxoft,worldwide,fully-remote,tiny,0,,,https://www.luxoft.com/,,,,2020-10-31
+2,Memory,memory,worldwide,fully-remote,small,0,,javascript,https://memory.ai/,https://memory.ai/jobs,,,2019-10-24
+2,Merico,merico,worldwide,fully-remote,tiny,0,,javascript,https://merico.dev,,,,2021-02-07
+2,messagebird,messagebird,worldwide,fully-remote,large,0,,javascript|ml,https://messagebird.com/,https://messagebird.com/careers#jobs,,,2023-10-02
+2,MetaMask,metamask,worldwide,fully-remote,small,0,,javascript|mobile,https://metamask.io,https://boards.greenhouse.io/consensys/jobs/1990589,greenhouse,consensys,2020-01-29
+2,Microsoft,microsoft,worldwide,fully-remote,enterprise,0,,dotnet|java|javascript|mobile,https://www.microsoft.com/,https://careers.microsoft.com/v2/global/en/home.html,,,2020-11-01
+2,Mobile Jazz,mobile-jazz,worldwide,fully-remote,small,0,,,https://mobilejazz.com,https://mobilejazz.com/jobs,,,2018-12-19
+2,MODSQUAD,modsquad,worldwide,fully-remote,enterprise,0,,,https://modsquad.com/,https://modsquad.com/careers/,,,2020-10-29
+2,Netsparker,netsparker,worldwide,fully-remote,small,0,,dotnet,https://www.netsparker.com/,https://www.netsparker.com/jobs/,,,2018-04-16
+2,No Code No Problem,no-code-no-problem,worldwide,fully-remote,small,0,,,https://www.nocodenoprob.com,,,,2022-10-03
+2,Nozbe,nozbe,worldwide,fully-remote,small,0,,javascript|mobile,https://nozbe.com/,https://nozbe.com/job,,,
+2,O'Reilly Online Learning,o-reilly-online-learning,worldwide,remote-friendly,large,0,,javascript|ml,https://www.oreilly.com/,https://www.oreilly.com/careers/#positions,,,2022-08-22
+2,OpenCraft,opencraft,worldwide,fully-remote,small,0,,ml,https://opencraft.com/,,,,2020-10-22
+2,OpenZeppelin,openzeppelin,worldwide,fully-remote,small,0,,javascript,https://openzeppelin.com/,https://www.openzeppelin.com/careers,,,2019-08-13
+2,Oracle,oracle,worldwide,fully-remote,enterprise,0,,java,https://www.oracle.com/,https://www.oracle.com/in/careers/,,,2020-10-18
+2,Over,over,worldwide,fully-remote,small,0,,mobile,https://www.madewithover.com/,,,,2019-04-15
+2,Parsely,parsely,worldwide,fully-remote,medium,0,,,https://Parse.ly,https://www.parse.ly/careers,,,2020-10-18
+2,Peakforce,peakforce,worldwide,fully-remote,small,0,,,https://www.peakforce.dev,https://www.peakforce.dev/contact,,,2025-06-24
+2,Percona,percona,worldwide,fully-remote,medium,0,,,https://www.percona.com,https://www.percona.com/careers/,,,2018-04-16
+2,Raycast,raycast,worldwide,fully-remote,small,0,,swift|typescript,https://raycast.com/,https://www.raycast.com/careers,,,2026-03-26
+2,RedMonk,redmonk,worldwide,fully-remote,tiny,0,,,https://redmonk.com,https://redmonk.com/about/,,,2020-10-31
+2,reinteractive,reinteractive,worldwide,fully-remote,small,0,,ruby,https://reinteractive.com/careers,,,,2022-10-03
+2,Scalac,scalac,worldwide,fully-remote,small,0,,scala,https://scalac.io/,https://scalac.io/careers/,,,2019-10-31
+2,SeatGeek,seatgeek,worldwide,fully-remote,large,0,,,https://seatgeek.com/,https://seatgeek.com/jobs?departments=softwareengineering&locations=all,,,2023-10-02
+2,Session,session,worldwide,remote-first,tiny,0,,javascript,https://getsession.com,https://getsession.com/about,,,2021-08-10
+2,SimpleTexting,simpletexting,worldwide,remote-friendly,tiny,0,,java|javascript,https://simpletexting.com,,,,2022-10-02
+2,Six to Start,six-to-start,worldwide,fully-remote,small,0,,javascript,https://sixtostart.com,,,,2018-04-16
+2,Skillshare,skillshare,worldwide,fully-remote,large,0,,,https://www.skillshare.com/teach,,,,2020-10-20
+2,Skyrocket Ventures,skyrocket-ventures,worldwide,fully-remote,small,0,,,https://www.skyrocketventures.com/,https://www.linkedin.com/jobs/senior-lead-software-engineer-jobs,,,2020-10-31
+2,Socket Supply Co,socket-supply-co,worldwide,hybrid,tiny,0,,javascript|mobile|rust,https://socketsupply.co,https://socketsupply.co/jobs/,,,2022-02-22
+2,Sommo,sommo,worldwide,fully-remote,small,0,,,https://www.sommo.io,,,,2022-10-02
+2,Stack Exchange,stack-exchange,worldwide,hybrid,medium,0,,,https://stackexchange.com/,http://stackexchange.com/work-here,,,2018-04-16
+2,Status,status,worldwide,fully-remote,small,0,,,https://www.status.im/,https://status.im/open-positions.html,,,2018-04-16
+2,SUSE,suse,worldwide,remote-first,enterprise,0,,,https://www.suse.com/,https://jobs.suse.com,,,2020-10-26
+2,SweetRush,sweetrush,worldwide,remote-friendly,medium,0,,ml|mobile,https://www.sweetrush.com,https://www.sweetrush.com/join-us/,,,2020-10-23
+2,Telestax Inc.,telestax-inc,worldwide,fully-remote,small,0,,java|javascript,https://telestax.com/,https://telestax.com/careers/,,,2018-05-19
+2,The Crafters Lab,the-crafters-lab,worldwide,remote-first,tiny,0,,javascript,https://thecrafterslab.eu,,,,2022-09-06
+2,Tower,tower,worldwide,fully-remote,tiny,0,,mobile|ruby,https://www.git-tower.com/,https://www.git-tower.com/company/jobs/,,,2021-03-26
+2,Turing,turing,worldwide,fully-remote,,0,,,https://www.turing.com/,https://careers.turing.com/,,,2024-10-28
+2,v0 report,v0-report,worldwide,fully-remote,small,0,,javascript,https://v0.report,,,,2024-02-18
+2,Veeva Systems,veeva-systems,worldwide,remote-friendly,enterprise,0,,javascript|ml,https://www.veeva.com/,https://careers.veeva.com,,,2024-10-20
+2,Vercel,vercel,worldwide,fully-remote,small,0,,javascript,https://vercel.com/,https://vercel.com/careers,,,2020-10-19
+2,WeMakeMVP,wemakemvp,worldwide,fully-remote,tiny,0,,,https://wemakemvp.com,,,,2022-07-02
+2,Whitespectre,whitespectre,worldwide,remote-first,medium,0,,,https://www.whitespectre.com,https://www.glassdoor.com/Reviews/Whitespectre-Reviews-E1575846.htm,,,2018-07-03
+2,Wolfram,wolfram,worldwide,fully-remote,large,0,,,https://www.wolfram.com,https://www.wolfram.com/company/careers/,,,2018-06-24
+2,Yonder,yonder,worldwide,fully-remote,tiny,0,,,https://www.yonder.io,,,,2020-10-19
+3,Roadpass Digital,roadpass-digital,americas,hybrid,medium,8,api|cloud|devops|go|linux|nosql|php|sql,api|cloud|devops|dotnet|go|java|javascript|linux|nosql|php|ruby|sql,https://roadpass.com,https://roadtrippers.applytojob.com/apply,,,2023-10-26
+3,SecurityScorecard,securityscorecard,americas,remote-friendly,large,7,api|cloud|data|devops|go|nosql|python,api|cloud|data|devops|go|java|javascript|ml|nosql|python|scala,https://securityscorecard.com/,https://securityscorecard.com/company/careers,,,2020-11-01
+3,GFT,gft,americas-europe,remote-friendly,tiny,6,cloud|data|go|infrastructure|nosql|sql,cloud|data|go|graphql|infrastructure|java|javascript|ml|mobile|nosql|scala|sql,https://www.gft.com/,https://jobs.gft.com/,,,2022-10-10
+3,JOOR,joor,americas-europe,fully-remote,medium,6,api|cloud|devops|php|python|sql,api|cloud|devops|graphql|javascript|php|python|sql,https://www.joor.com,https://joor.com/careers/,,,2023-10-14
+3,Nationwide,nationwide,americas,remote-first,enterprise,6,api|cloud|data|linux|python|sql,api|cloud|data|java|javascript|linux|ml|python|sql,https://www.nationwide.com/,https://nationwide.eightfold.ai/careers,,,2022-10-03
+3,Research Square,research-square,americas,fully-remote,large,6,cloud|devops|go|nosql|php|sql,cloud|devops|go|java|javascript|ml|nosql|php|sql,https://www.researchsquare.com/,https://www.researchsquare.com/company/careers,,,2019-03-25
+3,Slack,slack,americas-europe,remote-friendly,enterprise,6,cloud|devops|go|nosql|php|sql,java|php|go|javascript|mobile|sql|nosql|search|cloud|devops,https://slack.com/careers,,,,2026-01-17
+3,Teravision Technologies,teravision-technologies,americas,remote-friendly,medium,6,cloud|devops|nosql|php|python|sql,cloud|devops|graphql|java|javascript|nosql|php|python|ruby|sql,https://teravisiontech.com/,,,,2022-10-19
+3,Treez,treez,americas,remote-first,medium,6,cloud|data|devops|nosql|python|sql,cloud|data|devops|javascript|nosql|python|sql,https://treez.io/,https://www.treez.io/careers,,,2025-07-03
+3,Carmatec,carmatec,americas,remote-friendly,medium,5,cloud|devops|infrastructure|php|sql,cloud|devops|infrastructure|javascript|ml|php|ruby|sql,https://www.carmatec.com/,https://www.carmatec.com/careers/.,,,2023-12-28
+3,Heroku,heroku,americas-europe,remote-friendly,large,5,cloud|data|devops|go|nosql,cloud|data|devops|elixir|go|javascript|nosql|ruby,https://www.heroku.com/,https://www.heroku.com/careers,,,2019-01-15
+3,Hotjar,hotjar,americas-europe,fully-remote,medium,5,devops|go|infrastructure|nosql|sql,devops|go|infrastructure|javascript|ml|nosql|sql,https://careers.hotjar.com/,,,,2018-07-23
+3,KickBack Rewards Systems,kickback-rewards-systems,americas,remote-friendly,medium,5,api|cloud|devops|php|python,api|cloud|devops|dotnet|graphql|javascript|mobile|php|python,https://careers.kickbacksystems.com,,,,2021-10-29
+3,Medium,medium,americas,remote-friendly,medium,5,cloud|devops|go|nosql|python,cloud|devops|go|javascript|nosql|python,https://medium.com/,,,,2019-10-28
+3,Raft,raft,americas,fully-remote,small,5,cloud|data|devops|go|nosql,cloud|data|devops|go|java|javascript|nosql,https://goraft.tech,,,,2020-10-20
+3,Railscarma,railscarma,americas,remote-friendly,medium,5,cloud|devops|infrastructure|php|sql,cloud|devops|infrastructure|javascript|ml|php|ruby|sql,https://www.railscarma.com,https://www.railscarma.com/careers/.,,,2023-08-30
+3,Roadtrippers,roadtrippers,americas,hybrid,small,5,cloud|devops|infrastructure|nosql|sql,cloud|devops|infrastructure|javascript|nosql|ruby|sql,https://www.roadtrippers.com,https://www.roadtrippers.com/careers,,,2019-09-17
+3,Superplayer & Co,superplayer-co,americas,remote-first,tiny,5,cloud|devops|go|nosql|sql,cloud|devops|dotnet|go|java|javascript|mobile|nosql|search|sql,https://superplayer.company,,,,2022-10-02
+3,Taplytics,taplytics,americas,remote-friendly,medium,5,data|go|nosql|python|sql,data|go|javascript|ml|nosql|python|search|sql,https://taplytics.com/,,,,2020-10-23
+3,Tenable,tenable,americas,hybrid,large,5,cloud|data|go|linux|sql,cloud|data|go|linux|search|sql,https://www.tenable.com/,https://careers.tenable.com/search/jobs/in/remote,,,2022-10-03
+3,TestGorilla,testgorilla,americas-europe,fully-remote,medium,5,cloud|devops|nosql|python|sql,cloud|devops|javascript|nosql|python|sql,https://www.testgorilla.com/,https://www.testgorilla.com/careers/,,,2022-08-11
+3,WikiHow,wikihow,americas,remote-friendly,tiny,5,infrastructure|linux|php|python|sql,infrastructure|javascript|linux|ml|mobile|php|python|sql,https://www.wikihow.com/wikiHow:About-wikiHow,https://www.wikihow.com/wikiHow:Jobs,,,2020-10-19
+3,AEStudio,aestudio,americas,remote-friendly,small,4,cloud|devops|php|sql,cloud|devops|javascript|mobile|php|ruby|sql,https://ae.studio/,https://ae.studio/join-us,,,2019-12-13
+3,ALICE,alice,americas-europe,remote-friendly,medium,4,cloud|devops|nosql|sql,cloud|devops|java|javascript|nosql|ruby|search|sql,https://aliceplatform.com,https://www.aliceplatform.com/careers,,,2020-03-11
+3,Coforma,coforma,americas,remote-first,medium,4,cloud|devops|go|python,cloud|devops|go|java|javascript|ml|python|ruby,https://coforma.io,https://coforma.io/careers,,,2023-02-22
+3,Leadfeeder,leadfeeder,americas-europe,remote-friendly,medium,4,cloud|devops|python|sql,cloud|devops|javascript|python|ruby|search|sql,https://www.leadfeeder.com,https://www.leadfeeder.com/careers/,,,2020-12-22
+3,Nuna Inc,nuna-inc,americas,remote-first,medium,4,cloud|data|python|sql,cloud|data|java|javascript|python|scala|sql,https://www.nuna.com/,https://www.nuna.com/careers,,,2020-10-28
+3,PowerSchool,powerschool,americas,remote-friendly,enterprise,4,cloud|php|python|sql,cloud|dotnet|java|javascript|php|python|ruby|sql,https://www.powerschool.com/,https://www.powerschool.com/company/careers/,,,2022-10-07
+3,SEO Inc.,seo-inc,americas,remote-friendly,medium,4,cloud|data|php|sql,javascript|php|cloud|data|ml|sql|search,https://www.seoinc.com,https://www.seoinc.com/seo-company/careers/,,,
+3,Zemoso,zemoso,americas,fully-remote,large,4,cloud|data|devops|python,cloud|data|devops|javascript|ml|python,https://www.zemosolabs.com/,,,,2022-12-19
+3,Zip Co,zip-co,americas,remote-friendly,enterprise,4,cloud|devops|linux|sql,cloud|devops|dotnet|javascript|linux|mobile|sql,https://zip.co/us/,,,,2022-10-02
+3,Adeva,adeva,americas-europe,fully-remote,medium,3,data|php|python,data|java|javascript|php|python|ruby,https://adevait.com/,https://adevait.com/careers/job-openings,,,2022-10-16
+3,Applaudo,applaudo,americas,remote-friendly,large,3,cloud|php|python,cloud|java|javascript|mobile|php|python|ruby|scala,https://applaudostudios.com,https://bit.ly/3yz4YLc,,,2022-10-12
+3,BetterUp,betterup,americas,remote-friendly,medium,3,api|cloud|sql,api|cloud|java|javascript|ml|mobile|ruby|sql,https://www.betterup.com/,https://www.betterup.com/about-us/careers,,,2022-08-20
+3,Calendly,calendly,americas,hybrid,large,3,cloud|devops|python,cloud|devops|javascript|python,https://calendly.com/careers,,,,
+3,CivicActions,civicactions,americas-europe,remote-friendly,small,3,devops|php|sql,devops|javascript|php|search|sql,https://civicactions.com/,https://civicactions.com/careers/,,,2018-10-16
+3,CodingCops,codingcops,americas,remote-friendly,medium,3,devops|python|sql,devops|javascript|python|sql,https://codingcops.com/,,,,2025-02-11
+3,Continu,continu,americas,remote-friendly,,3,cloud|devops|nosql,cloud|devops|javascript|nosql,https://www.continu.com/,,,,2026-02-06
+3,CVS Health,cvs-health,americas,fully-remote,enterprise,3,data|linux|sql,data|dotnet|java|javascript|linux|ml|sql,https://jobs.cvshealth.com/,,,,2021-10-25
+3,Episource,episource,americas,remote-first,large,3,devops|go|python,devops|go|javascript|python|scala,https://episource.com,,,,2020-10-23
+3,Gaggle,gaggle,americas,remote-friendly,small,3,cloud|python|sql,cloud|java|python|sql,https://www.gaggle.net/,https://www.gaggle.net/careers,,,2018-04-16
+3,GEO Jobe,geo-jobe,americas,remote-friendly,small,3,cloud|go|python,cloud|go|javascript|mobile|python,https://www.geo-jobe.com/,,,,2020-11-01
+3,GigSalad,gigsalad,americas,hybrid,small,3,nosql|php|sql,javascript|nosql|php|sql,https://gigsalad.com,,,,2018-04-16
+3,"HomeValet, Inc",homevalet-inc,americas,remote-first,tiny,3,cloud|devops|sql,cloud|devops|javascript|sql,https://homevalet.co,,,,2020-07-19
+3,JBS Custom Software Solutions,jbs-custom-software-solutions,americas,fully-remote,small,3,cloud|python|sql,cloud|dotnet|javascript|python|sql,https://www.jbssolutions.com/,,,,2020-12-22
+3,Kiprosh,kiprosh,americas,fully-remote,small,3,cloud|nosql|sql,cloud|dotnet|elixir|javascript|mobile|nosql|ruby|search|sql,https://kiprosh.com,https://kiprosh.com/careers,,,2019-04-14
+3,NEXT,next,americas,fully-remote,medium,3,cloud|devops|sql,cloud|devops|java|javascript|sql,https://www.nexttrucking.com/,https://www.nexttrucking.com/careers/,,,2023-12-01
+3,Paytm Labs,paytm-labs,americas,hybrid,medium,3,cloud|data|devops,cloud|data|devops|java|ml|scala,https://paytmlabs.com,https://paytmlabs.com/#careers,,,2021-06-15
+3,Pleo,pleo,americas-europe,remote-first,large,3,devops|python|sql,devops|javascript|python|sql,https://www.pleo.io/,https://www.pleo.io/da/careers/,,,2022-04-08
+3,Pluralsight,pluralsight,americas-europe,remote-friendly,large,3,cloud|data|devops,dotnet|javascript|cloud|data|devops,https://www.pluralsight.com/,https://www.pluralsight.com/careers,,,
+3,Positiwise,positiwise,americas,fully-remote,medium,3,go|php|python,dotnet|go|javascript|php|python,https://positiwise.com,https://positiwise.com/careers,,,2023-09-22
+3,Procurify,procurify,americas,fully-remote,medium,3,api|devops|python,api|devops|javascript|python,https://www.procurify.com/careers,,,,2020-11-01
+3,"ReactiveOps, Inc.",reactiveops-inc,americas,remote-friendly,small,3,cloud|devops|go,cloud|devops|go|ml,https://www.reactiveops.com,,,,2022-10-22
+3,Refundid,refundid,americas,hybrid,tiny,3,go|python|sql,go|javascript|python|sql,https://refundid.com/au,,,,2025-08-20
+3,Render,render,americas,remote-first,medium,3,cloud|devops|go,go|cloud|devops,https://render.com/,https://render.com/careers,,,
+3,Shippabo,shippabo,americas,fully-remote,small,3,devops|go|nosql,devops|go|graphql|javascript|ml|nosql|search,https://shippabo.com,https://apply.workable.com/shippabo/?lng=en#jobs,workable,shippabo,2022-10-31
+3,Swif.ai,swif-ai,americas,remote-friendly,small,3,aws|cloud|linux,aws|azure|cloud|linux|ml,https://www.ycombinator.com/companies/swif-ai/jobs,,,,2026-01-17
+3,Sysdig,sysdig,americas-europe,remote-friendly,large,3,data|devops|python,data|devops|python,https://www.sysdig.com/careers/open-positions,,,,2022-10-03
+3,Tailscale,tailscale,americas-europe,remote-first,medium,3,cloud|devops|go,go|cloud|devops,https://tailscale.com/,https://tailscale.com/careers,,,
+3,TaxJar,taxjar,americas,fully-remote,small,3,cloud|nosql|sql,cloud|elixir|javascript|nosql|ruby|sql,https://www.taxjar.com,,,,2018-04-16
+3,Thorn,thorn,americas,fully-remote,medium,3,devops|go|sql,devops|go|javascript|sql,https://thorn.org/,https://www.thorn.org/careers/,,,2020-10-25
+3,Tuft & Needle,tuft-needle,americas,remote-friendly,medium,3,cloud|devops|sql,cloud|devops|javascript|ml|ruby|sql,https://www.tuftandneedle.com/,https://careers.tn.com/,,,2019-04-22
+3,Uncapped,uncapped,americas-europe,remote-friendly,small,3,cloud|devops|sql,cloud|devops|java|javascript|sql,https://weareuncapped.com/,https://www.weareuncapped.com/careers,,,2021-12-14
+3,15Five,15five,americas-europe,remote-friendly,medium,2,devops|python,devops|javascript|python,https://www.15five.com,https://www.15five.com/about/careers,,,2019-06-06
+3,Algorand,algorand,americas,remote-friendly,medium,2,cloud|go,cloud|dotnet|go|java|javascript|rust,https://www.algorand.com/,https://www.algorand.com/about/careers/our-jobs,,,2021-10-29
+3,Alight Solutions,alight-solutions,americas,remote-friendly,enterprise,2,python|sql,dotnet|python|ruby|sql,https://alight.com,https://careers.alight.com,,,2018-07-20
+3,Art & Logic,art-logic,americas,hybrid,small,2,php|python,dotnet|java|javascript|php|python|ruby,https://artandlogic.com,https://artandlogic.com/careers/,,,2022-10-22
+3,BeyondPricing,beyondpricing,americas-europe,remote-friendly,small,2,python|sql,javascript|python|sql,https://beyondpricing.com,https://www.beyondpricing.com/about/careers,,,2021-04-20
+3,BlueCat Networks,bluecat-networks,americas,remote-friendly,large,2,go|python,go|java|javascript|python|rust,https://bluecatnetworks.com/,https://bluecatnetworks.com/careers/,,,2022-10-27
+3,Bright Funds,bright-funds,americas,remote-friendly,small,2,cloud|sql,cloud|javascript|ruby|sql,https://www.brightfunds.org,https://www.brightfunds.org/jobs,,,2022-10-03
+3,Cards Against Humanity,cards-against-humanity,americas,remote-friendly,tiny,2,infrastructure|python,infrastructure|javascript|python,https://cardsagainsthumanity.com/,https://www.cardsagainsthumanity.com/careers,,,2023-05-17
+3,Discord,discord,americas,remote-friendly,large,2,data|python,data|javascript|mobile|python|rust,https://discord.com/,https://discord.com/careers,,,2021-10-21
+3,Docker,docker,americas,hybrid,large,2,devops|go,devops|go|javascript,https://www.docker.com,https://www.docker.com/careers,,,2019-10-21
+3,Doximity,doximity,americas,remote-first,large,2,data|sql,ruby|javascript|mobile|data|sql,https://www.doximity.com/,https://workat.doximity.com/,,,
+3,Envoy,envoy,americas,fully-remote,medium,2,go|sql,go|javascript|sql,https://envoy.com/,,,,2020-10-29
+3,Evil Martians,evil-martians,americas,remote-first,small,2,devops|go,devops|elixir|go|javascript|mobile|ruby,https://evilmartians.com,,,,2022-03-09
+3,Fairwinds Ops,fairwinds-ops,americas,remote-first,small,2,devops|go,devops|go|javascript,https://www.fairwinds.com,https://www.fairwinds.com/careers,,,2021-11-01
+3,FlightAware,flightaware,americas,remote-first,medium,2,devops|python,devops|javascript|python|rust,https://flightaware.com,https://flightaware.com/about/careers/,,,2021-05-03
+3,Formidable,formidable,americas-europe,hybrid,medium,2,cloud|devops,cloud|devops|graphql|javascript|mobile,https://www.formidable.com/,https://formidable.com/careers/,,,2019-11-06
+3,Four Kitchens,four-kitchens,americas,remote-first,small,2,api|php,api|graphql|javascript|php,https://fourkitchens.com/,https://www.fourkitchens.com/careers/,,,2019-05-03
+3,Ghost Inspector,ghost-inspector,americas,remote-friendly,tiny,2,php|python,java|javascript|php|python,https://ghostinspector.com,https://ghostinspector.com/jobs/,,,2020-08-19
+3,Happy Cog,happy-cog,americas,remote-friendly,medium,2,devops|php,devops|javascript|ml|mobile|php,https://happycog.com/,https://www.happycog.com/careers/,,,2020-10-21
+3,Healthfinch,healthfinch,americas,fully-remote,,2,cloud|sql,cloud|dotnet|javascript|ml|ruby|search|sql,https://www.healthfinch.com/,,,,2020-10-20
+3,Impira,impira,americas,remote-friendly,small,2,go|python,go|java|javascript|ml|python,https://www.impira.com/,https://www.impira.com/careers,,,2020-10-29
+3,Koding,koding,americas,remote-friendly,tiny,2,go|linux,go|javascript|linux,https://koding.com,https://www.koding.com/about,,,2020-10-20
+3,Lambda School,lambda-school,americas-europe,fully-remote,small,2,cloud|sql,cloud|javascript|sql,https://www.lambdaschool.com/,https://lambdaschool.com/careers/,,,2019-02-27
+3,LaterPay,laterpay,americas-europe,remote-first,small,2,python|sql,javascript|python|sql,https://www.laterpay.net/,,,,2022-10-10
+3,Mayven Studios,mayven-studios,americas-europe,remote-friendly,medium,2,php|python,java|javascript|mobile|php|python|ruby,https://mayvenstudios.com,,,,2023-01-16
+3,Mediavine,mediavine,americas,fully-remote,medium,2,php|sql,javascript|php|sql,https://www.mediavine.com/,https://mediavine.workable.com/,workable,,2019-10-14
+3,MVPMule,mvpmule,americas-europe,remote-first,small,2,python|sql,javascript|python|scala|sql,https://mvpmule.com,,,,2025-02-20
+3,Ocient,ocient,americas,remote-first,medium,2,python|sql,java|python|sql,https://ocient.com,https://ocient.com/job-postings/,,,2022-10-14
+3,Olo,olo,americas,remote-friendly,medium,2,cloud|sql,cloud|dotnet|javascript|search|sql,https://www.olo.com/,,,,2018-04-16
+3,Onna,onna,americas-europe,remote-first,medium,2,go|python,go|java|javascript|python,https://onna.com/,,,,2022-09-19
+3,PayScale,payscale,americas,remote-friendly,large,2,nosql|sql,dotnet|javascript|nosql|search|sql,https://www.payscale.com/,https://jobs.smartrecruiters.com/PayScale/743999782844766-associate-software-engineer-remote-,smartrecruiters,PayScale,2021-11-01
+3,PNC Financial Services,pnc-financial-services,americas,remote-friendly,enterprise,2,devops|python,devops|java|javascript|python,https://www.pnc.com/,https://careers.pnc.com/,,,2021-02-07
+3,Prelude,prelude,americas,fully-remote,small,2,cloud|python,cloud|javascript|python,https://www.prelude.co/,https://www.prelude.co/careers,,,2021-10-29
+3,Reddit,reddit,americas,fully-remote,large,2,go|python,go|java|javascript|python,https://www.redditinc.com,https://www.redditinc.com/careers,,,2020-11-01
+3,Sigma Defense,sigma-defense,americas,remote-first,large,2,devops|python,devops|javascript|python|rust,https://sigmadefense.com,https://sigmadefense.com/careers/,,,2022-10-03
+3,Soostone,soostone,americas,remote-friendly,,2,data|sql,data|javascript|sql,https://soostone.com,https://www.soostone.com/contact,,,2020-10-29
+3,Swimlane,swimlane,americas,remote-friendly,medium,2,cloud|devops,cloud|devops|dotnet|javascript,https://www.swimlane.com,https://swimlane.com/careers/,,,2021-09-02
+3,upcell,upcell,americas,fully-remote,enterprise,2,cloud|go,cloud|go|java|javascript,https://www.upcell.io/,https://www.upcell.io/about,,,2025-06-26
+3,Valimail,valimail,americas,fully-remote,medium,2,devops|go,devops|go|ml|ruby,https://www.valimail.com/,https://www.valimail.com/careers/,,,2021-10-04
+3,Virta Health,virta-health,americas,remote-friendly,large,2,go|python,go|javascript|mobile|python,https://www.virtahealth.com,https://www.virtahealth.com/careers,,,2022-10-21
+3,WalletHub,wallethub,americas,remote-friendly,medium,2,python|sql,java|python|sql,https://wallethub.com/jobs,,,,2022-10-03
+3,Whitecap SEO,whitecap-seo,americas,remote-friendly,tiny,2,go|php,go|php,https://www.whitecapseo.com/,https://www.whitecapseo.com/careers,,,2022-10-03
+3,WireFuture,wirefuture,americas,fully-remote,small,2,php|python,dotnet|javascript|php|python,https://wirefuture.com/,https://wirefuture.com/careers,,,2024-03-19
+3,Wolverine Trading,wolverine-trading,americas,remote-friendly,large,2,python|sql,dotnet|javascript|python|sql,https://www.wolve.com/,http://wolve.com/open-positions,,,2022-11-04
+3,WorkOS,workos,americas-europe,remote-first,medium,2,cloud|go,javascript|go|cloud,https://workos.com/,https://workos.com/careers,,,
+3,Ad Hoc,ad-hoc,americas,remote-first,large,1,go,go|javascript|ruby,https://www.adhocteam.us/,https://adhocteam.us/join/,,,2024-02-09
+3,addstructure,addstructure,americas,remote-friendly,tiny,1,sql,javascript|mobile|ruby|sql,https://www.bazaarvoice.com,,,,2022-10-03
+3,Aerostrat,aerostrat,americas,fully-remote,small,1,sql,dotnet|javascript|sql,https://aerostratsoftware.com/,https://aerostratsoftware.com/careers/,,,2022-10-16
+3,AirGarage,airgarage,americas,remote-first,small,1,python,javascript|python,https://www.airgarage.com/,https://www.airgarage.com/careers,,,2022-10-03
+3,Alley,alley,americas,fully-remote,medium,1,php,javascript|php,https://alley.co,"https://alley.co/careers/,",,,2019-10-25
+3,ALLYDVM,allydvm,americas,hybrid,,1,sql,java|javascript|ml|mobile|ruby|sql,https://www.allydvm.com/,https://weworkremotely.com/jobs/2867-senior-software-engineer,,,2018-05-24
+3,Appen,appen,americas-europe,remote-first,enterprise,1,python,python,https://www.appen.com/,https://jobs.lever.co/appen-2,lever,appen-2,2024-10-25
+3,Axios,axios,americas,remote-friendly,medium,1,php,javascript|php|ruby,https://axios.com/,https://www.axios.com/careers/,,,2022-10-10
+3,Bear Group,bear-group,americas,fully-remote,small,1,php,php,https://www.beargroup.com/,,,,2021-02-07
+3,Brikl,brikl,americas,remote-friendly,medium,1,cloud,cloud|graphql|javascript,https://www.brikl.com/,https://www.brikl.com/jobs,,,2022-10-31
+3,Capital One,capital-one,americas,hybrid,enterprise,1,cloud,cloud|java|javascript,https://www.capitalonecareers.com/tech,,,,2021-10-31
+3,charity: water,charity-water,americas,hybrid,small,1,sql,javascript|ruby|sql,https://www.charitywater.org/,https://my.hirehive.io/charity-water/jobs/38223/software-engineer-new-york,,,2018-11-26
+3,CoreOS,coreos,americas,remote-friendly,medium,1,linux,linux,https://coreos.com,,,,2020-10-25
+3,Daktronics,daktronics,americas,fully-remote,enterprise,1,go,go|javascript|mobile,https://www.daktronics.com/en-us,https://www.daktronics.com/en-us/employment/careers,,,2024-01-05
+3,DGraph,dgraph,americas,remote-friendly,,1,go,go,http://dgraph.io,http://dgraph.io/#jobs,,,2020-10-28
+3,Dropbox,dropbox,americas-europe,remote-friendly,enterprise,1,devops,devops,https://www.dropbox.com/,https://www.dropbox.com/jobs,,,2024-10-07
+3,EatStreet,eatstreet,americas,fully-remote,large,1,cloud,cloud|java|javascript|mobile|ruby,https://eatstreet.com/,https://eatstreet.com/careers,,,2022-10-03
+3,Envato,envato,americas,remote-friendly,large,1,cloud,cloud|javascript|ruby,https://envato.com/,https://careers.envato.com/,,,2020-10-30
+3,EVELO,evelo,americas,remote-friendly,tiny,1,go,go,https://evelo.com,,,,2022-10-10
+3,Faithlife,faithlife,americas,hybrid,large,1,sql,dotnet|java|javascript|sql,https://www.faithlife.com/,https://faithlife.com/careers,,,2021-10-07
+3,Figma,figma,americas,hybrid,enterprise,1,sql,javascript|rust|sql,https://www.figma.com/careers/,,,,2026-01-17
+3,FMX,fmx,americas,remote-first,medium,1,devops,devops|javascript,https://www.gofmx.com,https://www.gofmx.com/careers/,,,2021-02-13
+3,Gorman Health Group,gorman-health-group,americas,fully-remote,medium,1,devops,devops|dotnet|javascript|ml|ruby,https://conveyhealthsolutions.com/,https://conveyhealthsolutions.com/careers/,,,2022-10-17
+3,Granicus,granicus,americas,fully-remote,large,1,go,go,https://granicus.com/,https://granicus.com/careers/,,,2022-10-10
+3,Gremlin,gremlin,americas,remote-friendly,small,1,python,java|javascript|python,https://gremlin.com,https://www.gremlin.com/team/,,,2020-07-19
+3,Hack Reactor Remote,hack-reactor-remote,americas,remote-friendly,small,1,go,go,https://www.hackreactor.com/remote/,http://www.hackreactor.com/careers,,,2018-06-24
+3,Hireology,hireology,americas,fully-remote,medium,1,sql,javascript|ruby|sql,https://www.hireology.com,https://hireology.com/careers/,,,2018-04-16
+3,Hypothesis,hypothesis,americas-europe,remote-friendly,small,1,python,javascript|python,https://hypothes.is,https://hypothes.is/jobs/,,,2018-04-16
+3,Imagine Learning,imagine-learning,americas,hybrid,enterprise,1,python,dotnet|java|javascript|python|ruby,https://www.imaginelearning.com,https://www.imaginelearning.com/en/us/about/careers,,,2022-10-02
+3,Incsub,incsub,americas-europe,remote-friendly,medium,1,php,javascript|php,https://incsub.com/,https://incsub.com/careers/,,,2018-04-16
+3,InQuicker,inquicker,americas,fully-remote,small,1,devops,devops|dotnet|elixir|javascript|ruby|rust,https://inquicker.com,,,,2018-04-16
+3,"IPS Group, Inc.",ips-group-inc,americas,remote-friendly,medium,1,sql,dotnet|javascript|ml|sql,https://www.ipsgroupinc.com/,https://www.ipsgroupinc.com/careers/,,,2020-10-29
+3,Keen IO,keen-io,americas,remote-friendly,medium,1,api,api|ml,https://keen.io/,https://www.scaleworks.com/join-the-team,,,2020-11-01
+3,Klanik,klanik,americas-europe,remote-friendly,enterprise,1,devops,devops|ml,https://www.klanik.com/,https://www.klanik.com/en/jobs?,,,2024-10-08
+3,Kuali,kuali,americas,hybrid,medium,1,nosql,java|javascript|nosql,https://kuali.co,,,,2019-02-13
+3,Lincoln Loop,lincoln-loop,americas,fully-remote,small,1,python,python,https://lincolnloop.com,,,,2020-10-29
+3,Litmus Software,litmus-software,americas-europe,fully-remote,small,1,cloud,cloud|dotnet|ruby,https://litmus.com/,,,,2018-04-16
+3,MaintainNow,maintainnow,americas,fully-remote,startup,1,aws,react|react-native|aws,https://www.maintainnow.app,,,,2026-01-17
+3,Marco Polo,marco-polo,americas,fully-remote,small,1,python,java|javascript|mobile|python,https://marcopolo.me,https://marcopolo.me/jobs,,,2021-08-23
+3,Modern Health,modern-health,americas,remote-first,large,1,python,javascript|python|ruby,https://www.modernhealth.com/,https://boards.greenhouse.io/modernhealth,greenhouse,modernhealth,2022-10-27
+3,Monthly,monthly,americas,remote-friendly,small,1,python,javascript|python,https://monthly.com,https://monthly.com/careers,,,2021-10-08
+3,nerdwallet,nerdwallet,americas,remote-friendly,large,1,go,go|javascript|ml|mobile,https://www.nerdwallet.com,,,,2023-10-01
+3,Nuharbor Security,nuharbor-security,americas,hybrid,medium,1,python,dotnet|javascript|python,https://nuharborsecurity.com/,https://www.nuharborsecurity.com/careers#job-openings,,,2023-10-08
+3,Ollie,ollie,americas,fully-remote,small,1,python,javascript|python,https://www.myollie.com,https://jobs.lever.co/myollie,lever,myollie,2022-10-03
+3,OpenRouter,openrouter,americas,remote-first,small,1,cloud,ml|cloud,https://openrouter.ai/,https://openrouter.ai/careers,,,
+3,PagerDuty,pagerduty,americas,remote-friendly,large,1,sql,javascript|sql,https://pagerduty.com,,,,2018-04-16
+3,Palantir.net,palantir-net,americas,remote-friendly,small,1,php,php,https://www.palantir.net/,https://palantir.bamboohr.com/careers,bamboohr,careers,2018-04-16
+3,Plai,plai,americas-europe,remote-friendly,tiny,1,devops,devops|java|javascript,https://plai.team,,,,2020-07-19
+3,PwC,pwc,americas,remote-friendly,enterprise,1,python,java|javascript|python,https://www.pwc.com,https://www.pwc.com/gx/en/careers.html,,,2021-10-26
+3,Recurly,recurly,americas,remote-friendly,large,1,api,api|javascript|ruby,https://recurly.com/,https://recurly.com/jobs/,,,2022-10-10
+3,Resend,resend,americas-europe,fully-remote,small,1,cloud,javascript|cloud,https://resend.com/,https://resend.com/careers,,,
+3,Scribd,scribd,americas-europe,remote-first,large,1,data,ruby|javascript|mobile|data|search,https://www.scribd.com/,https://www.scribdinc.com/careers,,,
+3,Spreaker,spreaker,americas-europe,remote-friendly,small,1,devops,devops|javascript,https://spreaker.com/,https://careers.spreaker.com/opportunities/,,,2022-10-03
+3,Spruce,spruce,americas,remote-first,medium,1,python,javascript|python,https://getspruce.com/,https://getspruce.com/careers/,,,2021-10-02
+3,TeamSnap,teamsnap,americas,remote-friendly,medium,1,cloud,cloud|elixir|javascript|ruby,https://www.teamsnap.com,https://www.teamsnap.com/company/careers,,,2020-02-24
+3,The Planet Group,the-planet-group,americas,remote-friendly,enterprise,1,sql,javascript|ruby|sql,https://theplanetgroup.com,,,,2023-08-29
+3,TractionBoard,tractionboard,americas,remote-friendly,tiny,1,go,go|javascript,https://tractionboard.io,,,,2022-10-02
+3,Trello,trello,americas-europe,remote-friendly,medium,1,data,data|graphql|javascript,https://trello.com/,https://www.atlassian.com/company/careers,,,2019-10-21
+3,TrussWorks,trussworks,americas,remote-friendly,medium,1,python,javascript|ml|mobile|python|ruby,https://truss.works,https://truss.works/jobs,,,2020-05-05
+3,uShip,uship,americas,hybrid,medium,1,cloud,cloud|dotnet|javascript,https://www.uship.com,https://about.uship.com/careers/,,,2021-10-06
+3,WebDevStudios,webdevstudios,americas,fully-remote,small,1,php,php,https://webdevstudios.com/,https://webdevstudios.com/careers/,,,2022-10-02
+4,activecampaign,activecampaign,americas,remote-friendly,small,0,,ml,https://www.activecampaign.com/,https://www.activecampaign.com/careers,,,2020-11-01
+4,Aerolab,aerolab,americas,remote-friendly,small,0,,javascript,https://aerolab.co/,http://careers.aerolab.co/,,,2018-10-20
+4,airtreks,airtreks,americas,remote-friendly,small,0,,,https://www.airtreks.com/,https://airtreks.com/about/jobs-at-airtreks/,,,2024-03-06
+4,animalz,animalz,americas,remote-friendly,small,0,,,https://www.animalz.co,,,,2020-10-29
+4,Anomali,anomali,americas,remote-friendly,large,0,,,https://www.anomali.com/company/careers,https://jobs.lever.co/anomali,lever,anomali,2019-10-25
+4,Betable,betable,americas-europe,remote-friendly,,0,,,https://corp.betable.com/,https://corp.betable.com/careers,,,2022-10-10
+4,Bitovi,bitovi,americas,remote-friendly,small,0,,javascript,https://bitovi.com/,https://www.bitovi.com/about/jobs,,,2018-06-22
+4,Bloc,bloc,americas,remote-friendly,,0,,,https://www.bloc.io/,https://www.bloc.io/about,,,2020-10-17
+4,Bluespark,bluespark,americas,remote-friendly,small,0,,,https://www.bluespark.com/,https://www.bluespark.com/careers,,,2022-10-10
+4,BuySellAds,buysellads,americas,remote-friendly,small,0,,,https://www.buysellads.com/,https://careers.jobscore.com/careers/buysellads,,,2020-10-22
+4,Consumer Financial Protection Bureau,consumer-financial-protection-bureau,americas,remote-friendly,,0,,,https://consumerfinance.gov,https://www.consumerfinance.gov/about-us/careers/current-openings/,,,2020-10-28
+4,Coursera,coursera,americas,remote-friendly,large,0,,java|scala,https://www.coursera.org/,,,,2021-10-01
+4,Delighted,delighted,americas,remote-friendly,medium,0,,ml|mobile,https://delighted.com,https://delighted.com/jobs,,,2020-11-01
+4,Edgar,edgar,americas,fully-remote,small,0,,ruby,https://meetedgar.com/,https://meetedgar.com/careers,,,2018-04-16
+4,Enok Collective,enok-collective,americas,remote-first,small,0,,,https://www.enok.co/,,,,2020-10-23
+4,Entrision,entrision,americas,remote-friendly,tiny,0,,java|javascript|mobile|ruby,https://entrision.com,,,,2021-02-07
+4,Estately,estately,americas,fully-remote,tiny,0,,,https://estately.com,,,,2020-11-01
+4,Filament Group,filament-group,americas,remote-friendly,,0,,,https://www.filamentgroup.com/,,,,2019-10-21
+4,FlowPath,flowpath,americas,remote-friendly,tiny,0,,javascript|ruby,https://getflowpath.com,https://www.flowpath.com,,,2024-11-12
+4,Fuel Made,fuel-made,americas,fully-remote,tiny,0,,javascript|ml,https://fuelmade.com/,https://fuelmade.com/pages/jobs,,,2022-10-10
+4,Got Soccer,got-soccer,americas,remote-friendly,,0,,javascript,https://gotpro.com,https://www.gotpro.com/home/en/,,,2020-10-30
+4,Headway,headway,americas,remote-first,small,0,,elixir|graphql|javascript|ruby,https://www.headway.io/,https://headway.io/careers,,,2022-10-10
+4,Hypergiant,hypergiant,americas,remote-friendly,large,0,,ml,https://www.hypergiant.com/contact/,https://www.hypergiant.com/careers/,,,2022-10-05
+4,iFit,ifit,americas,hybrid,medium,0,,java|javascript,https://www.ifit.com/,,,,2019-11-19
+4,Infinite Red,infinite-red,americas,fully-remote,small,0,,dotnet|elixir|javascript|ml|mobile|ruby,https://infinite.red,,,,2019-06-11
+4,Intellum,intellum,americas,remote-friendly,medium,0,,javascript,https://www.intellum.com,,,,2022-10-22
+4,Intevity,intevity,americas,hybrid,small,0,,,https://www.intevity.com/,https://www.intevity.com/careers,,,2020-10-25
+4,kea,kea,americas,remote-friendly,small,0,,javascript,https://kea.ai,https://careers.kea.ai,,,2022-04-26
+4,LogRocket,logrocket,americas,remote-friendly,large,0,,javascript|mobile,https://logrocket.com/careers,,,,2023-10-22
+4,Mapbox,mapbox,americas-europe,remote-friendly,large,0,,javascript,https://www.mapbox.com/,https://www.mapbox.com/careers,,,2022-10-18
+4,Marketade,marketade,americas,hybrid,tiny,0,,,https://www.marketade.com,,,,2022-10-22
+4,Mayvue Solutions,mayvue-solutions,americas,hybrid,small,0,,dotnet|javascript,https://mayvue.com/,https://mayvue.com/careers/,,,2022-10-25
+4,MeridianLink,meridianlink,americas,remote-friendly,large,0,,ml,https://meridianlink.com/,https://www.meridianlink.com/careers,,,2022-10-12
+4,Mozilla,mozilla,americas,remote-friendly,large,0,,ml|mobile,https://www.mozilla.org/,https://careers.mozilla.org/,,,2020-10-20
+4,Mycelium,mycelium,americas-europe,remote-friendly,small,0,,ml,https://mycelium.ventures/,,,,2021-10-25
+4,npm,npm,americas,remote-friendly,tiny,0,,javascript,https://www.npmjs.com/,https://www.npmjs.com/jobs?utm_source=nodeweekly&utm_medium=email,,,2020-10-20
+4,Ollie Order,ollie-order,americas,remote-friendly,medium,0,,graphql|javascript|ruby,https://ollieorder.com/,https://forms.gle/oKMTzasq7N5FpkS69,,,2020-07-19
+4,Our-Hometown Inc.,our-hometown-inc,americas,remote-friendly,tiny,0,,,https://our-hometown.com/,,,,2020-10-29
+4,Paylocity,paylocity,americas,remote-friendly,enterprise,0,,dotnet|javascript,https://www.paylocity.com/,https://www.paylocity.com/careers/career-opportunities/,,,2020-10-23
+4,simplabs,simplabs,americas-europe,remote-friendly,tiny,0,,elixir|javascript|ruby,https://simplabs.com,https://x.com/simplabs,,,2020-10-28
+4,Sketch,sketch,americas-europe,fully-remote,medium,0,,,https://www.sketch.com/,https://jobs.ashbyhq.com/sketch/3cd3f073-2fae-40be-a072-65d56e89a1dd,ashby,sketch,2024-10-20
+4,Stitch Fix,stitch-fix,americas,remote-friendly,,0,,javascript,https://www.stitchfix.com,https://www.stitchfix.com/careers/jobs,,,2020-10-20
+4,Svix,svix,americas-europe,fully-remote,tiny,0,,rust,https://www.svix.com/,https://www.svix.com/careers/,,,2023-01-31
+4,TED,ted,americas,hybrid,medium,0,,javascript|ruby,https://www.ted.com/,https://tedconferencesllc.applytojob.com/apply,,,2019-08-07
+4,Telerik,telerik,americas-europe,remote-friendly,enterprise,0,,dotnet|javascript,https://www.telerik.com/,https://www.progress.com/company/careers,,,2020-11-02
+4,Test Double,test-double,americas,remote-friendly,small,0,,elixir|javascript|ml|ruby,https://testdouble.com/,https://testdouble.recruiterbox.com/,,,2022-10-02
+4,The Home Depot,the-home-depot,americas,fully-remote,large,0,,,https://careers.homedepot.com/career-areas/technology/,,,,2024-08-21
+4,The Wirecutter,the-wirecutter,americas,hybrid,,0,,,https://thewirecutter.com/,https://thewirecutter.com/jobs/,,,2018-08-12
+4,Tipe,tipe,americas,remote-friendly,tiny,0,,graphql,https://tipe.io,https://angel.co/tipe/jobs,,,2018-10-28
+4,Treehouse,treehouse,americas,hybrid,medium,0,,,https://teamtreehouse.com/,https://teamtreehouse.com/jobs,,,2018-04-16
+4,Truelogic,truelogic,americas,remote-friendly,medium,0,,dotnet|javascript|ruby,https://www.truelogicsoftware.com/,,,,2020-10-17
+4,Two,two,americas,remote-friendly,tiny,0,,,https://www.two.ai/,,,,2022-10-03
+4,Upwork Pro,upwork-pro,americas,hybrid,large,0,,javascript|mobile|ruby,https://www.upwork.com,https://careers.upwork.com/jobs/search,,,2022-10-03
+4,USAA,usaa,americas,remote-friendly,enterprise,0,,java|javascript,https://usaa.com,https://www.usaajobs.com/,,,2021-10-17
+4,Wombat Security Technologies,wombat-security-technologies,americas,hybrid,large,0,,,https://www.wombatsecurity.com/,https://proofpoint.wd5.myworkdayjobs.com/ProofpointCareers/6/refreshFacet/318c8bb6f553100021d223d9780d30be,workday,ProofpointCareers,2022-10-03
+4,Wyeworks,wyeworks,americas,fully-remote,medium,0,,elixir|javascript|ruby,https://www.wyeworks.com/,https://www.wyeworks.com/careers,,,2024-10-13
