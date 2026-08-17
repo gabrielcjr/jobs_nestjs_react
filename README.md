@@ -63,7 +63,32 @@ A high-performance, developer-focused Software Engineering Job Board and Multi-A
 | **Backend** | NestJS 11, Fastify, Prisma ORM, TypeScript, Axios, RxJS |
 | **Database** | PostgreSQL 16 (with composite indices & GIN index on `tags text[]`) |
 | **Frontend** | React 19, Vite, Tailwind CSS, TanStack React Query v5, Lucide React, DOMPurify |
+| **Testing** | Jest, Vitest, React Testing Library, Supertest, jsdom |
 | **Containerization** | Docker, Docker Compose, Multi-stage builds |
+
+---
+
+## ⚡ Makefile Commands Reference
+
+The project root includes a `Makefile` with single-command shortcuts:
+
+| Command | Description |
+|---|---|
+| `make help` | Show all available commands and descriptions |
+| `make install` | Install dependencies for both backend and frontend |
+| `make dev` | Start PostgreSQL container for local development |
+| `make dev-backend` | Run NestJS backend with hot reload (`npm run start:dev`) |
+| `make dev-frontend` | Run React frontend with Vite HMR (`npm run dev`) |
+| `make test` | Run all backend (Jest) and frontend (Vitest) tests |
+| `make test-backend` | Run backend unit & integration tests |
+| `make test-frontend`| Run frontend unit & component tests |
+| `make test-e2e` | Run Fastify backend E2E API tests |
+| `make build` | Build production bundles for backend and frontend |
+| `make docker-up` | Build and spin up all services via Docker Compose |
+| `make docker-down` | Stop and remove all Docker Compose containers |
+| `make docker-logs` | Tail live logs from Docker Compose services |
+| `make db-push` | Push Prisma schema changes directly to PostgreSQL |
+| `make db-studio` | Launch Prisma Studio database GUI |
 
 ---
 
@@ -74,12 +99,8 @@ A high-performance, developer-focused Software Engineering Job Board and Multi-A
 To run the complete system (PostgreSQL + NestJS backend + React frontend) in Docker:
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/jobs_nestjs_react.git
-cd jobs_nestjs_react
-
-# Start all services
-docker compose up -d --build
+# Build images and start all services
+make docker-up
 ```
 
 - **Frontend UI**: `http://localhost:5173`
@@ -90,28 +111,29 @@ docker compose up -d --build
 
 ### Option 2: Local Development Setup
 
-#### 1. Start PostgreSQL
+#### 1. Install Dependencies
 ```bash
-docker compose up -d postgres
+make install
 ```
 
-#### 2. Setup & Run Backend (NestJS)
+#### 2. Start PostgreSQL Database
 ```bash
-cd backend
-npm install
-npx prisma generate
-npx prisma db push
-npm run start:dev
+make dev
+make db-push
 ```
-Backend runs on `http://127.0.0.1:3001`.
 
-#### 3. Setup & Run Frontend (React + Vite)
+#### 3. Start Backend & Frontend
+In separate terminal windows:
 ```bash
-cd frontend
-npm install
-npm run dev
+make dev-backend   # Runs NestJS on http://127.0.0.1:3001
+make dev-frontend  # Runs React Vite on http://127.0.0.1:5173
 ```
-Frontend runs on `http://127.0.0.1:5173`.
+
+#### 4. Run Test Suites
+```bash
+make test          # Runs all backend and frontend tests
+make test-e2e      # Runs backend E2E API tests
+```
 
 ---
 
