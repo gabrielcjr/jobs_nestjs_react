@@ -19,6 +19,7 @@ const INITIAL_FILTERS: JobFilters = {
   datePosted: 'all',
   tags: [],
   minSalary: undefined,
+  latamUsdOnly: false,
   sortBy: 'postedAt',
   sortOrder: 'desc',
   page: 1,
@@ -83,6 +84,7 @@ export const App: React.FC = () => {
       filters.workplaceType !== 'ALL' ||
       filters.atsProvider !== 'ALL' ||
       filters.datePosted !== 'all' ||
+      filters.latamUsdOnly ||
       (filters.minSalary && filters.minSalary > 0) ||
       filters.tags.length > 0
   );
@@ -100,12 +102,19 @@ export const App: React.FC = () => {
         {/* Role Category Tabs */}
         <RoleCategoryTabs
           selectedRole={filters.roleCategory}
-          onSelectRole={(role) => handleFilterChange({ roleCategory: role, page: 1 })}
+          onSelectRole={(roleCategory) => handleFilterChange({ roleCategory, page: 1 })}
           roleCounts={facets?.roleCategoryCounts}
           totalCount={totalCount}
         />
 
-        {/* Filter Controls & Search */}
+        {/* Popular Tech Stack Pills */}
+        <TechStackPills
+          selectedTags={filters.tags}
+          onToggleTag={handleToggleTag}
+          availableTags={facets?.topTags || topTags}
+        />
+
+        {/* Global Multi-facet Filter Bar */}
         <FilterBar
           filters={filters}
           onFilterChange={handleFilterChange}
@@ -113,17 +122,10 @@ export const App: React.FC = () => {
           hasActiveFilters={hasActiveFilters}
         />
 
-        {/* Tech Stack Pills */}
-        <TechStackPills
-          selectedTags={filters.tags}
-          onToggleTag={handleToggleTag}
-          availableTags={topTags || facets?.topTags}
-        />
-
-        {/* Split-Screen Master-Detail Layout */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-[680px] mt-1">
-          {/* Left Pane (40% width on desktop / 5 cols) */}
-          <div className="lg:col-span-5 h-[720px] flex flex-col">
+        {/* Dual-Pane Master Detail Split Screen */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-0 pt-1">
+          {/* Left Master List (40% width on Desktop) */}
+          <section className="lg:col-span-5 h-[calc(100vh-320px)] min-h-[500px] flex flex-col">
             <JobList
               jobs={jobs}
               totalCount={totalCount}
@@ -131,36 +133,24 @@ export const App: React.FC = () => {
               totalPages={totalPages}
               isLoading={isLoading}
               selectedJob={selectedJob}
-              onSelectJob={setSelectedJob}
+              onSelectJob={(job) => setSelectedJob(job)}
               onPageChange={(page) => handleFilterChange({ page })}
               onResetFilters={handleResetFilters}
               onOpenSyncModal={() => setIsSyncModalOpen(true)}
             />
-          </div>
+          </section>
 
-          {/* Right Pane (60% width on desktop / 7 cols) */}
-          <div className="hidden lg:block lg:col-span-7 h-[720px] sticky top-[76px]">
+          {/* Right Detail Pane (60% width on Desktop) */}
+          <section className="lg:col-span-7 h-[calc(100vh-320px)] min-h-[500px]">
             <JobDetail
               job={selectedJob}
               onTagClick={handleToggleTag}
             />
-          </div>
-        </div>
-
-        {/* Mobile Detail Modal/Drawer if a job is selected on smaller screens */}
-        <div className="lg:hidden mt-4">
-          {selectedJob && (
-            <div className="rounded-2xl border border-dark-750 bg-dark-900/90 overflow-hidden">
-              <JobDetail
-                job={selectedJob}
-                onTagClick={handleToggleTag}
-              />
-            </div>
-          )}
+          </section>
         </div>
       </main>
 
-      {/* Public ATS Ingestion Modal */}
+      {/* Ingestion & Crawling Modal */}
       <IngestionModal
         isOpen={isSyncModalOpen}
         onClose={() => setIsSyncModalOpen(false)}
@@ -168,4 +158,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
 export default App;

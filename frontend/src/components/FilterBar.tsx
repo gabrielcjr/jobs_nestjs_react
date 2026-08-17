@@ -1,5 +1,17 @@
 import React from 'react';
-import { Search, X, SlidersHorizontal, ArrowUpDown, DollarSign, Calendar, MapPin, Building2, UserCheck } from 'lucide-react';
+import {
+  Search,
+  X,
+  SlidersHorizontal,
+  ArrowUpDown,
+  DollarSign,
+  Calendar,
+  MapPin,
+  Building2,
+  UserCheck,
+  Globe2,
+  Sparkles,
+} from 'lucide-react';
 import { AtsProvider, ExperienceLevel, JobFilters, WorkplaceType } from '../types/jobs';
 
 interface FilterBarProps {
@@ -17,24 +29,49 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 }) => {
   return (
     <div className="bg-dark-900/80 rounded-2xl border border-dark-750 p-3 lg:p-4 space-y-3">
-      {/* Primary Search Input */}
-      <div className="relative">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-        <input
-          type="text"
-          value={filters.search}
-          onChange={(e) => onFilterChange({ search: e.target.value, page: 1 })}
-          placeholder="Search by title, skills (e.g. Go, React, Rust), company, or location..."
-          className="w-full bg-dark-950 border border-dark-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/50 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-100 placeholder-slate-500 transition-all outline-none"
-        />
-        {filters.search && (
-          <button
-            onClick={() => onFilterChange({ search: '', page: 1 })}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-200 transition-colors"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        )}
+      {/* Primary Search Input & Dedicated LATAM USD Button */}
+      <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
+        {/* Search Field */}
+        <div className="relative flex-1">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <input
+            type="text"
+            value={filters.search}
+            onChange={(e) => onFilterChange({ search: e.target.value, page: 1 })}
+            placeholder="Search by title, skills (e.g. Go, React, Rust), company, or location..."
+            className="w-full bg-dark-950 border border-dark-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/50 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-100 placeholder-slate-500 transition-all outline-none"
+          />
+          {filters.search && (
+            <button
+              onClick={() => onFilterChange({ search: '', page: 1 })}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+
+        {/* 🌎 LATAM USD Remote Only Toggle Button */}
+        <button
+          onClick={() =>
+            onFilterChange({
+              latamUsdOnly: !filters.latamUsdOnly,
+              page: 1,
+            })
+          }
+          className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md shrink-0 cursor-pointer ${
+            filters.latamUsdOnly
+              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-500/25 ring-2 ring-emerald-400/50 border border-emerald-400'
+              : 'bg-dark-950 hover:bg-dark-850 text-emerald-400 border border-emerald-500/40 hover:border-emerald-400/70'
+          }`}
+          title="Filter for 100% remote jobs paid in USD open to Latin America (Brazil, Argentina, Colombia, Mexico, etc.)"
+        >
+          <Globe2 className="h-4 w-4 text-emerald-300 animate-pulse-subtle" />
+          <span>LATAM USD Remote</span>
+          {filters.latamUsdOnly && (
+            <span className="h-2 w-2 rounded-full bg-emerald-300 ring-2 ring-emerald-500" />
+          )}
+        </button>
       </div>
 
       {/* Multi-faceted Dropdowns Grid */}
@@ -71,22 +108,23 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </label>
           <select
             value={filters.workplaceType || 'ALL'}
+            disabled={filters.latamUsdOnly}
             onChange={(e) =>
               onFilterChange({
                 workplaceType: e.target.value as WorkplaceType | 'ALL',
                 page: 1,
               })
             }
-            className="w-full bg-dark-850 border border-dark-700 hover:border-dark-600 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-brand-500 cursor-pointer"
+            className="w-full bg-dark-850 border border-dark-700 hover:border-dark-600 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-brand-500 cursor-pointer disabled:opacity-50"
           >
-            <option value="ALL">All Workplaces</option>
-            <option value="REMOTE">Remote</option>
+            <option value="ALL">All Policies</option>
+            <option value="REMOTE">Remote Only</option>
             <option value="HYBRID">Hybrid</option>
-            <option value="ONSITE">On-site</option>
+            <option value="ONSITE">Onsite</option>
           </select>
         </div>
 
-        {/* 3. ATS Source Provider */}
+        {/* 3. ATS Provider */}
         <div className="relative">
           <label className="block text-[10px] uppercase font-mono text-slate-400 mb-1 flex items-center gap-1">
             <Building2 className="h-3 w-3 text-cyan-400" /> ATS Source
@@ -148,10 +186,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             className="w-full bg-dark-850 border border-dark-700 hover:border-dark-600 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-brand-500 cursor-pointer"
           >
             <option value="0">Any Salary</option>
-            <option value="100000">$100k+ / yr</option>
-            <option value="140000">$140k+ / yr</option>
-            <option value="180000">$180k+ / yr</option>
-            <option value="220000">$220k+ / yr</option>
+            <option value="60000">$60k+ USD</option>
+            <option value="90000">$90k+ USD</option>
+            <option value="120000">$120k+ USD</option>
+            <option value="150000">$150k+ USD</option>
+            <option value="180000">$180k+ USD</option>
           </select>
         </div>
 
@@ -183,13 +222,21 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       {/* Active Filters Summary & Reset Button */}
       {hasActiveFilters && (
         <div className="flex items-center justify-between pt-1 border-t border-dark-800 text-xs">
-          <span className="text-slate-400 flex items-center gap-1.5">
-            <SlidersHorizontal className="h-3.5 w-3.5 text-brand-400" />
-            <span>Filters active</span>
-          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-slate-400 flex items-center gap-1.5">
+              <SlidersHorizontal className="h-3.5 w-3.5 text-brand-400" />
+              <span>Active filters:</span>
+            </span>
+            {filters.latamUsdOnly && (
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono flex items-center gap-1">
+                🌎 LATAM USD Remote
+              </span>
+            )}
+          </div>
+
           <button
             onClick={onResetFilters}
-            className="text-xs text-brand-400 hover:text-brand-300 font-medium transition-colors hover:underline flex items-center gap-1"
+            className="text-xs text-brand-400 hover:text-brand-300 font-medium transition-colors hover:underline flex items-center gap-1 cursor-pointer"
           >
             <X className="h-3 w-3" /> Reset all filters
           </button>

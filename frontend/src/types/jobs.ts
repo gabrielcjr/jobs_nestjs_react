@@ -86,6 +86,7 @@ export interface JobFilters {
   atsProvider?: AtsProvider | 'ALL';
   datePosted?: '24h' | '7d' | '30d' | 'all';
   minSalary?: number;
+  latamUsdOnly?: boolean;
   sortBy?: 'postedAt' | 'firstSeenAt' | 'minSalary' | 'title';
   sortOrder?: 'asc' | 'desc';
   page?: number;

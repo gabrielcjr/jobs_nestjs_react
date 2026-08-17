@@ -84,6 +84,10 @@ export async function fetchJobs(filters: JobFilters): Promise<PaginatedJobsRespo
     params.minSalary = filters.minSalary;
   }
 
+  if (filters.latamUsdOnly) {
+    params.latamUsdOnly = true;
+  }
+
   if (filters.tags && filters.tags.length > 0) {
     params.tags = filters.tags.join(',');
   }
