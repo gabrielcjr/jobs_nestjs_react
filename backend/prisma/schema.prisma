@@ -1,0 +1,108 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AtsProvider {
+  GREENHOUSE
+  LEVER
+  ASHBY
+  WORKABLE
+  SMARTRECRUITERS
+}
+
+enum WorkplaceType {
+  REMOTE
+  HYBRID
+  ONSITE
+  UNSPECIFIED
+}
+
+enum ExperienceLevel {
+  INTERN
+  JUNIOR
+  MID
+  SENIOR
+  STAFF_PLUS
+  LEAD
+  UNSPECIFIED
+}
+
+enum RoleCategory {
+  BACKEND
+  FRONTEND
+  FULLSTACK
+  DEVOPS_SRE_INFRA
+  MOBILE
+  DATA_AI_ML
+  SECURITY
+  ENGINEERING_MANAGEMENT
+  OTHER
+}
+
+model Company {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  atsProvider AtsProvider
+  websiteUrl  String?
+  logoUrl     String?
+  jobs        Job[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([slug, atsProvider])
+}
+
+model Job {
+  id               String          @id @default(cuid())
+  externalJobId    String
+  atsProvider      AtsProvider
+  title            String
+  slug             String
+  companyId        String
+  company          Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  // Software Engineering Specific Categorization
+  roleCategory     RoleCategory    @default(OTHER)
+  experienceLevel  ExperienceLevel @default(UNSPECIFIED)
+  tags             String[]        // PostgreSQL text[]
+
+  // Location & Work Policy
+  department       String?
+  location         String?
+  workplaceType    WorkplaceType   @default(UNSPECIFIED)
+  allowedLocations String[]
+
+  // Content & Application
+  description      String          @db.Text
+  applyUrl         String
+
+  // Compensation
+  minSalary        Decimal?        @db.Decimal(12, 2)
+  maxSalary        Decimal?        @db.Decimal(12, 2)
+  currency         String?         @default("USD")
+  salarySummary    String?
+
+  // Timestamps & Lifecycle
+  postedAt         DateTime?
+  firstSeenAt      DateTime        @default(now())
+  lastSeenAt       DateTime        @default(now())
+  isActive         Boolean         @default(true)
+
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@unique([atsProvider, externalJobId])
+  @@index([atsProvider, isActive])
+  @@index([roleCategory, experienceLevel])
+  @@index([tags], type: Gin)
+  @@index([postedAt(sort: Desc)])
+  @@index([firstSeenAt(sort: Desc)])
+  @@index([location])
+  @@index([title])
+}
