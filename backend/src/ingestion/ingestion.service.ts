@@ -1,14 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AtsProvider } from '@prisma/client';
-import slugify from 'slugify';
+import { AtsProvider, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { AtsAdapter, NormalizedJob } from './interfaces/ats-adapter.interface';
+import { AtsAdapter } from './interfaces/ats-adapter.interface';
 import { GreenhouseAdapter } from './adapters/greenhouse.adapter';
 import { LeverAdapter } from './adapters/lever.adapter';
 import { AshbyAdapter } from './adapters/ashby.adapter';
 import { WorkableAdapter } from './adapters/workable.adapter';
-import { SmartRecruitersAdapter } from './adapters/smartrecruiters.adapter';
-import { cleanCompanyName } from './utils/tech-classifier.util';
+import { SmartrecruitersAdapter } from './adapters/smartrecruiters.adapter';
+import { cleanCompanyName, isLatamUsdEligible } from './utils/tech-classifier.util';
+import slugify from 'slugify';
 
 export interface SyncResult {
   companySlug: string;
@@ -21,58 +21,78 @@ export interface SyncResult {
 
 export interface BatchSyncSummary {
   totalCompanies: number;
-  successfulCompanies: number;
-  failedCompanies: number;
-  totalJobsIngested: number;
+  successful: number;
+  failed: number;
+  totalJobsUpserted: number;
   results: SyncResult[];
-  durationMs: number;
 }
 
 export const ALL_PRESET_COMPANIES: { slug: string; provider: AtsProvider; name: string }[] = [
-  // 1. Greenhouse Boards
+  // Greenhouse
   { slug: 'stripe', provider: AtsProvider.GREENHOUSE, name: 'Stripe' },
   { slug: 'figma', provider: AtsProvider.GREENHOUSE, name: 'Figma' },
-  { slug: 'cloudflare', provider: AtsProvider.GREENHOUSE, name: 'Cloudflare' },
-  { slug: 'discord', provider: AtsProvider.GREENHOUSE, name: 'Discord' },
   { slug: 'airbnb', provider: AtsProvider.GREENHOUSE, name: 'Airbnb' },
-  { slug: 'github', provider: AtsProvider.GREENHOUSE, name: 'GitHub' },
+  { slug: 'discord', provider: AtsProvider.GREENHOUSE, name: 'Discord' },
+  { slug: 'datadog', provider: AtsProvider.GREENHOUSE, name: 'Datadog' },
+  { slug: 'hashicorp', provider: AtsProvider.GREENHOUSE, name: 'HashiCorp' },
+  { slug: 'gitlab', provider: AtsProvider.GREENHOUSE, name: 'GitLab' },
+  { slug: 'elastic', provider: AtsProvider.GREENHOUSE, name: 'Elastic' },
+  { slug: 'cloudflare', provider: AtsProvider.GREENHOUSE, name: 'Cloudflare' },
+  { slug: 'coinbase', provider: AtsProvider.GREENHOUSE, name: 'Coinbase' },
   { slug: 'reddit', provider: AtsProvider.GREENHOUSE, name: 'Reddit' },
-  { slug: 'brex', provider: AtsProvider.GREENHOUSE, name: 'Brex' },
-  { slug: 'vercel', provider: AtsProvider.GREENHOUSE, name: 'Vercel' },
   { slug: 'pinterest', provider: AtsProvider.GREENHOUSE, name: 'Pinterest' },
+  { slug: 'dropbox', provider: AtsProvider.GREENHOUSE, name: 'Dropbox' },
+  { slug: 'doorndash', provider: AtsProvider.GREENHOUSE, name: 'DoorDash' },
+  { slug: 'instacart', provider: AtsProvider.GREENHOUSE, name: 'Instacart' },
+  { slug: 'lyft', provider: AtsProvider.GREENHOUSE, name: 'Lyft' },
+  { slug: 'snap', provider: AtsProvider.GREENHOUSE, name: 'Snap' },
+  { slug: 'robinhood', provider: AtsProvider.GREENHOUSE, name: 'Robinhood' },
+  { slug: 'plaid', provider: AtsProvider.GREENHOUSE, name: 'Plaid' },
+  { slug: 'gusto', provider: AtsProvider.GREENHOUSE, name: 'Gusto' },
+  { slug: 'brex', provider: AtsProvider.GREENHOUSE, name: 'Brex' },
+  { slug: 'ramp', provider: AtsProvider.GREENHOUSE, name: 'Ramp' },
+  { slug: 'affirm', provider: AtsProvider.GREENHOUSE, name: 'Affirm' },
+  { slug: 'chime', provider: AtsProvider.GREENHOUSE, name: 'Chime' },
+  { slug: 'samsara', provider: AtsProvider.GREENHOUSE, name: 'Samsara' },
+  { slug: 'remotecom', provider: AtsProvider.GREENHOUSE, name: 'Remote' },
+  { slug: 'automattic', provider: AtsProvider.GREENHOUSE, name: 'Automattic' },
+  { slug: 'canonical', provider: AtsProvider.GREENHOUSE, name: 'Canonical' },
+  { slug: 'zapier', provider: AtsProvider.GREENHOUSE, name: 'Zapier' },
+  { slug: 'duckduckgo', provider: AtsProvider.GREENHOUSE, name: 'DuckDuckGo' },
+  { slug: 'auth0', provider: AtsProvider.GREENHOUSE, name: 'Auth0' },
 
-  // 2. Lever Boards
+  // Lever
   { slug: 'spotify', provider: AtsProvider.LEVER, name: 'Spotify' },
-  { slug: 'automattic', provider: AtsProvider.LEVER, name: 'Automattic' },
-  { slug: 'postman', provider: AtsProvider.LEVER, name: 'Postman' },
+  { slug: 'netflix', provider: AtsProvider.LEVER, name: 'Netflix' },
+  { slug: 'atlassian', provider: AtsProvider.LEVER, name: 'Atlassian' },
   { slug: 'twitch', provider: AtsProvider.LEVER, name: 'Twitch' },
-  { slug: 'datadog', provider: AtsProvider.LEVER, name: 'Datadog' },
+  { slug: 'coupa', provider: AtsProvider.LEVER, name: 'Coupa' },
+  { slug: 'palantir', provider: AtsProvider.LEVER, name: 'Palantir' },
+  { slug: 'box', provider: AtsProvider.LEVER, name: 'Box' },
 
-  // 3. Ashby Boards
+  // Ashby
   { slug: 'openai', provider: AtsProvider.ASHBY, name: 'OpenAI' },
+  { slug: 'anthropic', provider: AtsProvider.ASHBY, name: 'Anthropic' },
   { slug: 'linear', provider: AtsProvider.ASHBY, name: 'Linear' },
-  { slug: 'ramp', provider: AtsProvider.ASHBY, name: 'Ramp' },
   { slug: 'replit', provider: AtsProvider.ASHBY, name: 'Replit' },
   { slug: 'cursor', provider: AtsProvider.ASHBY, name: 'Cursor' },
-  { slug: 'monzo', provider: AtsProvider.ASHBY, name: 'Monzo' },
-  { slug: 'synthesia', provider: AtsProvider.ASHBY, name: 'Synthesia' },
-
-  // 4. Workable Boards
-  { slug: 'pleo', provider: AtsProvider.WORKABLE, name: 'Pleo' },
-  { slug: 'typeform', provider: AtsProvider.WORKABLE, name: 'Typeform' },
-  { slug: 'invision', provider: AtsProvider.WORKABLE, name: 'InVision' },
-
-  // 5. SmartRecruiters Boards
-  { slug: 'square', provider: AtsProvider.SMARTRECRUITERS, name: 'Square' },
-  { slug: 'visa', provider: AtsProvider.SMARTRECRUITERS, name: 'Visa' },
-  { slug: 'ikea', provider: AtsProvider.SMARTRECRUITERS, name: 'IKEA' },
-  { slug: 'bosch', provider: AtsProvider.SMARTRECRUITERS, name: 'Bosch' },
+  { slug: 'resend', provider: AtsProvider.ASHBY, name: 'Resend' },
+  { slug: 'vapi', provider: AtsProvider.ASHBY, name: 'Vapi' },
+  { slug: 'perplexity', provider: AtsProvider.ASHBY, name: 'Perplexity' },
+  { slug: 'posthog', provider: AtsProvider.ASHBY, name: 'PostHog' },
+  { slug: 'clerk', provider: AtsProvider.ASHBY, name: 'Clerk' },
+  { slug: 'supabase', provider: AtsProvider.ASHBY, name: 'Supabase' },
+  { slug: 'modal', provider: AtsProvider.ASHBY, name: 'Modal' },
+  { slug: 'fal', provider: AtsProvider.ASHBY, name: 'Fal' },
+  { slug: 'mistral', provider: AtsProvider.ASHBY, name: 'Mistral' },
+  { slug: 'together-ai', provider: AtsProvider.ASHBY, name: 'Together AI' },
+  { slug: 'elevenlabs', provider: AtsProvider.ASHBY, name: 'ElevenLabs' },
 ];
 
 @Injectable()
 export class IngestionService {
   private readonly logger = new Logger(IngestionService.name);
-  private readonly adapters: Map<AtsProvider, AtsAdapter>;
+  private readonly adapters: Map<AtsProvider, AtsAdapter> = new Map();
 
   constructor(
     private readonly prisma: PrismaService,
@@ -80,43 +100,41 @@ export class IngestionService {
     lever: LeverAdapter,
     ashby: AshbyAdapter,
     workable: WorkableAdapter,
-    smartRecruiters: SmartRecruitersAdapter,
+    smartrecruiters: SmartrecruitersAdapter,
   ) {
-    this.adapters = new Map<AtsProvider, AtsAdapter>([
-      [AtsProvider.GREENHOUSE, greenhouse],
-      [AtsProvider.LEVER, lever],
-      [AtsProvider.ASHBY, ashby],
-      [AtsProvider.WORKABLE, workable],
-      [AtsProvider.SMARTRECRUITERS, smartRecruiters],
-    ]);
+    this.adapters.set(AtsProvider.GREENHOUSE, greenhouse);
+    this.adapters.set(AtsProvider.LEVER, lever);
+    this.adapters.set(AtsProvider.ASHBY, ashby);
+    this.adapters.set(AtsProvider.WORKABLE, workable);
+    this.adapters.set(AtsProvider.SMARTRECRUITERS, smartrecruiters);
   }
 
-  getAvailableProviders(): { provider: AtsProvider; name: string; sampleSlugs: string[] }[] {
+  getAvailableProviders(): { provider: AtsProvider; name: string; description: string }[] {
     return [
       {
         provider: AtsProvider.GREENHOUSE,
         name: 'Greenhouse',
-        sampleSlugs: ['stripe', 'figma', 'cloudflare', 'discord', 'airbnb', 'github', 'reddit', 'brex', 'vercel'],
+        description: 'Boards API (`boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true`)',
       },
       {
         provider: AtsProvider.LEVER,
         name: 'Lever',
-        sampleSlugs: ['spotify', 'automattic', 'postman', 'twitch', 'datadog'],
+        description: 'Postings API (`api.lever.co/v0/postings/{slug}?mode=json`)',
       },
       {
         provider: AtsProvider.ASHBY,
         name: 'Ashby',
-        sampleSlugs: ['openai', 'linear', 'ramp', 'replit', 'cursor', 'monzo', 'synthesia'],
+        description: 'Job Board API (`api.ashbyhq.com/posting-api/job-board/{slug}`)',
       },
       {
         provider: AtsProvider.WORKABLE,
         name: 'Workable',
-        sampleSlugs: ['pleo', 'typeform', 'invision'],
+        description: 'Widget API (`apply.workable.com/api/v1/widget/accounts/{slug}`)',
       },
       {
         provider: AtsProvider.SMARTRECRUITERS,
         name: 'SmartRecruiters',
-        sampleSlugs: ['square', 'visa', 'ikea', 'bosch'],
+        description: 'Postings API (`api.smartrecruiters.com/v1/companies/{slug}/postings`)',
       },
     ];
   }
@@ -153,7 +171,6 @@ export class IngestionService {
           slug: cleanSlug,
           atsProvider: provider,
           websiteUrl: `https://${cleanSlug}.com`,
-          logoUrl: `https://logo.clearbit.com/${cleanSlug}.com`,
         },
       });
 
@@ -164,9 +181,17 @@ export class IngestionService {
       const now = new Date();
 
       for (const job of jobs) {
-        const jobSlug = slugify(`${cleanSlug}-${job.title}-${job.externalJobId}`, {
+        const isLatam = isLatamUsdEligible(
+          job.location || '',
+          job.description || '',
+          job.currency || 'USD',
+          job.workplaceType,
+        );
+
+        const jobSlug = slugify(`${formattedName}-${job.title}-${job.externalJobId}`, {
           lower: true,
           strict: true,
+          trim: true,
         });
 
         await this.prisma.job.upsert({
@@ -188,6 +213,7 @@ export class IngestionService {
             tags: job.tags,
             roleCategory: job.roleCategory,
             experienceLevel: job.experienceLevel,
+            isLatamEligible: isLatam,
             minSalary: job.minSalary !== undefined ? job.minSalary : undefined,
             maxSalary: job.maxSalary !== undefined ? job.maxSalary : undefined,
             currency: job.currency || 'USD',
@@ -210,6 +236,7 @@ export class IngestionService {
             tags: job.tags,
             roleCategory: job.roleCategory,
             experienceLevel: job.experienceLevel,
+            isLatamEligible: isLatam,
             minSalary: job.minSalary !== undefined ? job.minSalary : undefined,
             maxSalary: job.maxSalary !== undefined ? job.maxSalary : undefined,
             currency: job.currency || 'USD',
@@ -231,7 +258,7 @@ export class IngestionService {
         success: true,
       };
     } catch (error: any) {
-      this.logger.error(`Error syncing company ${cleanSlug} with provider ${provider}: ${error.message}`);
+      this.logger.error(`Failed syncing jobs for ${companySlug} via ${provider}: ${error.message}`);
       return {
         companySlug: cleanSlug,
         provider,
@@ -244,61 +271,34 @@ export class IngestionService {
   }
 
   async syncAllPresets(): Promise<BatchSyncSummary> {
-    const startTime = Date.now();
-    const presets = ALL_PRESET_COMPANIES;
-    this.logger.log(`Starting single-shot ingestion for all ${presets.length} preset ATS boards...`);
-
     const results: SyncResult[] = [];
-    let totalJobsIngested = 0;
+    let totalJobsUpserted = 0;
+    let successful = 0;
+    let failed = 0;
 
-    // Process in batches of 4 concurrent requests to prevent throttling
-    const batchSize = 4;
-    for (let i = 0; i < presets.length; i += batchSize) {
-      const chunk = presets.slice(i, i + batchSize);
-      const chunkPromises = chunk.map((c) =>
-        this.syncCompanyJobs(c.slug, c.provider, c.name).catch((err) => ({
-          companySlug: c.slug,
-          provider: c.provider,
-          totalFetched: 0,
-          upsertedCount: 0,
-          success: false,
-          error: err.message,
-        }))
-      );
+    this.logger.log(`Starting batch synchronization for ${ALL_PRESET_COMPANIES.length} preset companies...`);
 
-      const chunkResults = await Promise.all(chunkPromises);
-      for (const res of chunkResults) {
-        results.push(res);
-        if (res.success) {
-          totalJobsIngested += res.upsertedCount;
-        }
+    for (const preset of ALL_PRESET_COMPANIES) {
+      const result = await this.syncCompanyJobs(preset.slug, preset.provider, preset.name);
+      results.push(result);
+
+      if (result.success) {
+        successful++;
+        totalJobsUpserted += result.upsertedCount;
+      } else {
+        failed++;
       }
+
+      // Small polite delay between batch company syncs
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
-
-    const successfulCompanies = results.filter((r) => r.success && r.totalFetched > 0).length;
-    const failedCompanies = results.length - successfulCompanies;
-    const durationMs = Date.now() - startTime;
-
-    this.logger.log(
-      `Finished single-shot ingestion: ${totalJobsIngested} jobs ingested across ${successfulCompanies}/${presets.length} companies in ${(durationMs / 1000).toFixed(1)}s`
-    );
 
     return {
-      totalCompanies: presets.length,
-      successfulCompanies,
-      failedCompanies,
-      totalJobsIngested,
+      totalCompanies: ALL_PRESET_COMPANIES.length,
+      successful,
+      failed,
+      totalJobsUpserted,
       results,
-      durationMs,
     };
-  }
-
-  async syncBatch(companies: { slug: string; provider: AtsProvider; name?: string }[]): Promise<SyncResult[]> {
-    const results: SyncResult[] = [];
-    for (const item of companies) {
-      const res = await this.syncCompanyJobs(item.slug, item.provider, item.name);
-      results.push(res);
-    }
-    return results;
   }
 }

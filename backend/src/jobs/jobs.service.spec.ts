@@ -75,8 +75,32 @@ describe('JobsService (Integration)', () => {
       expect(mockPrismaService.job.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
-            OR: expect.arrayContaining([
-              expect.objectContaining({ title: { contains: 'Rust', mode: 'insensitive' } }),
+            AND: expect.arrayContaining([
+              expect.objectContaining({
+                OR: expect.arrayContaining([
+                  expect.objectContaining({ title: { contains: 'Rust', mode: 'insensitive' } }),
+                ]),
+              }),
+            ]),
+          }),
+        }),
+      );
+    });
+
+    it('should apply LATAM USD Remote filter when latamUsdOnly is true using indexed flag', async () => {
+      mockPrismaService.job.findMany.mockResolvedValue([]);
+      mockPrismaService.job.count.mockResolvedValue(0);
+      mockPrismaService.job.groupBy.mockResolvedValue([]);
+
+      await service.findAll({ latamUsdOnly: true });
+
+      expect(mockPrismaService.job.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            AND: expect.arrayContaining([
+              expect.objectContaining({
+                isLatamEligible: true,
+              }),
             ]),
           }),
         }),

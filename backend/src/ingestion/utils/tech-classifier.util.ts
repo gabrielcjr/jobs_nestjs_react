@@ -91,7 +91,6 @@ export function inferSeniority(title: string): ExperienceLevel {
 
 export function inferRoleCategory(title: string): RoleCategory {
   const t = title.toLowerCase();
-  // Check management first so Engineering Manager - Platform is correctly classified
   if (/\b(engineering manager|director of engineering|vp of engineering|cto|head of engineering)\b/i.test(t)) {
     return RoleCategory.ENGINEERING_MANAGEMENT;
   }
@@ -113,13 +112,54 @@ export function inferWorkplaceType(locationStr: string = '', workplaceStr: strin
   return WorkplaceType.UNSPECIFIED;
 }
 
+/**
+ * Fast deterministic classifier for Latin America USD Remote eligibility.
+ */
+export function isLatamUsdEligible(
+  location: string = '',
+  description: string = '',
+  currency: string = 'USD',
+  workplace: WorkplaceType = WorkplaceType.REMOTE,
+): boolean {
+  if (workplace === WorkplaceType.ONSITE || workplace === WorkplaceType.HYBRID) {
+    return false;
+  }
+
+  if (currency && currency !== 'USD') {
+    return false;
+  }
+
+  const loc = location.toLowerCase();
+  const desc = description.toLowerCase();
+
+  // Strict Exclusions (US, UK, Canada, EMEA specific remote)
+  const isExcluded =
+    /\b(usa|united states|u\.s\.|us only|usa only|us remote|remote - us|remote - usa|remote, us|remote, usa|san francisco|new york|seattle|austin|chicago|california|texas|washington)\b/i.test(loc) ||
+    /\b(canada|toronto|vancouver|montreal|canada only)\b/i.test(loc) ||
+    /\b(london|united kingdom|uk remote|remote - uk|remote, uk|uk only|germany|berlin|france|paris|netherlands|amsterdam|emea only)\b/i.test(loc) ||
+    /must be located in the (us|united states|uk|canada)/i.test(desc) ||
+    /us citizenship required/i.test(desc) ||
+    /authorized to work in the us without sponsorship/i.test(desc) ||
+    /right to work in the uk/i.test(desc);
+
+  if (isExcluded) {
+    return false;
+  }
+
+  // Positive Eligibility (LATAM, Americas, Worldwide, Global, or Latin American countries)
+  const isIncluded =
+    /\b(latam|latin america|south america|brazil|brasil|argentina|colombia|mexico|chile|uruguay|peru|costa rica|americas|worldwide|global|anywhere)\b/i.test(loc) ||
+    /\b(latam|latin america|south america|brazil|argentina|colombia|mexico|worldwide remote|global remote|hire anywhere)\b/i.test(desc);
+
+  return isIncluded;
+}
+
 // Regex to strip standard legal entity and corporate suffixes
 export const LEGAL_SUFFIXES_REGEX = /\b(inc|llc|ltd|limited|corp|corporation|co|gmbh|bv|ab|sa|labs?|technologies|technology|software|group|holdings?)\b\.?/gi;
 
 export function cleanCompanyName(rawName: string): string {
   if (!rawName) return '';
   let cleaned = rawName.replace(LEGAL_SUFFIXES_REGEX, '').trim();
-  // Clean dangling separators/punctuation
   cleaned = cleaned.replace(/^[,\s\-_.]+|[,\s\-_.]+$/g, '').trim();
   return cleaned || rawName;
 }

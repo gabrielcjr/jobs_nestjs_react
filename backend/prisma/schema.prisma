@@ -71,6 +71,7 @@ model Job {
   roleCategory     RoleCategory    @default(OTHER)
   experienceLevel  ExperienceLevel @default(UNSPECIFIED)
   tags             String[]        // PostgreSQL text[]
+  isLatamEligible  Boolean         @default(false)
 
   // Location & Work Policy
   department       String?
@@ -101,6 +102,7 @@ model Job {
   @@index([atsProvider, isActive])
   @@index([roleCategory, experienceLevel])
   @@index([tags], type: Gin)
+  @@index([isLatamEligible, isActive])
   @@index([postedAt(sort: Desc)])
   @@index([firstSeenAt(sort: Desc)])
   @@index([location])

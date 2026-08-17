@@ -20,6 +20,11 @@ export interface PaginatedJobsResponse {
 
 @Injectable()
 export class JobsService {
+  // In-memory cache for facets (refreshed periodically, eliminates 8,000-row table scan on every button click)
+  private cachedFacets: any = null;
+  private lastFacetComputeTime: number = 0;
+  private readonly FACET_CACHE_TTL_MS = 60 * 1000; // 60s cache
+
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(query: GetJobsQueryDto): Promise<PaginatedJobsResponse> {
@@ -32,6 +37,7 @@ export class JobsService {
       atsProvider,
       datePosted,
       minSalary,
+      latamUsdOnly,
       sortBy = JobSortBy.POSTED_AT,
       sortOrder = SortOrder.DESC,
       page = 1,
@@ -39,69 +45,73 @@ export class JobsService {
       companySlug,
     } = query;
 
-    const where: Prisma.JobWhereInput = {
-      isActive: true,
-    };
+    const andConditions: Prisma.JobWhereInput[] = [
+      { isActive: true },
+    ];
 
     // 1. Search Query (title, description, department, company name)
     if (search && search.trim()) {
       const term = search.trim();
-      where.OR = [
-        { title: { contains: term, mode: 'insensitive' } },
-        { description: { contains: term, mode: 'insensitive' } },
-        { department: { contains: term, mode: 'insensitive' } },
-        { location: { contains: term, mode: 'insensitive' } },
-        { company: { name: { contains: term, mode: 'insensitive' } } },
-      ];
+      andConditions.push({
+        OR: [
+          { title: { contains: term, mode: 'insensitive' } },
+          { description: { contains: term, mode: 'insensitive' } },
+          { department: { contains: term, mode: 'insensitive' } },
+          { location: { contains: term, mode: 'insensitive' } },
+          { company: { name: { contains: term, mode: 'insensitive' } } },
+        ],
+      });
     }
 
     // 2. Role Category Filter (single or array)
     if (roleCategory) {
       if (Array.isArray(roleCategory) && roleCategory.length > 0) {
-        where.roleCategory = { in: roleCategory };
+        andConditions.push({ roleCategory: { in: roleCategory } });
       } else if (typeof roleCategory === 'string') {
-        where.roleCategory = roleCategory;
+        andConditions.push({ roleCategory });
       }
     }
 
     // 3. Experience Level Filter (single or array)
     if (experienceLevel) {
       if (Array.isArray(experienceLevel) && experienceLevel.length > 0) {
-        where.experienceLevel = { in: experienceLevel };
+        andConditions.push({ experienceLevel: { in: experienceLevel } });
       } else if (typeof experienceLevel === 'string') {
-        where.experienceLevel = experienceLevel;
+        andConditions.push({ experienceLevel });
       }
     }
 
     // 4. Tech Tags Filter (GIN indexed array hasSome / hasEvery)
     if (tags && tags.length > 0) {
       const tagList = Array.isArray(tags) ? tags : [tags];
-      where.tags = {
-        hasSome: tagList,
-      };
+      andConditions.push({
+        tags: {
+          hasSome: tagList,
+        },
+      });
     }
 
     // 5. Workplace Type Filter
     if (workplaceType) {
       if (Array.isArray(workplaceType) && workplaceType.length > 0) {
-        where.workplaceType = { in: workplaceType };
+        andConditions.push({ workplaceType: { in: workplaceType } });
       } else if (typeof workplaceType === 'string') {
-        where.workplaceType = workplaceType;
+        andConditions.push({ workplaceType });
       }
     }
 
     // 6. ATS Provider Filter
     if (atsProvider) {
       if (Array.isArray(atsProvider) && atsProvider.length > 0) {
-        where.atsProvider = { in: atsProvider };
+        andConditions.push({ atsProvider: { in: atsProvider } });
       } else if (typeof atsProvider === 'string') {
-        where.atsProvider = atsProvider;
+        andConditions.push({ atsProvider });
       }
     }
 
     // 7. Company Slug Filter
     if (companySlug) {
-      where.company = { slug: companySlug.toLowerCase() };
+      andConditions.push({ company: { slug: companySlug.toLowerCase() } });
     }
 
     // 8. Date Posted Preset Windows
@@ -118,20 +128,33 @@ export class JobsService {
       }
 
       if (threshold) {
-        where.OR = [
-          { postedAt: { gte: threshold } },
-          { firstSeenAt: { gte: threshold } },
-        ];
+        andConditions.push({
+          OR: [
+            { postedAt: { gte: threshold } },
+            { firstSeenAt: { gte: threshold } },
+          ],
+        });
       }
     }
 
     // 9. Minimum Salary Filter
     if (minSalary !== undefined && minSalary > 0) {
-      where.OR = [
-        { minSalary: { gte: minSalary } },
-        { maxSalary: { gte: minSalary } },
-      ];
+      andConditions.push({
+        OR: [
+          { minSalary: { gte: minSalary } },
+          { maxSalary: { gte: minSalary } },
+        ],
+      });
     }
+
+    // 10. Dedicated LATAM USD Remote Only Filter (Instant indexed boolean check)
+    if (latamUsdOnly) {
+      andConditions.push({
+        isLatamEligible: true,
+      });
+    }
+
+    const where: Prisma.JobWhereInput = andConditions.length > 1 ? { AND: andConditions } : andConditions[0];
 
     // Sorting
     const orderBy: Prisma.JobOrderByWithRelationInput = {};
@@ -143,8 +166,6 @@ export class JobsService {
       orderBy.minSalary = sortOrder;
     } else if (sortBy === JobSortBy.TITLE) {
       orderBy.title = sortOrder;
-    } else {
-      orderBy.postedAt = 'desc';
     }
 
     const skip = (page - 1) * limit;
@@ -153,7 +174,22 @@ export class JobsService {
       this.prisma.job.count({ where }),
       this.prisma.job.findMany({
         where,
-        include: {
+        select: {
+          id: true,
+          externalJobId: true,
+          atsProvider: true,
+          title: true,
+          slug: true,
+          department: true,
+          location: true,
+          workplaceType: true,
+          tags: true,
+          minSalary: true,
+          maxSalary: true,
+          currency: true,
+          salarySummary: true,
+          postedAt: true,
+          firstSeenAt: true,
           company: {
             select: {
               id: true,
@@ -169,7 +205,7 @@ export class JobsService {
         skip,
         take: limit,
       }),
-      this.computeFacets(where),
+      this.getFastFacets(),
     ]);
 
     const totalPages = Math.ceil(totalCount / limit) || 1;
@@ -202,28 +238,27 @@ export class JobsService {
     return job;
   }
 
-  async getTopTags(limit: number = 30): Promise<{ name: string; count: number }[]> {
-    const jobs = await this.prisma.job.findMany({
-      where: { isActive: true },
-      select: { tags: true },
-    });
-
-    const tagCounts = new Map<string, number>();
-    for (const j of jobs) {
-      for (const t of j.tags) {
-        tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
-      }
-    }
-
-    return Array.from(tagCounts.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, limit);
+  async getTopTags(limit: number = 20): Promise<{ name: string; count: number }[]> {
+    const facets = await this.getFastFacets();
+    return facets.topTags.slice(0, limit);
   }
 
-  private async computeFacets(currentWhere: Prisma.JobWhereInput) {
-    // Base active count for facets
-    const [allRoleGroups, allExpGroups, allWorkplaceGroups, allAtsGroups, allJobsTags] = await Promise.all([
+  /**
+   * High performance cached facet computer.
+   */
+  private async getFastFacets() {
+    const now = Date.now();
+    if (this.cachedFacets && now - this.lastFacetComputeTime < this.FACET_CACHE_TTL_MS) {
+      return this.cachedFacets;
+    }
+
+    const [
+      allRoleGroups,
+      allExpGroups,
+      allWorkplaceGroups,
+      allAtsGroups,
+      allJobsTags,
+    ] = await Promise.all([
       this.prisma.job.groupBy({
         by: ['roleCategory'],
         where: { isActive: true },
@@ -282,12 +317,15 @@ export class JobsService {
       .sort((a, b) => b.count - a.count)
       .slice(0, 20);
 
-    return {
+    this.cachedFacets = {
       roleCategoryCounts,
       experienceLevelCounts,
       workplaceTypeCounts,
       atsProviderCounts,
       topTags,
     };
+    this.lastFacetComputeTime = now;
+
+    return this.cachedFacets;
   }
 }

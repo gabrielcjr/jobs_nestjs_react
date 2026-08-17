@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsBoolean, IsEnum, IsInt, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { AtsProvider, ExperienceLevel, RoleCategory, WorkplaceType } from '@prisma/client';
 
@@ -65,6 +65,11 @@ export class GetJobsQueryDto {
   @IsNumber()
   @Min(0)
   minSalary?: number;
+
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true || value === '1' || value === 1)
+  @IsBoolean()
+  latamUsdOnly?: boolean;
 
   @IsOptional()
   @IsEnum(JobSortBy)
