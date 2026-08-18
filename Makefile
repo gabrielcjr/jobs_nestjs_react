@@ -62,8 +62,17 @@ docker-logs: ## View and tail Docker Compose logs
 docker-db: ## Start only PostgreSQL database container
 	docker compose up -d postgres
 
-db-push: ## Synchronize Prisma schema with PostgreSQL database
+db-push: ## Synchronize Prisma schema directly with PostgreSQL database (prototype mode)
 	cd backend && npx prisma db push
+
+db-migrate: ## Create and apply versioned Prisma migration in development
+	cd backend && npx prisma migrate dev
+
+db-migrate-deploy: ## Apply pending Prisma migrations in production / CI
+	cd backend && npx prisma migrate deploy
+
+db-migrate-status: ## Check status of Prisma migrations
+	cd backend && npx prisma migrate status
 
 db-seed: ## Run database seed script
 	cd backend && npm run prisma:seed
