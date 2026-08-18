@@ -5,8 +5,7 @@ import { AtsAdapter } from './interfaces/ats-adapter.interface';
 import { GreenhouseAdapter } from './adapters/greenhouse.adapter';
 import { LeverAdapter } from './adapters/lever.adapter';
 import { AshbyAdapter } from './adapters/ashby.adapter';
-import { WorkableAdapter } from './adapters/workable.adapter';
-import { SmartrecruitersAdapter } from './adapters/smartrecruiters.adapter';
+import { SmartRecruitersAdapter } from './adapters/smartrecruiters.adapter';
 import { cleanCompanyName, isLatamUsdEligible } from './utils/tech-classifier.util';
 import slugify from 'slugify';
 
@@ -99,13 +98,11 @@ export class IngestionService {
     greenhouse: GreenhouseAdapter,
     lever: LeverAdapter,
     ashby: AshbyAdapter,
-    workable: WorkableAdapter,
-    smartrecruiters: SmartrecruitersAdapter,
+    smartrecruiters: SmartRecruitersAdapter,
   ) {
     this.adapters.set(AtsProvider.GREENHOUSE, greenhouse);
     this.adapters.set(AtsProvider.LEVER, lever);
     this.adapters.set(AtsProvider.ASHBY, ashby);
-    this.adapters.set(AtsProvider.WORKABLE, workable);
     this.adapters.set(AtsProvider.SMARTRECRUITERS, smartrecruiters);
   }
 
@@ -125,11 +122,6 @@ export class IngestionService {
         provider: AtsProvider.ASHBY,
         name: 'Ashby',
         description: 'Job Board API (`api.ashbyhq.com/posting-api/job-board/{slug}`)',
-      },
-      {
-        provider: AtsProvider.WORKABLE,
-        name: 'Workable',
-        description: 'Widget API (`apply.workable.com/api/v1/widget/accounts/{slug}`)',
       },
       {
         provider: AtsProvider.SMARTRECRUITERS,

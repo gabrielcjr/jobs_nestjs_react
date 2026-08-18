@@ -42,7 +42,7 @@ const SEED_COMPANIES = [
   {
     name: 'Pleo',
     slug: 'pleo',
-    atsProvider: AtsProvider.WORKABLE,
+    atsProvider: AtsProvider.SMARTRECRUITERS,
     websiteUrl: 'https://pleo.io',
     logoUrl: 'https://pleo.io/favicon.ico',
   },
@@ -273,7 +273,7 @@ const SEED_JOBS = [
   },
   {
     companySlug: 'pleo',
-    externalJobId: 'ple-work-006',
+    externalJobId: 'ple-sr-006',
     title: 'Backend Engineer, Fintech Core Banking',
     department: 'Financial Infrastructure',
     location: 'Copenhagen, Denmark / London, UK / Remote',
@@ -285,7 +285,7 @@ const SEED_JOBS = [
     maxSalary: 130000,
     currency: 'EUR',
     salarySummary: '€95,000 - €130,000 EUR',
-    applyUrl: 'https://apply.workable.com/pleo/j/ple-work-006/',
+    applyUrl: 'https://jobs.smartrecruiters.com/pleo/ple-sr-006',
     hoursAgo: 50,
     description: `
 <h3>About Pleo</h3>

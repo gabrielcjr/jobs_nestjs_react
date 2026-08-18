@@ -240,7 +240,6 @@ export class AtsDiscoveryService {
       AtsProvider.GREENHOUSE,
       AtsProvider.ASHBY,
       AtsProvider.LEVER,
-      AtsProvider.WORKABLE,
       AtsProvider.SMARTRECRUITERS,
     ];
 
@@ -407,11 +406,6 @@ export class AtsDiscoveryService {
       case AtsProvider.ASHBY:
         return {
           url: `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(slug)}`,
-          extractor: (d: any) => d?.jobs || [],
-        };
-      case AtsProvider.WORKABLE:
-        return {
-          url: `https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(slug)}`,
           extractor: (d: any) => d?.jobs || [],
         };
       case AtsProvider.SMARTRECRUITERS:

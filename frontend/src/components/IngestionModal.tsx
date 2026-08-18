@@ -85,7 +85,7 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({ isOpen, onClose 
             <div>
               <h3 className="text-base font-bold text-white">Automated Multi-ATS Discovery Engine</h3>
               <p className="text-[11px] text-slate-400">
-                Background candidate slug prober across 629 companies on Greenhouse, Ashby, Lever, Workable & SmartRecruiters
+                Background candidate slug prober across 629 companies on Greenhouse, Ashby, Lever & SmartRecruiters
               </p>
             </div>
           </div>
@@ -143,7 +143,7 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({ isOpen, onClose 
                 </div>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Probes each company name & slug against Greenhouse, Lever, Ashby, Workable, and SmartRecruiters with candidate slug variations, keeping whatever answers with real postings.
+                  Probes each company name & slug against Greenhouse, Lever, Ashby, and SmartRecruiters with candidate slug variations, keeping whatever answers with real postings.
                 </p>
 
                 {/* Filters Row */}
@@ -377,7 +377,7 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({ isOpen, onClose 
                       <div>
                         <p className="font-semibold">No active public ATS board found</p>
                         <p className="text-[11px] text-slate-400 mt-0.5">
-                          Tested candidate slug variations across Greenhouse, Lever, Ashby, Workable, and SmartRecruiters.
+                          Tested candidate slug variations across Greenhouse, Lever, Ashby, and SmartRecruiters.
                         </p>
                       </div>
                     </div>

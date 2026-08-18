@@ -45,11 +45,10 @@ describe('Frontend Formatters & Presentation Helpers', () => {
   });
 
   describe('getAtsBadgeStyles', () => {
-    it('should provide distinct styling for all 5 ATS platforms', () => {
+    it('should provide distinct styling for all 4 ATS platforms', () => {
       expect(getAtsBadgeStyles('GREENHOUSE').label).toBe('Greenhouse');
       expect(getAtsBadgeStyles('LEVER').label).toBe('Lever');
       expect(getAtsBadgeStyles('ASHBY').label).toBe('Ashby');
-      expect(getAtsBadgeStyles('WORKABLE').label).toBe('Workable');
       expect(getAtsBadgeStyles('SMARTRECRUITERS').label).toBe('SmartRecruiters');
     });
   });
