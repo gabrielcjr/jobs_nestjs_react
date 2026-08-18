@@ -80,13 +80,6 @@ export function getAtsBadgeStyles(provider: AtsProvider): { bg: string; text: st
         border: 'border-purple-700/50',
         label: 'Ashby',
       };
-    case 'SMARTRECRUITERS':
-      return {
-        bg: 'bg-blue-950/60',
-        text: 'text-blue-400',
-        border: 'border-blue-700/50',
-        label: 'SmartRecruiters',
-      };
     default:
       return {
         bg: 'bg-slate-800',

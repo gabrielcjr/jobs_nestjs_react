@@ -35,7 +35,6 @@ export default {
           greenhouse: '#22c55e',
           lever: '#f59e0b',
           ashby: '#a855f7',
-          smartrecruiters: '#3b82f6',
         }
       },
       fontFamily: {

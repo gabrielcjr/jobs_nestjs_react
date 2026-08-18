@@ -23,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSyncModal, totalJobsCount 
               </span>
             </div>
             <p className="text-xs text-slate-400 hidden sm:block">
-              Dynamic Multi-ATS Prober • Greenhouse, Ashby, Lever, SmartRecruiters
+              Dynamic Multi-ATS Prober • Greenhouse, Ashby, Lever
             </p>
           </div>
         </div>

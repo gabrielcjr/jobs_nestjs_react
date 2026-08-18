@@ -1,4 +1,4 @@
-export type AtsProvider = 'GREENHOUSE' | 'LEVER' | 'ASHBY' | 'SMARTRECRUITERS';
+export type AtsProvider = 'GREENHOUSE' | 'LEVER' | 'ASHBY';
 
 export type WorkplaceType = 'REMOTE' | 'HYBRID' | 'ONSITE' | 'UNSPECIFIED';
 

@@ -12,11 +12,10 @@ A high-performance, developer-focused Software Engineering Job Board and Multi-A
   - Strips corporate & legal suffixes (`Inc`, `LLC`, `Ltd`, `GmbH`, `Labs`, `Technologies`, `Software`, `Holdings`, etc.).
   - Generates candidate slug variations (known ATS slug, explicit slug, condensed, hyphenated, stripped-condensed, first-word).
 - **Multi-ATS Prober**:
-  - Concurrently probes **4 public ATS platforms** without requiring API keys:
+  - Concurrently probes **3 public ATS platforms** without requiring API keys:
     - **Greenhouse**: `https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true`
     - **Lever**: `https://api.lever.co/v0/postings/{slug}?mode=json`
     - **Ashby**: `https://api.ashbyhq.com/posting-api/job-board/{slug}`
-    - **SmartRecruiters**: `https://api.smartrecruiters.com/v1/companies/{slug}/postings`
   - Validates live responses (`HTTP 200` + `jobs.length > 0`) and captures the first confirmed live board.
 - **Asynchronous Background Processing & Live Progress Streaming**:
   - Probes 600+ companies non-blocking in background workers (`POST /api/v1/ingest/start-csv-discovery`).

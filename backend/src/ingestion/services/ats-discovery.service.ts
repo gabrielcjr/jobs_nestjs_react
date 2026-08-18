@@ -240,7 +240,6 @@ export class AtsDiscoveryService {
       AtsProvider.GREENHOUSE,
       AtsProvider.ASHBY,
       AtsProvider.LEVER,
-      AtsProvider.SMARTRECRUITERS,
     ];
 
     let testedCount = 0;
@@ -407,11 +406,6 @@ export class AtsDiscoveryService {
         return {
           url: `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(slug)}`,
           extractor: (d: any) => d?.jobs || [],
-        };
-      case AtsProvider.SMARTRECRUITERS:
-        return {
-          url: `https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(slug)}/postings`,
-          extractor: (d: any) => d?.content || [],
         };
       default:
         return null;

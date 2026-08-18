@@ -42,14 +42,14 @@ const SEED_COMPANIES = [
   {
     name: 'Pleo',
     slug: 'pleo',
-    atsProvider: AtsProvider.SMARTRECRUITERS,
+    atsProvider: AtsProvider.LEVER,
     websiteUrl: 'https://pleo.io',
     logoUrl: 'https://pleo.io/favicon.ico',
   },
   {
     name: 'Square / Block',
     slug: 'square',
-    atsProvider: AtsProvider.SMARTRECRUITERS,
+    atsProvider: AtsProvider.GREENHOUSE,
     websiteUrl: 'https://squareup.com',
     logoUrl: 'https://squareup.com/favicon.ico',
   },
@@ -285,7 +285,7 @@ const SEED_JOBS = [
     maxSalary: 130000,
     currency: 'EUR',
     salarySummary: '€95,000 - €130,000 EUR',
-    applyUrl: 'https://jobs.smartrecruiters.com/pleo/ple-sr-006',
+    applyUrl: 'https://jobs.lever.co/pleo/ple-lev-006',
     hoursAgo: 50,
     description: `
 <h3>About Pleo</h3>
@@ -301,7 +301,7 @@ const SEED_JOBS = [
   },
   {
     companySlug: 'square',
-    externalJobId: 'sq-sr-007',
+    externalJobId: 'sq-gh-007',
     title: 'Mobile Security Engineer, iOS & Android',
     department: 'AppSec Engineering',
     location: 'San Francisco, CA / Remote',
@@ -313,7 +313,7 @@ const SEED_JOBS = [
     maxSalary: 240000,
     currency: 'USD',
     salarySummary: '$185,000 - $240,000 USD',
-    applyUrl: 'https://jobs.smartrecruiters.com/square/sq-sr-007',
+    applyUrl: 'https://boards.greenhouse.io/square/jobs/sq-gh-007',
     hoursAgo: 60,
     description: `
 <h3>About the Team</h3>

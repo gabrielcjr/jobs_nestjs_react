@@ -5,7 +5,6 @@ import { AtsDiscoveryService } from './services/ats-discovery.service';
 import { GreenhouseAdapter } from './adapters/greenhouse.adapter';
 import { LeverAdapter } from './adapters/lever.adapter';
 import { AshbyAdapter } from './adapters/ashby.adapter';
-import { SmartRecruitersAdapter } from './adapters/smartrecruiters.adapter';
 
 @Module({
   controllers: [IngestionController],
@@ -15,7 +14,6 @@ import { SmartRecruitersAdapter } from './adapters/smartrecruiters.adapter';
     GreenhouseAdapter,
     LeverAdapter,
     AshbyAdapter,
-    SmartRecruitersAdapter,
   ],
   exports: [IngestionService, AtsDiscoveryService],
 })
