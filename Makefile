@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-backend dev-frontend test test-backend test-frontend test-e2e build build-backend build-frontend docker-up docker-down docker-logs docker-db db-push db-seed db-studio clean ci
+.PHONY: help install dev dev-backend dev-frontend test test-backend test-frontend test-e2e build build-backend build-frontend docker-up docker-down docker-logs docker-db db-push db-seed db-studio clean ci prune-stale prune-stale-dry
 
 # Default goal
 .DEFAULT_GOAL := help
@@ -15,6 +15,13 @@ ci: build test ## Run full CI pipeline verification locally (Builds, Tests, and 
 	cd backend && npx prisma validate
 	cd backend && npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > /dev/null
 	@echo "✅ All local CI quality gates and backward-compatibility checks passed!"
+
+prune-stale: ## Run automated stale job pruning (soft delete jobs >45 days old)
+	@./cron_prune_stale_jobs.sh 45 false
+
+prune-stale-dry: ## Run dry-run audit of stale jobs (>45 days old) without modifying database
+	@./cron_prune_stale_jobs.sh 45 true
+
 
 
 
