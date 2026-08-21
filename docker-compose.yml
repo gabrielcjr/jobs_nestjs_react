@@ -20,7 +20,23 @@ services:
     networks:
       - jobs_network
 
-  # 2. NestJS Fastify Backend & Multi-ATS Ingestion Engine
+  # 2. Redis 7 In-Memory Cache & Distributed Rate Limiter
+  redis:
+    image: redis:7-alpine
+    container_name: jobs_ats_redis
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - jobs_network
+
+  # 3. NestJS Fastify Backend & Multi-ATS Ingestion Engine
   backend:
     build:
       context: ./backend
@@ -29,6 +45,8 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: "postgresql://postgres:postgrespassword@postgres:5432/jobs_db?schema=public"
+      REDIS_HOST: "redis"
+      REDIS_PORT: 6379
       PORT: 3001
       HOST: "0.0.0.0"
       NODE_ENV: production
@@ -37,10 +55,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - jobs_network
 
-  # 3. React 19 Frontend Web UI (Nginx reverse proxy)
+  # 4. React 19 Frontend Web UI (Nginx reverse proxy)
   frontend:
     build:
       context: ./frontend
@@ -60,3 +80,4 @@ volumes:
 networks:
   jobs_network:
     driver: bridge
+
