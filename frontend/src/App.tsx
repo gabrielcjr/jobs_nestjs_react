@@ -6,6 +6,7 @@ import { FilterBar } from './components/FilterBar';
 import { JobList } from './components/JobList';
 import { JobDetail } from './components/JobDetail';
 import { IngestionModal } from './components/IngestionModal';
+import { AnalyticsModal } from './components/AnalyticsModal';
 import { useJobs, useTopTags } from './hooks/useJobs';
 import { useDebounce } from './hooks/useDebounce';
 import { useBookmarks } from './hooks/useBookmarks';
@@ -31,7 +32,9 @@ export const App: React.FC = () => {
   const [filters, setFilters] = useState<JobFilters>(INITIAL_FILTERS);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
+  const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
   const [showSavedOnly, setShowSavedOnly] = useState(false);
+
 
   // Bookmarks and viewed state engine
   const {
@@ -133,8 +136,10 @@ export const App: React.FC = () => {
       {/* Top Navbar */}
       <Navbar
         onOpenSyncModal={() => setIsSyncModalOpen(true)}
+        onOpenAnalyticsModal={() => setIsAnalyticsOpen(true)}
         totalJobsCount={totalCount}
       />
+
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-5 flex flex-col gap-4">
@@ -206,8 +211,15 @@ export const App: React.FC = () => {
         isOpen={isSyncModalOpen}
         onClose={() => setIsSyncModalOpen(false)}
       />
+
+      {/* Market Analytics Modal */}
+      <AnalyticsModal
+        isOpen={isAnalyticsOpen}
+        onClose={() => setIsAnalyticsOpen(false)}
+      />
     </div>
   );
 };
+
 
 export default App;

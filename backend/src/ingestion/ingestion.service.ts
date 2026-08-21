@@ -233,10 +233,12 @@ export class IngestionService {
         upsertedCount++;
       }
 
-      // Invalidate cached jobs and facets if new jobs were upserted
+      // Invalidate cached jobs, facets, and analytics if new jobs were upserted
       if (upsertedCount > 0 && this.redisCacheService) {
         await this.redisCacheService.invalidatePattern('devats:cache:jobs:*');
+        await this.redisCacheService.invalidatePattern('devats:cache:analytics:*');
       }
+
 
       return {
         companySlug: cleanSlug,
