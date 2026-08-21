@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "devats-postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgrespassword@127.0.0.1:5435/jobs_db?schema=public"
+      ]
+    }
+  }
+}
