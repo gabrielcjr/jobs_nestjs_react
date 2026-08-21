@@ -46,7 +46,16 @@ describe('LocalhostOnlyGuard', () => {
     expect(guard.canActivate(ctx)).toBe(true);
   });
 
-  it('should throw 403 Forbidden for external direct IP', () => {
+  it('should allow request originating from Docker bridge gateway (172.20.0.1)', () => {
+    const ctx = createMockContext({
+      ip: '172.20.0.1',
+      headers: {},
+    });
+
+    expect(guard.canActivate(ctx)).toBe(true);
+  });
+
+  it('should throw 403 Forbidden for external public direct IP', () => {
     const ctx = createMockContext({
       ip: '198.51.100.42',
       headers: {},
@@ -61,7 +70,7 @@ describe('LocalhostOnlyGuard', () => {
     }
   });
 
-  it('should throw 403 Forbidden if x-forwarded-for contains an external IP', () => {
+  it('should throw 403 Forbidden if x-forwarded-for contains an external public IP', () => {
     const ctx = createMockContext({
       ip: '127.0.0.1',
       headers: {
