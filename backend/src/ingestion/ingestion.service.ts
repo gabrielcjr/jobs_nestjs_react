@@ -1,6 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Optional } from '@nestjs/common';
 import { AtsProvider, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { RedisCacheService } from '../redis/redis-cache.service';
 import { AtsAdapter } from './interfaces/ats-adapter.interface';
 import { GreenhouseAdapter } from './adapters/greenhouse.adapter';
 import { LeverAdapter } from './adapters/lever.adapter';
@@ -69,22 +70,19 @@ export const ALL_PRESET_COMPANIES: { slug: string; provider: AtsProvider; name: 
   { slug: 'box', provider: AtsProvider.LEVER, name: 'Box' },
 
   // Ashby
-  { slug: 'openai', provider: AtsProvider.ASHBY, name: 'OpenAI' },
-  { slug: 'anthropic', provider: AtsProvider.ASHBY, name: 'Anthropic' },
   { slug: 'linear', provider: AtsProvider.ASHBY, name: 'Linear' },
-  { slug: 'replit', provider: AtsProvider.ASHBY, name: 'Replit' },
+  { slug: 'retool', provider: AtsProvider.ASHBY, name: 'Retool' },
+  { slug: 'notion', provider: AtsProvider.ASHBY, name: 'Notion' },
+  { slug: 'anthropic', provider: AtsProvider.ASHBY, name: 'Anthropic' },
+  { slug: 'openai', provider: AtsProvider.ASHBY, name: 'OpenAI' },
+  { slug: 'scale', provider: AtsProvider.ASHBY, name: 'Scale AI' },
+  { slug: 'per-plexity', provider: AtsProvider.ASHBY, name: 'Perplexity' },
   { slug: 'cursor', provider: AtsProvider.ASHBY, name: 'Cursor' },
-  { slug: 'resend', provider: AtsProvider.ASHBY, name: 'Resend' },
-  { slug: 'vapi', provider: AtsProvider.ASHBY, name: 'Vapi' },
-  { slug: 'perplexity', provider: AtsProvider.ASHBY, name: 'Perplexity' },
   { slug: 'posthog', provider: AtsProvider.ASHBY, name: 'PostHog' },
   { slug: 'clerk', provider: AtsProvider.ASHBY, name: 'Clerk' },
   { slug: 'supabase', provider: AtsProvider.ASHBY, name: 'Supabase' },
   { slug: 'modal', provider: AtsProvider.ASHBY, name: 'Modal' },
   { slug: 'fal', provider: AtsProvider.ASHBY, name: 'Fal' },
-  { slug: 'mistral', provider: AtsProvider.ASHBY, name: 'Mistral' },
-  { slug: 'together-ai', provider: AtsProvider.ASHBY, name: 'Together AI' },
-  { slug: 'elevenlabs', provider: AtsProvider.ASHBY, name: 'ElevenLabs' },
 ];
 
 @Injectable()
@@ -97,6 +95,7 @@ export class IngestionService {
     greenhouse: GreenhouseAdapter,
     lever: LeverAdapter,
     ashby: AshbyAdapter,
+    @Optional() private readonly redisCacheService?: RedisCacheService,
   ) {
     this.adapters.set(AtsProvider.GREENHOUSE, greenhouse);
     this.adapters.set(AtsProvider.LEVER, lever);
@@ -232,6 +231,11 @@ export class IngestionService {
           },
         });
         upsertedCount++;
+      }
+
+      // Invalidate cached jobs and facets if new jobs were upserted
+      if (upsertedCount > 0 && this.redisCacheService) {
+        await this.redisCacheService.invalidatePattern('devats:cache:jobs:*');
       }
 
       return {
