@@ -48,11 +48,20 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     });
 
     // Attempt initial non-blocking connection
-    this.client.connect().catch((err) => {
+    try {
+      const connectPromise = this.client.connect?.();
+      if (connectPromise && typeof connectPromise.catch === 'function') {
+        connectPromise.catch((err) => {
+          this.isConnected = false;
+          this.logger.warn(`Initial Redis connection failed: ${err.message}. Fail-open mode active.`);
+        });
+      }
+    } catch (err: any) {
       this.isConnected = false;
-      this.logger.warn(`Initial Redis connection failed: ${err.message}. Fail-open mode active.`);
-    });
+      this.logger.warn(`Initial Redis connect call failed: ${err.message}. Fail-open mode active.`);
+    }
   }
+
 
   async onModuleDestroy() {
     if (this.client) {
