@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JobsService } from './jobs.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { RedisCacheService } from '../redis/redis-cache.service';
 import { RoleCategory, ExperienceLevel, WorkplaceType, AtsProvider } from '@prisma/client';
 
 describe('JobsService (Integration)', () => {
   let service: JobsService;
   let prisma: PrismaService;
+  let redisCacheService: RedisCacheService;
 
   const mockPrismaService = {
     job: {
@@ -13,8 +15,13 @@ describe('JobsService (Integration)', () => {
       count: jest.fn(),
       findFirst: jest.fn(),
       groupBy: jest.fn(),
+      updateMany: jest.fn(),
     },
     $queryRaw: jest.fn(),
+  };
+
+  const mockRedisCacheService = {
+    invalidatePattern: jest.fn().mockResolvedValue(1),
   };
 
   beforeEach(async () => {
@@ -22,11 +29,13 @@ describe('JobsService (Integration)', () => {
       providers: [
         JobsService,
         { provide: PrismaService, useValue: mockPrismaService },
+        { provide: RedisCacheService, useValue: mockRedisCacheService },
       ],
     }).compile();
 
     service = module.get<JobsService>(JobsService);
     prisma = module.get<PrismaService>(PrismaService);
+    redisCacheService = module.get<RedisCacheService>(RedisCacheService);
   });
 
   afterEach(() => {
@@ -122,6 +131,57 @@ describe('JobsService (Integration)', () => {
         },
         include: { company: true },
       });
+    });
+  });
+
+  describe('pruneStaleJobs', () => {
+    it('should perform dry-run audit without updating records', async () => {
+      mockPrismaService.job.count.mockResolvedValue(15);
+
+      const result = await service.pruneStaleJobs({ days: 45, dryRun: true });
+
+      expect(result.dryRun).toBe(true);
+      expect(result.deactivatedCount).toBe(15);
+      expect(result.daysThreshold).toBe(45);
+      expect(mockPrismaService.job.count).toHaveBeenCalledWith({
+        where: {
+          firstSeenAt: { lt: expect.any(Date) },
+          isActive: true,
+        },
+      });
+      expect(mockPrismaService.job.updateMany).not.toHaveBeenCalled();
+      expect(mockRedisCacheService.invalidatePattern).not.toHaveBeenCalled();
+    });
+
+    it('should soft-delete stale jobs (>45 days since firstSeenAt) and invalidate Redis caches', async () => {
+      mockPrismaService.job.updateMany.mockResolvedValue({ count: 28 });
+
+      const result = await service.pruneStaleJobs({ days: 45, dryRun: false });
+
+      expect(result.dryRun).toBe(false);
+      expect(result.deactivatedCount).toBe(28);
+      expect(result.daysThreshold).toBe(45);
+      expect(mockPrismaService.job.updateMany).toHaveBeenCalledWith({
+        where: {
+          firstSeenAt: { lt: expect.any(Date) },
+          isActive: true,
+        },
+        data: {
+          isActive: false,
+        },
+      });
+      expect(mockRedisCacheService.invalidatePattern).toHaveBeenCalledWith('devats:cache:jobs:*');
+      expect(mockRedisCacheService.invalidatePattern).toHaveBeenCalledWith('devats:cache:analytics:*');
+    });
+
+    it('should handle custom retention threshold (e.g. 30 days)', async () => {
+      mockPrismaService.job.updateMany.mockResolvedValue({ count: 5 });
+
+      const result = await service.pruneStaleJobs({ days: 30 });
+
+      expect(result.daysThreshold).toBe(30);
+      expect(result.deactivatedCount).toBe(5);
+      expect(mockPrismaService.job.updateMany).toHaveBeenCalled();
     });
   });
 });

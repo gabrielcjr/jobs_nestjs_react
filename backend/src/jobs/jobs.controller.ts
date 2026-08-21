@@ -1,8 +1,22 @@
-import { Controller, Get, Param, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { GetJobsQueryDto } from './dto/get-jobs-query.dto';
+import { PruneJobsDto, PruneJobsResponse } from './dto/prune-jobs.dto';
 import { RedisCacheService } from '../redis/redis-cache.service';
 import { RedisRateLimiterGuard } from '../redis/guards/redis-rate-limiter.guard';
+import { LocalhostOnlyGuard } from '../common/guards/localhost-only.guard';
 import { RateLimit } from '../redis/decorators/rate-limit.decorator';
 
 @Controller('api/v1/jobs')
@@ -49,5 +63,18 @@ export class JobsController {
       };
     });
   }
-}
 
+  @Post('prune')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalhostOnlyGuard)
+  @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'jobs:prune' })
+  async pruneStaleJobs(@Body() body: PruneJobsDto): Promise<PruneJobsResponse> {
+    const data = await this.jobsService.pruneStaleJobs(body);
+    const action = data.dryRun ? 'Audited' : 'Pruned';
+    return {
+      success: true,
+      message: `${action} stale job postings (threshold: ${data.daysThreshold} days, deactivated: ${data.deactivatedCount})`,
+      data,
+    };
+  }
+}

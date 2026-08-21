@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { Prisma, RoleCategory, ExperienceLevel, WorkplaceType, AtsProvider } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { RedisCacheService } from '../redis/redis-cache.service';
 import { GetJobsQueryDto, DatePostedWindow, JobSortBy, SortOrder } from './dto/get-jobs-query.dto';
+import { PruneJobsDto, PruneJobsResponse } from './dto/prune-jobs.dto';
 
 export interface PaginatedJobsResponse {
   jobs: any[];
@@ -20,12 +22,17 @@ export interface PaginatedJobsResponse {
 
 @Injectable()
 export class JobsService {
+  private readonly logger = new Logger(JobsService.name);
+
   // In-memory cache for facets (refreshed periodically, eliminates 8,000-row table scan on every button click)
   private cachedFacets: any = null;
   private lastFacetComputeTime: number = 0;
   private readonly FACET_CACHE_TTL_MS = 60 * 1000; // 60s cache
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Optional() private readonly redisCacheService?: RedisCacheService,
+  ) {}
 
   async findAll(query: GetJobsQueryDto): Promise<PaginatedJobsResponse> {
     const {
@@ -332,4 +339,78 @@ export class JobsService {
 
     return this.cachedFacets;
   }
+
+  /**
+   * Soft-delete stale job postings that were first ingested more than the specified number of days ago.
+   * Updates isActive to false, preserving records for Market Analytics while excluding them from active search.
+   */
+  async pruneStaleJobs(dto: PruneJobsDto = {}): Promise<PruneJobsResponse['data']> {
+    const startTime = Date.now();
+    const days = dto.days && dto.days > 0 ? dto.days : 45;
+    const dryRun = Boolean(dto.dryRun);
+
+    const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+    this.logger.log(
+      `Running stale jobs pruning: cutoffDate=${cutoffDate.toISOString()} (${days} days), dryRun=${dryRun}`,
+    );
+
+    const whereClause: Prisma.JobWhereInput = {
+      firstSeenAt: { lt: cutoffDate },
+      isActive: true,
+    };
+
+    if (dryRun) {
+      const candidateCount = await this.prisma.job.count({
+        where: whereClause,
+      });
+
+      const executionTimeMs = Date.now() - startTime;
+      this.logger.log(
+        `[DRY RUN] Stale jobs pruning audit: found ${candidateCount} active jobs first ingested before ${cutoffDate.toISOString()} in ${executionTimeMs}ms`,
+      );
+
+      return {
+        deactivatedCount: candidateCount,
+        cutoffDate: cutoffDate.toISOString(),
+        daysThreshold: days,
+        dryRun: true,
+        executionTimeMs,
+      };
+    }
+
+    // Soft delete: update isActive to false
+    const updateResult = await this.prisma.job.updateMany({
+      where: whereClause,
+      data: {
+        isActive: false,
+      },
+    });
+
+    const deactivatedCount = updateResult.count;
+    const executionTimeMs = Date.now() - startTime;
+
+    this.logger.log(
+      `Stale jobs pruning completed: marked ${deactivatedCount} jobs as inactive (firstSeenAt < ${cutoffDate.toISOString()}) in ${executionTimeMs}ms`,
+    );
+
+    // Invalidate facet cache and Redis query caches if jobs were deactivated
+    if (deactivatedCount > 0) {
+      this.cachedFacets = null;
+      this.lastFacetComputeTime = 0;
+
+      if (this.redisCacheService) {
+        await this.redisCacheService.invalidatePattern('devats:cache:jobs:*');
+        await this.redisCacheService.invalidatePattern('devats:cache:analytics:*');
+      }
+    }
+
+    return {
+      deactivatedCount,
+      cutoffDate: cutoffDate.toISOString(),
+      daysThreshold: days,
+      dryRun: false,
+      executionTimeMs,
+    };
+  }
 }
+

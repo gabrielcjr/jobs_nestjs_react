@@ -5,6 +5,7 @@ import { AtsDiscoveryService, DiscoveryProbeResult, BackgroundDiscoveryJob } fro
 import { SyncCompanyDto } from './dto/sync-company.dto';
 import { DiscoverCompanyDto, DiscoverBatchDto } from './dto/discover-company.dto';
 import { RedisRateLimiterGuard } from '../redis/guards/redis-rate-limiter.guard';
+import { LocalhostOnlyGuard } from '../common/guards/localhost-only.guard';
 import { RateLimit } from '../redis/decorators/rate-limit.decorator';
 
 @Controller('api/v1/ingest')
@@ -56,6 +57,7 @@ export class IngestionController {
 
   @Post('start-csv-discovery')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalhostOnlyGuard)
   @RateLimit({ limit: 5, ttlSeconds: 60, keyPrefix: 'ingest:csv-discovery' })
   async startCsvDiscovery(
     @Body() body: { tier?: number; limit?: number; concurrency?: number },

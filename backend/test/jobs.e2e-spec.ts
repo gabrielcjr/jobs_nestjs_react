@@ -1,7 +1,23 @@
+// Polyfill diagnostics_channel.tracingChannel for Node.js 18 environments running Fastify 5
+import * as dc from 'diagnostics_channel';
+if (!(dc as any).tracingChannel) {
+  (dc as any).tracingChannel = () => ({
+    start: { publish: () => {} },
+    end: { publish: () => {} },
+    asyncStart: { publish: () => {} },
+    asyncEnd: { publish: () => {} },
+    error: { publish: () => {} },
+    tracePromise: (_fn: any, run: any) => (typeof run === 'function' ? run() : undefined),
+    traceCallback: (fn: any) => fn,
+    traceSync: (_fn: any, run: any) => (typeof run === 'function' ? run() : undefined),
+  });
+}
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
+
 
 describe('DevATS API (E2E)', () => {
   let app: NestFastifyApplication;
@@ -83,4 +99,78 @@ describe('DevATS API (E2E)', () => {
     expect(body.success).toBe(true);
     expect(body.data.totalRows).toBeGreaterThan(0);
   });
+
+  it('POST /api/v1/jobs/prune -> should allow localhost dry-run audit', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/api/v1/jobs/prune',
+      payload: {
+        days: 45,
+        dryRun: true,
+      },
+    });
+
+    expect(response.statusCode).toBe(200);
+    const body = JSON.parse(response.body);
+    expect(body.success).toBe(true);
+    expect(body.data.dryRun).toBe(true);
+    expect(body.data.daysThreshold).toBe(45);
+    expect(typeof body.data.deactivatedCount).toBe('number');
+  });
+
+  it('POST /api/v1/jobs/prune -> should reject external forwarded IP with 403 Forbidden', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/api/v1/jobs/prune',
+      headers: {
+        'x-forwarded-for': '198.51.100.23, 127.0.0.1',
+      },
+      payload: {
+        days: 45,
+        dryRun: true,
+      },
+    });
+
+    expect(response.statusCode).toBe(403);
+    const body = JSON.parse(response.body);
+    expect(body.message).toContain('restricted to local VM execution only');
+  });
+
+  it('POST /api/v1/ingest/start-csv-discovery -> should allow localhost triggering', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/api/v1/ingest/start-csv-discovery',
+      payload: {
+        tier: 1,
+        limit: 1,
+        concurrency: 1,
+      },
+    });
+
+    expect(response.statusCode).toBe(200);
+    const body = JSON.parse(response.body);
+    expect(body.success).toBe(true);
+    expect(body.message).toContain('Started automated background ATS discovery');
+    expect(body.data).toHaveProperty('id');
+  });
+
+  it('POST /api/v1/ingest/start-csv-discovery -> should reject external forwarded IP with 403 Forbidden', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/api/v1/ingest/start-csv-discovery',
+      headers: {
+        'x-forwarded-for': '198.51.100.23, 127.0.0.1',
+      },
+      payload: {
+        tier: 1,
+        limit: 1,
+      },
+    });
+
+    expect(response.statusCode).toBe(403);
+    const body = JSON.parse(response.body);
+    expect(body.message).toContain('restricted to local VM execution only');
+  });
 });
+
+
