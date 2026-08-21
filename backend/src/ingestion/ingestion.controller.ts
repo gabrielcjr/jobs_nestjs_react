@@ -1,11 +1,14 @@
-import { Controller, Post, Body, Get, Query, Sse, MessageEvent, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Sse, MessageEvent, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 import { IngestionService, SyncResult } from './ingestion.service';
 import { AtsDiscoveryService, DiscoveryProbeResult, BackgroundDiscoveryJob } from './services/ats-discovery.service';
 import { SyncCompanyDto } from './dto/sync-company.dto';
 import { DiscoverCompanyDto, DiscoverBatchDto } from './dto/discover-company.dto';
+import { RedisRateLimiterGuard } from '../redis/guards/redis-rate-limiter.guard';
+import { RateLimit } from '../redis/decorators/rate-limit.decorator';
 
 @Controller('api/v1/ingest')
+@UseGuards(RedisRateLimiterGuard)
 export class IngestionController {
   constructor(
     private readonly ingestionService: IngestionService,
@@ -53,6 +56,7 @@ export class IngestionController {
 
   @Post('start-csv-discovery')
   @HttpCode(HttpStatus.OK)
+  @RateLimit({ limit: 5, ttlSeconds: 60, keyPrefix: 'ingest:csv-discovery' })
   async startCsvDiscovery(
     @Body() body: { tier?: number; limit?: number; concurrency?: number },
   ): Promise<{ success: boolean; message: string; data: BackgroundDiscoveryJob }> {
@@ -78,6 +82,7 @@ export class IngestionController {
 
   @Post('discover')
   @HttpCode(HttpStatus.OK)
+  @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'ingest:discover' })
   async discoverCompany(@Body() dto: DiscoverCompanyDto): Promise<{ success: boolean; data: DiscoveryProbeResult }> {
     const result = await this.discoveryService.discoverCompanyAts(dto.companyName, dto.slug);
     return {
@@ -88,6 +93,7 @@ export class IngestionController {
 
   @Post('discover-and-sync')
   @HttpCode(HttpStatus.OK)
+  @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'ingest:discover-and-sync' })
   async discoverAndSync(
     @Body() dto: DiscoverCompanyDto,
   ): Promise<{ success: boolean; data: { discovery: DiscoveryProbeResult; sync?: SyncResult } }> {
@@ -114,6 +120,7 @@ export class IngestionController {
 
   @Post('discover-batch')
   @HttpCode(HttpStatus.OK)
+  @RateLimit({ limit: 5, ttlSeconds: 60, keyPrefix: 'ingest:discover-batch' })
   async discoverBatch(
     @Body() dto: DiscoverBatchDto,
   ): Promise<{
@@ -156,3 +163,4 @@ export class IngestionController {
     };
   }
 }
+

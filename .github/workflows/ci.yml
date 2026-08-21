@@ -1,0 +1,203 @@
+name: CI Quality Gate & Backward Compatibility
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 1. Static Type Checking & Production Build Validation
+  lint-and-typecheck:
+    name: TypeCheck & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package.json
+            frontend/package.json
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      - name: Build Backend (NestJS)
+        working-directory: ./backend
+        run: npm run build
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build Frontend (Vite + TypeScript)
+        working-directory: ./frontend
+        run: npm run build
+
+  # 2. Frontend Test Suite (Vitest)
+  test-frontend:
+    name: Test Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: frontend/package.json
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Run Vitest Suite
+        working-directory: ./frontend
+        run: npm test
+
+  # 3. Backend Unit & E2E Tests (with live Postgres 17 & Redis 7)
+  test-backend:
+    name: Test Backend & E2E
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: jobs_db_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: "postgresql://postgres:postgrespassword@localhost:5432/jobs_db_test?schema=public"
+      REDIS_HOST: "127.0.0.1"
+      REDIS_PORT: 6379
+      PORT: 3001
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package.json
+
+      - name: Install Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Deploy Prisma Migrations to Test DB
+        working-directory: ./backend
+        run: npx prisma migrate deploy
+
+      - name: Run Backend Unit & Integration Tests (Jest)
+        working-directory: ./backend
+        run: npm test
+
+      - name: Run Fastify E2E Tests
+        working-directory: ./backend
+        run: npm run test:e2e
+
+  # 4. Backward Compatibility & Migration Integrity Check
+  backward-compatibility:
+    name: Backward Compatibility & Migration Safety
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: jobs_db_compat
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: "postgresql://postgres:postgrespassword@localhost:5432/jobs_db_compat?schema=public"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package.json
+
+      - name: Install Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Deploy Migrations to Clean Test Database
+        working-directory: ./backend
+        run: npx prisma migrate deploy
+
+      - name: Verify Migration History Integrity
+        working-directory: ./backend
+        run: |
+          echo "Checking for unapplied or missing migrations..."
+          npx prisma migrate status
+
+      - name: Verify Zero Schema Drift (schema.prisma vs live database)
+        working-directory: ./backend
+        run: |
+          echo "Verifying schema.prisma matches live migrated database..."
+          npx prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --exit-code
+
+
+  # 5. Unified CI Quality Gate (Required for PR Merge)
+  ci-gate:
+    name: CI Quality Gate
+    needs:
+      - lint-and-typecheck
+      - test-frontend
+      - test-backend
+      - backward-compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assert All Required Checks Passed
+        run: echo "✅ All CI quality gates and backward-compatibility checks passed successfully!"

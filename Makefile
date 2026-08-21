@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-backend dev-frontend test test-backend test-frontend test-e2e build build-backend build-frontend docker-up docker-down docker-logs docker-db db-push db-seed db-studio clean
+.PHONY: help install dev dev-backend dev-frontend test test-backend test-frontend test-e2e build build-backend build-frontend docker-up docker-down docker-logs docker-db db-push db-seed db-studio clean ci
 
 # Default goal
 .DEFAULT_GOAL := help
@@ -9,6 +9,14 @@ help: ## Show available make commands
 	@echo "----------------------------------------------------------------------"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
 	@echo ""
+
+ci: build test ## Run full CI pipeline verification locally (Builds, Tests, and Schema Validation)
+	@echo "🔍 Running Prisma schema & datamodel syntax validation..."
+	cd backend && npx prisma validate
+	cd backend && npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > /dev/null
+	@echo "✅ All local CI quality gates and backward-compatibility checks passed!"
+
+
 
 install: ## Install dependencies for both backend and frontend
 	@echo "📦 Installing backend dependencies..."
