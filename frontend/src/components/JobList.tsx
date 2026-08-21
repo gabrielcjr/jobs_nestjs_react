@@ -1,9 +1,10 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, Inbox } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Job } from '../types/jobs';
 import { JobCard } from './JobCard';
 import { SkeletonList } from './SkeletonCards';
 import { EmptyState } from './EmptyState';
+import { ApplicationStatus } from '../hooks/useBookmarks';
 
 interface JobListProps {
   jobs: Job[];
@@ -16,6 +17,10 @@ interface JobListProps {
   onPageChange: (page: number) => void;
   onResetFilters: () => void;
   onOpenSyncModal: () => void;
+  isBookmarked?: (jobId: string) => boolean;
+  isViewed?: (jobId: string) => boolean;
+  getStatus?: (jobId: string) => ApplicationStatus | undefined;
+  onToggleBookmark?: (job: Job) => void;
 }
 
 export const JobList: React.FC<JobListProps> = ({
@@ -29,6 +34,10 @@ export const JobList: React.FC<JobListProps> = ({
   onPageChange,
   onResetFilters,
   onOpenSyncModal,
+  isBookmarked,
+  isViewed,
+  getStatus,
+  onToggleBookmark,
 }) => {
   if (isLoading) {
     return <SkeletonList />;
@@ -64,6 +73,10 @@ export const JobList: React.FC<JobListProps> = ({
             job={job}
             isSelected={selectedJob?.id === job.id}
             onSelect={onSelectJob}
+            isBookmarked={isBookmarked ? isBookmarked(job.id) : false}
+            isViewed={isViewed ? isViewed(job.id) : false}
+            status={getStatus ? getStatus(job.id) : undefined}
+            onToggleBookmark={onToggleBookmark ? () => onToggleBookmark(job) : undefined}
           />
         ))}
       </div>
