@@ -28,6 +28,13 @@ describe('JobsController', () => {
       } as any),
       findOne: jest.fn().mockResolvedValue({ id: 'job-1', title: 'Fullstack Dev' } as any),
       getTopTags: jest.fn().mockResolvedValue(['TypeScript', 'React', 'PostgreSQL']),
+      pruneStaleJobs: jest.fn().mockResolvedValue({
+        deactivatedCount: 12,
+        cutoffDate: '2026-07-07T00:00:00.000Z',
+        daysThreshold: 45,
+        dryRun: false,
+        executionTimeMs: 42,
+      }),
     };
 
     mockRedisCacheService = {
@@ -93,6 +100,34 @@ describe('JobsController', () => {
         expect.any(Function),
       );
       expect(result.data).toEqual({ id: 'job-1', title: 'Fullstack Dev' });
+    });
+  });
+
+  describe('pruneStaleJobs', () => {
+    it('should invoke jobsService.pruneStaleJobs and return formatted response', async () => {
+      const dto = { days: 45, dryRun: false };
+      const response = await controller.pruneStaleJobs(dto);
+
+      expect(mockJobsService.pruneStaleJobs).toHaveBeenCalledWith(dto);
+      expect(response.success).toBe(true);
+      expect(response.message).toContain('Pruned stale job postings');
+      expect(response.data.deactivatedCount).toBe(12);
+    });
+
+    it('should format message for dry-run auditing', async () => {
+      (mockJobsService.pruneStaleJobs as jest.Mock).mockResolvedValueOnce({
+        deactivatedCount: 15,
+        cutoffDate: '2026-07-07T00:00:00.000Z',
+        daysThreshold: 45,
+        dryRun: true,
+        executionTimeMs: 10,
+      });
+
+      const response = await controller.pruneStaleJobs({ days: 45, dryRun: true });
+
+      expect(response.success).toBe(true);
+      expect(response.message).toContain('Audited stale job postings');
+      expect(response.data.dryRun).toBe(true);
     });
   });
 });
