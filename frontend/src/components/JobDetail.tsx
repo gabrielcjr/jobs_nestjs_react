@@ -13,10 +13,13 @@ import {
   Briefcase,
   Globe,
   Clock,
+  Bookmark,
+  Eye,
 } from 'lucide-react';
 import { Job } from '../types/jobs';
 import { CompanyAvatar } from './CompanyAvatar';
 import { sanitizeHtml } from '../utils/sanitize';
+import { ApplicationStatus } from '../hooks/useBookmarks';
 import {
   formatSalary,
   formatTimeAgo,
@@ -30,9 +33,22 @@ import {
 interface JobDetailProps {
   job: Job | null;
   onTagClick?: (tag: string) => void;
+  isBookmarked?: boolean;
+  isViewed?: boolean;
+  status?: ApplicationStatus;
+  onToggleBookmark?: () => void;
+  onUpdateStatus?: (status: ApplicationStatus) => void;
 }
 
-export const JobDetail: React.FC<JobDetailProps> = ({ job, onTagClick }) => {
+export const JobDetail: React.FC<JobDetailProps> = ({
+  job,
+  onTagClick,
+  isBookmarked = false,
+  isViewed = false,
+  status = 'SAVED',
+  onToggleBookmark,
+  onUpdateStatus,
+}) => {
   const [copied, setCopied] = useState(false);
 
   if (!job) {
@@ -81,6 +97,14 @@ export const JobDetail: React.FC<JobDetailProps> = ({ job, onTagClick }) => {
                 {atsBadge.label}
               </span>
 
+              {/* Viewed Badge */}
+              {isViewed && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono text-cyan-300 bg-cyan-950/40 border border-cyan-800/40">
+                  <Eye className="h-2.5 w-2.5 text-cyan-400" />
+                  Viewed
+                </span>
+              )}
+
               {/* NEW Badge */}
               {isNew && (
                 <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40">
@@ -95,13 +119,47 @@ export const JobDetail: React.FC<JobDetailProps> = ({ job, onTagClick }) => {
             </h2>
           </div>
 
-          {/* Action CTAs: Apply and Share */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Action CTAs: Bookmark, Pipeline Status, Share, and Apply */}
+          <div className="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+            {/* Bookmark Button */}
+            {onToggleBookmark && (
+              <button
+                type="button"
+                data-testid="detail-bookmark-btn"
+                onClick={onToggleBookmark}
+                title={isBookmarked ? 'Remove from saved jobs' : 'Save job'}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all active:scale-95 ${
+                  isBookmarked
+                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 hover:bg-amber-500/25'
+                    : 'bg-dark-800 hover:bg-dark-750 border-dark-700 text-slate-300 hover:text-white'
+                }`}
+              >
+                <Bookmark className={`h-3.5 w-3.5 ${isBookmarked ? 'fill-amber-400 text-amber-400' : ''}`} />
+                <span>{isBookmarked ? 'Saved' : 'Save'}</span>
+              </button>
+            )}
+
+            {/* Application Pipeline Status Selector */}
+            {isBookmarked && onUpdateStatus && (
+              <select
+                data-testid="application-status-select"
+                value={status}
+                onChange={(e) => onUpdateStatus(e.target.value as ApplicationStatus)}
+                className="px-2.5 py-2 rounded-xl bg-dark-800 hover:bg-dark-750 border border-dark-700 text-xs font-medium text-slate-200 focus:outline-none focus:border-brand-500 cursor-pointer"
+              >
+                <option value="SAVED">📌 Saved</option>
+                <option value="APPLIED">📝 Applied</option>
+                <option value="INTERVIEWING">💼 Interviewing</option>
+                <option value="OFFER">🎉 Offer</option>
+                <option value="REJECTED">❌ Rejected</option>
+              </select>
+            )}
+
             {/* Share / Copy Link */}
             <button
               onClick={handleCopyLink}
               title="Copy link to job"
-              className="p-2.5 rounded-xl bg-dark-800 hover:bg-dark-750 border border-dark-700 hover:border-dark-600 text-slate-300 hover:text-white transition-all active:scale-95"
+              className="p-2 rounded-xl bg-dark-800 hover:bg-dark-750 border border-dark-700 hover:border-dark-600 text-slate-300 hover:text-white transition-all active:scale-95"
             >
               {copied ? (
                 <Check className="h-4 w-4 text-emerald-400" />
@@ -115,14 +173,15 @@ export const JobDetail: React.FC<JobDetailProps> = ({ job, onTagClick }) => {
               href={job.applyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-brand-500/25 transition-all active:scale-95"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-brand-500/25 transition-all active:scale-95"
             >
-              <span>Apply on {atsBadge.label}</span>
+              <span>Apply</span>
               <ExternalLink className="h-3.5 w-3.5" />
             </a>
           </div>
         </div>
       </div>
+
 
       {/* Main Scrollable Content */}
       <div className="flex-1 overflow-y-auto p-5 lg:p-6 space-y-6">

@@ -1,7 +1,8 @@
 import React from 'react';
-import { MapPin, DollarSign, Sparkles, Clock } from 'lucide-react';
+import { MapPin, DollarSign, Sparkles, Clock, Bookmark, Eye } from 'lucide-react';
 import { Job } from '../types/jobs';
 import { CompanyAvatar } from './CompanyAvatar';
+import { ApplicationStatus } from '../hooks/useBookmarks';
 import {
   formatSalary,
   formatTimeAgo,
@@ -15,9 +16,29 @@ interface JobCardProps {
   job: Job;
   isSelected: boolean;
   onSelect: (job: Job) => void;
+  isBookmarked?: boolean;
+  isViewed?: boolean;
+  status?: ApplicationStatus;
+  onToggleBookmark?: (e: React.MouseEvent) => void;
 }
 
-export const JobCard: React.FC<JobCardProps> = ({ job, isSelected, onSelect }) => {
+const STATUS_BADGES: Record<ApplicationStatus, { label: string; bg: string; text: string; border: string }> = {
+  SAVED: { label: 'Saved', bg: 'bg-amber-500/10', text: 'text-amber-300', border: 'border-amber-500/30' },
+  APPLIED: { label: 'Applied', bg: 'bg-blue-500/10', text: 'text-blue-300', border: 'border-blue-500/30' },
+  INTERVIEWING: { label: 'Interviewing', bg: 'bg-purple-500/10', text: 'text-purple-300', border: 'border-purple-500/30' },
+  OFFER: { label: 'Offer 🎉', bg: 'bg-emerald-500/10', text: 'text-emerald-300', border: 'border-emerald-500/30' },
+  REJECTED: { label: 'Rejected', bg: 'bg-rose-500/10', text: 'text-rose-300', border: 'border-rose-500/30' },
+};
+
+export const JobCard: React.FC<JobCardProps> = ({
+  job,
+  isSelected,
+  onSelect,
+  isBookmarked = false,
+  isViewed = false,
+  status,
+  onToggleBookmark,
+}) => {
   const isNew = isNewJob(job.firstSeenAt);
   const salaryText = formatSalary(job.minSalary, job.maxSalary, job.currency || 'USD', job.salarySummary);
   const atsBadge = getAtsBadgeStyles(job.atsProvider);
@@ -27,16 +48,21 @@ export const JobCard: React.FC<JobCardProps> = ({ job, isSelected, onSelect }) =
   const visibleTags = job.tags.slice(0, 4);
   const overflowCount = job.tags.length > 4 ? job.tags.length - 4 : 0;
 
+  const statusBadge = status ? STATUS_BADGES[status] : null;
+
   return (
     <div
       onClick={() => onSelect(job)}
+      data-testid={`job-card-${job.id}`}
       className={`group relative p-4 rounded-xl cursor-pointer transition-all duration-150 border text-left ${
         isSelected
           ? 'bg-dark-850 border-brand-500/80 shadow-md shadow-brand-500/10 ring-1 ring-brand-500/40'
-          : 'bg-dark-900 hover:bg-dark-850/80 border-dark-750 hover:border-dark-700'
+          : isViewed
+          ? 'bg-dark-900/80 hover:bg-dark-850 border-dark-800 hover:border-dark-700 opacity-90'
+          : 'bg-dark-900 hover:bg-dark-850/90 border-dark-750 hover:border-dark-700'
       }`}
     >
-      {/* Top Header: Company, ATS Badge, and NEW indicator */}
+      {/* Top Header: Company, ATS Badge, Viewed, and Bookmark action */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 min-w-0">
           <CompanyAvatar name={job.company.name} size="sm" />
@@ -46,17 +72,59 @@ export const JobCard: React.FC<JobCardProps> = ({ job, isSelected, onSelect }) =
         </div>
 
         <div className="flex items-center gap-1.5 shrink-0">
-          {isNew && (
+          {/* Viewed Indicator Icon */}
+          {isViewed && (
+            <span
+              data-testid={`viewed-badge-${job.id}`}
+              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono text-slate-400 bg-dark-800 border border-dark-700"
+              title="You already viewed this job offer"
+            >
+              <Eye className="h-2.5 w-2.5 text-cyan-400" />
+              <span>Viewed</span>
+            </span>
+          )}
+
+          {/* Status Badge */}
+          {statusBadge && (
+            <span
+              className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-mono font-medium border ${statusBadge.bg} ${statusBadge.text} ${statusBadge.border}`}
+            >
+              {statusBadge.label}
+            </span>
+          )}
+
+          {isNew && !statusBadge && (
             <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40">
               <Sparkles className="h-2.5 w-2.5 text-amber-400" />
               NEW
             </span>
           )}
+
           <span
             className={`px-2 py-0.5 rounded text-[10px] font-mono font-medium border ${atsBadge.bg} ${atsBadge.text} ${atsBadge.border}`}
           >
             {atsBadge.label}
           </span>
+
+          {/* Interactive Bookmark Button */}
+          {onToggleBookmark && (
+            <button
+              type="button"
+              data-testid={`bookmark-btn-${job.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleBookmark(e);
+              }}
+              title={isBookmarked ? 'Remove bookmark' : 'Bookmark job'}
+              className={`p-1 rounded-md transition-all ${
+                isBookmarked
+                  ? 'text-amber-400 bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500/25'
+                  : 'text-slate-500 hover:text-slate-200 hover:bg-dark-800 border border-transparent'
+              }`}
+            >
+              <Bookmark className={`h-3.5 w-3.5 ${isBookmarked ? 'fill-amber-400' : ''}`} />
+            </button>
+          )}
         </div>
       </div>
 

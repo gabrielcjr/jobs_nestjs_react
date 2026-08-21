@@ -8,7 +8,8 @@ import { JobDetail } from './components/JobDetail';
 import { IngestionModal } from './components/IngestionModal';
 import { useJobs, useTopTags } from './hooks/useJobs';
 import { useDebounce } from './hooks/useDebounce';
-import { Job, JobFilters, RoleCategory } from './types/jobs';
+import { useBookmarks } from './hooks/useBookmarks';
+import { Job, JobFilters } from './types/jobs';
 
 const INITIAL_FILTERS: JobFilters = {
   search: '',
@@ -30,12 +31,24 @@ export const App: React.FC = () => {
   const [filters, setFilters] = useState<JobFilters>(INITIAL_FILTERS);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
+  const [showSavedOnly, setShowSavedOnly] = useState(false);
+
+  // Bookmarks and viewed state engine
+  const {
+    isBookmarked,
+    toggleBookmark,
+    isViewed,
+    markAsViewed,
+    bookmarkCount,
+    updateStatus,
+    getBookmark,
+  } = useBookmarks();
 
   // Debounce search input for snappy typing
   const debouncedSearch = useDebounce(filters.search, 300);
 
   // Query jobs with active debounced filters
-  const { data, isLoading, isFetching, error } = useJobs({
+  const { data, isLoading } = useJobs({
     ...filters,
     search: debouncedSearch,
   });
@@ -43,27 +56,39 @@ export const App: React.FC = () => {
   // Query top tags for tech pills
   const { data: topTags } = useTopTags();
 
-  const jobs = data?.jobs || [];
+  const rawJobs = data?.jobs || [];
   const totalCount = data?.totalCount || 0;
   const totalPages = data?.totalPages || 1;
   const facets = data?.facets;
 
-  // Auto-select the first job if none is currently selected or if the selected job isn't in the new list
+  // Filter jobs if "Saved Only" is active
+  const jobs = showSavedOnly ? rawJobs.filter((j) => isBookmarked(j.id)) : rawJobs;
+  const displayTotalCount = showSavedOnly ? jobs.length : totalCount;
+
+  // Auto-select first job and mark as viewed
   useEffect(() => {
     if (jobs.length > 0) {
       if (!selectedJob || !jobs.some((j) => j.id === selectedJob.id)) {
         setSelectedJob(jobs[0]);
+        markAsViewed(jobs[0].id);
       }
     } else {
       setSelectedJob(null);
     }
-  }, [jobs]);
+  }, [jobs, selectedJob, markAsViewed]);
+
+  const handleSelectJob = (job: Job) => {
+    setSelectedJob(job);
+    markAsViewed(job.id);
+  };
 
   const handleFilterChange = (newFilters: Partial<JobFilters>) => {
+    if (showSavedOnly) setShowSavedOnly(false);
     setFilters((prev) => ({ ...prev, ...newFilters }));
   };
 
   const handleToggleTag = (tag: string) => {
+    if (showSavedOnly) setShowSavedOnly(false);
     setFilters((prev) => {
       const exists = prev.tags.includes(tag);
       const nextTags = exists
@@ -74,11 +99,25 @@ export const App: React.FC = () => {
   };
 
   const handleResetFilters = () => {
+    setShowSavedOnly(false);
     setFilters(INITIAL_FILTERS);
   };
 
+  const handleToggleBookmarkJob = (job: Job) => {
+    toggleBookmark({
+      id: job.id,
+      slug: job.slug,
+      title: job.title,
+      companyName: job.company.name,
+      atsProvider: job.atsProvider,
+      location: job.location,
+      workplaceType: job.workplaceType,
+    });
+  };
+
   const hasActiveFilters = Boolean(
-    filters.search ||
+    showSavedOnly ||
+      filters.search ||
       filters.roleCategory !== 'ALL' ||
       filters.experienceLevel !== 'ALL' ||
       filters.workplaceType !== 'ALL' ||
@@ -99,12 +138,15 @@ export const App: React.FC = () => {
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-5 flex flex-col gap-4">
-        {/* Role Category Tabs */}
+        {/* Role Category Tabs & Saved Tab */}
         <RoleCategoryTabs
           selectedRole={filters.roleCategory}
           onSelectRole={(roleCategory) => handleFilterChange({ roleCategory, page: 1 })}
           roleCounts={facets?.roleCategoryCounts}
           totalCount={totalCount}
+          savedCount={bookmarkCount}
+          showSavedOnly={showSavedOnly}
+          onToggleSavedOnly={() => setShowSavedOnly((prev) => !prev)}
         />
 
         {/* Popular Tech Stack Pills */}
@@ -128,15 +170,19 @@ export const App: React.FC = () => {
           <section className="lg:col-span-5 h-[calc(100vh-320px)] min-h-[500px] flex flex-col">
             <JobList
               jobs={jobs}
-              totalCount={totalCount}
+              totalCount={displayTotalCount}
               currentPage={filters.page || 1}
               totalPages={totalPages}
               isLoading={isLoading}
               selectedJob={selectedJob}
-              onSelectJob={(job) => setSelectedJob(job)}
+              onSelectJob={handleSelectJob}
               onPageChange={(page) => handleFilterChange({ page })}
               onResetFilters={handleResetFilters}
               onOpenSyncModal={() => setIsSyncModalOpen(true)}
+              isBookmarked={isBookmarked}
+              isViewed={isViewed}
+              getStatus={(jobId) => getBookmark(jobId)?.status}
+              onToggleBookmark={handleToggleBookmarkJob}
             />
           </section>
 
@@ -145,6 +191,11 @@ export const App: React.FC = () => {
             <JobDetail
               job={selectedJob}
               onTagClick={handleToggleTag}
+              isBookmarked={selectedJob ? isBookmarked(selectedJob.id) : false}
+              isViewed={selectedJob ? isViewed(selectedJob.id) : false}
+              status={selectedJob ? getBookmark(selectedJob.id)?.status : 'SAVED'}
+              onToggleBookmark={selectedJob ? () => handleToggleBookmarkJob(selectedJob) : undefined}
+              onUpdateStatus={selectedJob ? (status) => updateStatus(selectedJob.id, status) : undefined}
             />
           </section>
         </div>
