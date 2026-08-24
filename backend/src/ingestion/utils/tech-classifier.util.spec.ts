@@ -79,7 +79,7 @@ describe('TechClassifier & Normalization Utilities', () => {
 
   describe('extractTechTags', () => {
     it('should extract tech stack keywords using word boundary matching', () => {
-      const text = 'Senior Backend Engineer in Go and Python with Kafka, Redis, Docker, PostgreSQL, and AWS.';
+      const text = 'Senior Backend Engineer in Go/Python with Kafka, Redis, Docker, PostgreSQL, and AWS.';
       const tags = extractTechTags(text);
 
       expect(tags).toContain('Go');
@@ -89,6 +89,20 @@ describe('TechClassifier & Normalization Utilities', () => {
       expect(tags).toContain('Redis');
       expect(tags).toContain('Docker');
       expect(tags).toContain('AWS');
+    });
+
+    it('should accurately detect Golang programming language variants', () => {
+      expect(extractTechTags('Requirements: Golang backend development')).toContain('Go');
+      expect(extractTechTags('Proficient in Go (Golang) and Docker')).toContain('Go');
+      expect(extractTechTags('Experience with the Go programming language')).toContain('Go');
+      expect(extractTechTags('Go backend engineer needed')).toContain('Go');
+      expect(extractTechTags('We write code in Python, Go, and TypeScript')).toContain('Go');
+    });
+
+    it('should avoid false positives for common English usage of go', () => {
+      const text = 'We are ready to go live and go to the market. Let it go. We go above and beyond.';
+      const tags = extractTechTags(text);
+      expect(tags).not.toContain('Go');
     });
 
     it('should avoid false positives with substrings', () => {
