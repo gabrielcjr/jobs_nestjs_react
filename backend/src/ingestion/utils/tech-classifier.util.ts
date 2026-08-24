@@ -5,8 +5,10 @@ export const TECH_DICTIONARY: { name: string; pattern: RegExp }[] = [
   { name: 'TypeScript', pattern: /\b(typescript|ts)\b/i },
   { name: 'JavaScript', pattern: /\b(javascript|es6|es202\d)\b/i },
   { name: 'Python', pattern: /\bpython\b/i },
-  { name: 'Go', pattern: /\b(golang|go)\b/i },
-  { name: 'Rust', pattern: /\brust\b/i },
+  {
+    name: 'Go',
+    pattern: /\b(golang|go\s*(lang|language|programming|developer|engineer|backend|microservices)|go\s*\(\s*golang\s*\)|golang\s*\(\s*go\s*\)|go\s*\(?1\.\d+)\b|\b(rust|python|typescript|javascript|java|c\+\+|cpp|c#|node|nodejs|grpc|kubernetes|k8s|docker|postgresql|postgres|sql|aws|gcp|backend|fullstack)\s*[\/,|&]\s*go\b|\bgo\s*[\/,|&]\s*(rust|python|typescript|javascript|java|c\+\+|cpp|c#|node|nodejs|grpc|kubernetes|k8s|docker|postgresql|postgres|sql|aws|gcp|backend|fullstack)\b|\b(python|rust|typescript|javascript|java|c\+\+|cpp|c#|node|ruby|scala),\s*go\b|\bgo,\s*(python|rust|typescript|javascript|java|c\+\+|cpp|c#|node|ruby|scala)\b/i,
+  },
   { name: 'Java', pattern: /\bjava\b(?!script)/i },
   { name: 'C++', pattern: /\b(c\+\+|cpp)\b/i },
   { name: 'C#', pattern: /\b(c#|\.net core|\.net)\b/i },

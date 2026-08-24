@@ -5,7 +5,6 @@ import { TechStackPills } from './components/TechStackPills';
 import { FilterBar } from './components/FilterBar';
 import { JobList } from './components/JobList';
 import { JobDetail } from './components/JobDetail';
-import { IngestionModal } from './components/IngestionModal';
 import { AnalyticsModal } from './components/AnalyticsModal';
 import { useJobs, useTopTags } from './hooks/useJobs';
 import { useDebounce } from './hooks/useDebounce';
@@ -31,7 +30,6 @@ const INITIAL_FILTERS: JobFilters = {
 export const App: React.FC = () => {
   const [filters, setFilters] = useState<JobFilters>(INITIAL_FILTERS);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
   const [showSavedOnly, setShowSavedOnly] = useState(false);
 
@@ -135,7 +133,6 @@ export const App: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-dark-950 text-slate-100 selection:bg-brand-500 selection:text-white">
       {/* Top Navbar */}
       <Navbar
-        onOpenSyncModal={() => setIsSyncModalOpen(true)}
         onOpenAnalyticsModal={() => setIsAnalyticsOpen(true)}
         totalJobsCount={totalCount}
       />
@@ -183,7 +180,6 @@ export const App: React.FC = () => {
               onSelectJob={handleSelectJob}
               onPageChange={(page) => handleFilterChange({ page })}
               onResetFilters={handleResetFilters}
-              onOpenSyncModal={() => setIsSyncModalOpen(true)}
               isBookmarked={isBookmarked}
               isViewed={isViewed}
               getStatus={(jobId) => getBookmark(jobId)?.status}
@@ -205,12 +201,6 @@ export const App: React.FC = () => {
           </section>
         </div>
       </main>
-
-      {/* Ingestion & Crawling Modal */}
-      <IngestionModal
-        isOpen={isSyncModalOpen}
-        onClose={() => setIsSyncModalOpen(false)}
-      />
 
       {/* Market Analytics Modal */}
       <AnalyticsModal

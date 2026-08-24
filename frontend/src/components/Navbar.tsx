@@ -2,13 +2,11 @@ import React from 'react';
 import { Terminal, Search, Database, TrendingUp } from 'lucide-react';
 
 interface NavbarProps {
-  onOpenSyncModal: () => void;
   onOpenAnalyticsModal?: () => void;
   totalJobsCount?: number;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  onOpenSyncModal,
   onOpenAnalyticsModal,
   totalJobsCount = 0,
 }) => {
@@ -49,22 +47,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
 
           {/* Real-time DB Count Badge */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-800 border border-dark-750 text-xs text-slate-300">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-800 border border-dark-750 text-xs text-slate-300">
             <Database className="h-3.5 w-3.5 text-emerald-400 animate-pulse-subtle" />
             <span>
               <strong className="text-white font-mono">{totalJobsCount}</strong> Active Jobs
             </span>
           </div>
-
-          {/* Open Dynamic Discovery Modal CTA */}
-          <button
-            onClick={onOpenSyncModal}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-brand-600/25 transition-all active:scale-95 cursor-pointer"
-          >
-            <Search className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Discover & Ingest ATS</span>
-            <span className="sm:hidden">Ingest</span>
-          </button>
         </div>
       </div>
     </header>

@@ -16,7 +16,6 @@ interface JobListProps {
   onSelectJob: (job: Job) => void;
   onPageChange: (page: number) => void;
   onResetFilters: () => void;
-  onOpenSyncModal: () => void;
   isBookmarked?: (jobId: string) => boolean;
   isViewed?: (jobId: string) => boolean;
   getStatus?: (jobId: string) => ApplicationStatus | undefined;
@@ -33,7 +32,6 @@ export const JobList: React.FC<JobListProps> = ({
   onSelectJob,
   onPageChange,
   onResetFilters,
-  onOpenSyncModal,
   isBookmarked,
   isViewed,
   getStatus,
@@ -47,7 +45,6 @@ export const JobList: React.FC<JobListProps> = ({
     return (
       <EmptyState
         onResetFilters={onResetFilters}
-        onOpenSyncModal={onOpenSyncModal}
       />
     );
   }
