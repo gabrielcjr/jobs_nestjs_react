@@ -34,6 +34,7 @@ RUN npx prisma generate
 
 # Copy compiled build from builder
 COPY --from=builder /app/dist ./dist
+COPY global-hiring-companies.csv ./
 
 EXPOSE 3001
 
