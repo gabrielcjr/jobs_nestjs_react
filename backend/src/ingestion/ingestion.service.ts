@@ -162,6 +162,7 @@ export class IngestionService {
 
       let upsertedCount = 0;
       const now = new Date();
+      const staleCutoff = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000);
 
       for (const job of jobs) {
         const isLatam = isLatamUsdEligible(
@@ -170,6 +171,10 @@ export class IngestionService {
           job.currency || 'USD',
           job.workplaceType,
         );
+
+        const isStaleByPostedAt = Boolean(job.postedAt && job.postedAt < staleCutoff);
+        const updateIsActive = job.postedAt !== undefined ? !isStaleByPostedAt : undefined;
+        const createIsActive = !isStaleByPostedAt;
 
         const jobSlug = slugify(`${formattedName}-${job.title}-${job.externalJobId}`, {
           lower: true,
@@ -202,7 +207,7 @@ export class IngestionService {
             currency: job.currency || 'USD',
             salarySummary: job.salarySummary,
             lastSeenAt: now,
-            isActive: true,
+            isActive: updateIsActive,
           },
           create: {
             externalJobId: job.externalJobId,
@@ -227,7 +232,7 @@ export class IngestionService {
             postedAt: job.postedAt || now,
             firstSeenAt: now,
             lastSeenAt: now,
-            isActive: true,
+            isActive: createIsActive,
           },
         });
         upsertedCount++;

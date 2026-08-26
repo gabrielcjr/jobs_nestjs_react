@@ -145,7 +145,10 @@ describe('JobsService (Integration)', () => {
       expect(result.daysThreshold).toBe(45);
       expect(mockPrismaService.job.count).toHaveBeenCalledWith({
         where: {
-          firstSeenAt: { lt: expect.any(Date) },
+          OR: [
+            { postedAt: { lt: expect.any(Date) } },
+            { firstSeenAt: { lt: expect.any(Date) } },
+          ],
           isActive: true,
         },
       });
@@ -153,7 +156,7 @@ describe('JobsService (Integration)', () => {
       expect(mockRedisCacheService.invalidatePattern).not.toHaveBeenCalled();
     });
 
-    it('should soft-delete stale jobs (>45 days since firstSeenAt) and invalidate Redis caches', async () => {
+    it('should soft-delete stale jobs (>45 days since postedAt or firstSeenAt) and invalidate Redis caches', async () => {
       mockPrismaService.job.updateMany.mockResolvedValue({ count: 28 });
 
       const result = await service.pruneStaleJobs({ days: 45, dryRun: false });
@@ -163,7 +166,10 @@ describe('JobsService (Integration)', () => {
       expect(result.daysThreshold).toBe(45);
       expect(mockPrismaService.job.updateMany).toHaveBeenCalledWith({
         where: {
-          firstSeenAt: { lt: expect.any(Date) },
+          OR: [
+            { postedAt: { lt: expect.any(Date) } },
+            { firstSeenAt: { lt: expect.any(Date) } },
+          ],
           isActive: true,
         },
         data: {
