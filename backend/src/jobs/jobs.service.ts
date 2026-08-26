@@ -341,7 +341,7 @@ export class JobsService {
   }
 
   /**
-   * Soft-delete stale job postings that were first ingested more than the specified number of days ago.
+   * Soft-delete stale job postings that were posted or first ingested more than the specified number of days ago.
    * Updates isActive to false, preserving records for Market Analytics while excluding them from active search.
    */
   async pruneStaleJobs(dto: PruneJobsDto = {}): Promise<PruneJobsResponse['data']> {
@@ -355,7 +355,10 @@ export class JobsService {
     );
 
     const whereClause: Prisma.JobWhereInput = {
-      firstSeenAt: { lt: cutoffDate },
+      OR: [
+        { postedAt: { lt: cutoffDate } },
+        { firstSeenAt: { lt: cutoffDate } },
+      ],
       isActive: true,
     };
 
@@ -366,7 +369,7 @@ export class JobsService {
 
       const executionTimeMs = Date.now() - startTime;
       this.logger.log(
-        `[DRY RUN] Stale jobs pruning audit: found ${candidateCount} active jobs first ingested before ${cutoffDate.toISOString()} in ${executionTimeMs}ms`,
+        `[DRY RUN] Stale jobs pruning audit: found ${candidateCount} active jobs posted or ingested before ${cutoffDate.toISOString()} in ${executionTimeMs}ms`,
       );
 
       return {
@@ -390,7 +393,7 @@ export class JobsService {
     const executionTimeMs = Date.now() - startTime;
 
     this.logger.log(
-      `Stale jobs pruning completed: marked ${deactivatedCount} jobs as inactive (firstSeenAt < ${cutoffDate.toISOString()}) in ${executionTimeMs}ms`,
+      `Stale jobs pruning completed: marked ${deactivatedCount} jobs as inactive (postedAt/firstSeenAt < ${cutoffDate.toISOString()}) in ${executionTimeMs}ms`,
     );
 
     // Invalidate facet cache and Redis query caches if jobs were deactivated

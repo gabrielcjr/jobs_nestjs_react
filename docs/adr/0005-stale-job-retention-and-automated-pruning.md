@@ -42,7 +42,7 @@ We need an automated, scheduled lifecycle pruning strategy that removes expired 
 - 🔴 **Con**: Tightly couples scheduled background maintenance with real-time HTTP server lifecycle.
 
 ### Option 3: Soft-Deletion (`isActive = false`) via Dedicated Localhost-Only API + Detached Shell Cron (**Chosen**)
-- Marks jobs with `firstSeenAt < NOW() - 45 days` as `isActive: false`.
+- Marks jobs with `postedAt < NOW() - 45 days` or `firstSeenAt < NOW() - 45 days` as `isActive: false`.
 - Pruning triggered via a protected endpoint `POST /api/v1/jobs/prune` guarded by `LocalhostOnlyGuard` and `RedisRateLimiterGuard`.
 - Scheduled via a detached, standalone bash script (`cron_prune_stale_jobs.sh`) invoked by system crontab.
 - Invalidates Redis caches (`devats:cache:jobs:*`, `devats:cache:analytics:*`) and resets in-memory facet caches immediately upon successful deactivation.
@@ -55,7 +55,7 @@ We need an automated, scheduled lifecycle pruning strategy that removes expired 
 
 ### Rationale:
 1. **Analytics Integrity**: Setting `isActive: false` ensures `GET /api/v1/jobs` (which filters by `where: { isActive: true }`) immediately hides stale listings from job seekers, while `AnalyticsService` can continue computing overall market salary distributions and historical insights.
-2. **Deterministic Ingestion Baseline**: Using `firstSeenAt` guarantees every job ingested >45 days ago is reliably processed regardless of whether upstream ATS payloads supplied a valid `postedAt` date.
+2. **Comprehensive Stale Detection**: Evaluating both `postedAt` (original ATS publishing date) and `firstSeenAt` (ingestion timestamp) guarantees any job older than 45 days is reliably pruned regardless of whether upstream ATS payloads supplied a valid `postedAt` date.
 3. **Defense in Depth**: `LocalhostOnlyGuard` ensures that only callers originating from `127.0.0.1`, `::1`, or `::ffff:127.0.0.1` can access the pruning endpoint, returning `403 Forbidden` to all external network traffic.
 4. **Resilient Invalidation**: Synchronizes PostgreSQL state updates with Redis cache evictions to avoid serving stale facet counts.
 

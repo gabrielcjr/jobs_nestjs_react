@@ -11,10 +11,10 @@
 ## 1. Executive Summary & Goals
 
 ### 1.1 Problem Statement
-Jobs ingested by DevATS accumulate over time. When postings pass 45 days from their original discovery date, they must be marked inactive so that active search feeds (`/api/v1/jobs`) and facet tallies remain fresh and relevant, while preserving all underlying data for Market & Salary Analytics.
+Jobs ingested by DevATS accumulate over time. When postings pass 45 days from their original ATS posting date (`postedAt`) or discovery date (`firstSeenAt`), they must be marked inactive so that active search feeds (`/api/v1/jobs`) and facet tallies remain fresh and relevant, while preserving all underlying data for Market & Salary Analytics.
 
 ### 1.2 Goals (In-Scope)
-- [x] **Soft-Deletion Lifecycle**: Automatically update `isActive = false` for all job records where `firstSeenAt < NOW() - 45 days` and `isActive = true`.
+- [x] **Soft-Deletion Lifecycle**: Automatically update `isActive = false` for all job records where `(postedAt < NOW() - 45 days OR firstSeenAt < NOW() - 45 days)` and `isActive = true`.
 - [x] **Localhost VM Isolation**: Secure `POST /api/v1/jobs/prune` using `LocalhostOnlyGuard` so only local requests from `127.0.0.1`, `::1`, or `::ffff:127.0.0.1` are permitted. External requests receive `403 Forbidden`.
 - [x] **Dry-Run Auditing**: Support `dryRun: true` mode to preview affected job counts without mutating records.
 - [x] **Atomic Cache Eviction**: Purge Redis query caches (`devats:cache:jobs:*`, `devats:cache:analytics:*`) and clear in-memory facet caches upon state update.
@@ -45,7 +45,7 @@ sequenceDiagram
     else Request from Localhost (127.0.0.1 / ::1)
         Guard->>Ctrl: Allow request
         Ctrl->>Svc: pruneStaleJobs({ days: 45, dryRun: false })
-        Svc->>DB: UPDATE "Job" SET "isActive" = false WHERE "firstSeenAt" < cutoffDate AND "isActive" = true
+        Svc->>DB: UPDATE "Job" SET "isActive" = false WHERE ("postedAt" < cutoffDate OR "firstSeenAt" < cutoffDate) AND "isActive" = true
         DB-->>Svc: count: N updated
         opt When N > 0
             Svc->>Redis: Invalidate "devats:cache:jobs:*" & "devats:cache:analytics:*"
@@ -96,13 +96,13 @@ export interface PruneJobsResult {
 -- Count matching stale jobs (Dry Run)
 SELECT COUNT(*) 
 FROM "Job" 
-WHERE "firstSeenAt" < NOW() - INTERVAL '45 days' 
+WHERE ("postedAt" < NOW() - INTERVAL '45 days' OR "firstSeenAt" < NOW() - INTERVAL '45 days')
   AND "isActive" = true;
 
 -- Soft-delete stale jobs
 UPDATE "Job" 
 SET "isActive" = false, "updatedAt" = NOW() 
-WHERE "firstSeenAt" < NOW() - INTERVAL '45 days' 
+WHERE ("postedAt" < NOW() - INTERVAL '45 days' OR "firstSeenAt" < NOW() - INTERVAL '45 days')
   AND "isActive" = true;
 ```
 
