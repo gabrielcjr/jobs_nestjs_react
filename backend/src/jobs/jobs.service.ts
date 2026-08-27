@@ -326,7 +326,7 @@ export class JobsService {
     const topTags = Array.from(tagCounts.entries())
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count)
-      .slice(0, 20);
+      .slice(0, 100);
 
     this.cachedFacets = {
       roleCategoryCounts,
