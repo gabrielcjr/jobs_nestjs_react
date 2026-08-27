@@ -34,10 +34,14 @@ A high-performance, developer-focused Software Engineering Job Board and Multi-A
 - **Dynamic Facets**: Computes active counts for role categories, seniority levels, workplace types, ATS providers, and top tech tags.
 - **Single Job Detail (`GET /api/v1/jobs/:idOrSlug`)**: Fetches job by ID or SEO slug.
 - **Discovery Endpoints**:
-  - `POST /api/v1/ingest/start-csv-discovery` — Background discovery across `global-hiring-companies.csv`.
+  - `GET /api/v1/ingest/providers` — List supported ATS providers (Greenhouse, Lever, Ashby).
+  - `GET /api/v1/ingest/csv-summary` — Read and preview parsed company dataset from CSV.
   - `GET /api/v1/ingest/discovery-status` — Poll active background discovery job state.
-  - `POST /api/v1/ingest/discover-and-sync` — Probe and sync a single company name.
-  - `POST /api/v1/ingest/sync` — Direct sync by slug & ATS provider.
+  - `GET /api/v1/ingest/discovery-stream` — Real-time Server-Sent Events (SSE) progress stream.
+  - `POST /api/v1/ingest/start-csv-discovery` — Background discovery & auto-ingestion across `global-hiring-companies.csv` (Localhost only).
+  - `POST /api/v1/ingest/discover` — Probe ATS platforms for candidate slugs without syncing.
+  - `POST /api/v1/ingest/discover-and-sync` — Probe candidate slugs and sync jobs for a company.
+  - `POST /api/v1/ingest/discover-batch` — Batch probe and sync multiple company names.
 - **Fastify & Security**: Running on Fastify engine with `@fastify/helmet`, `@fastify/cors`, and strict NestJS `ValidationPipe`.
 
 ---
@@ -59,7 +63,7 @@ A high-performance, developer-focused Software Engineering Job Board and Multi-A
 | Layer | Technologies |
 |---|---|
 | **Backend** | NestJS 11, Fastify, Prisma ORM, TypeScript, Axios, RxJS |
-| **Database** | PostgreSQL 16 (with composite indices & GIN index on `tags text[]`) |
+| **Database** | PostgreSQL 17 (with composite indices & GIN index on `tags text[]`) |
 | **Frontend** | React 19, Vite, Tailwind CSS, TanStack React Query v5, Lucide React, DOMPurify |
 | **Testing** | Jest, Vitest, React Testing Library, Supertest, jsdom |
 | **Containerization** | Docker, Docker Compose, Multi-stage builds |
