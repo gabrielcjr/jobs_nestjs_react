@@ -30,11 +30,48 @@ export class AshbyAdapter implements AtsAdapter {
 
         let minSalary: number | undefined;
         let maxSalary: number | undefined;
-        let currency: string | undefined = 'USD';
-        let salarySummary = job.compensation?.summary || job.compensationSummary || undefined;
+        let currency: string | undefined = job.compensation?.currency || 'USD';
+        let salarySummary = job.compensation?.summary || job.compensationSummary || job.compensation?.tierSummary || job.compensationTierSummary || undefined;
 
-        if (job.compensation?.tierSummary) {
-          salarySummary = job.compensation.tierSummary;
+        if (job.compensation?.minCompensation !== undefined) {
+          minSalary = Number(job.compensation.minCompensation);
+        } else if (job.compensation?.min !== undefined) {
+          minSalary = Number(job.compensation.min);
+        }
+
+        if (job.compensation?.maxCompensation !== undefined) {
+          maxSalary = Number(job.compensation.maxCompensation);
+        } else if (job.compensation?.max !== undefined) {
+          maxSalary = Number(job.compensation.max);
+        }
+
+        if ((minSalary === undefined || maxSalary === undefined) && Array.isArray(job.compensation?.compensationTiers) && job.compensation.compensationTiers.length > 0) {
+          const tier = job.compensation.compensationTiers[0];
+          if (minSalary === undefined) {
+            const tierMin = tier.minCompensation ?? tier.minCompensationAmount ?? tier.min ?? tier.minSalary;
+            if (tierMin !== undefined) minSalary = Number(tierMin);
+          }
+          if (maxSalary === undefined) {
+            const tierMax = tier.maxCompensation ?? tier.maxCompensationAmount ?? tier.max ?? tier.maxSalary;
+            if (tierMax !== undefined) maxSalary = Number(tierMax);
+          }
+          if (!currency && tier.currency) {
+            currency = tier.currency;
+          }
+        }
+
+        if ((minSalary === undefined || maxSalary === undefined) && salarySummary) {
+          const matches = salarySummary.match(/(?:[\$€£]|USD|EUR|GBP)?\s*([\d,]+)(?:\s*(?:k|thousand))?\s*(?:-|to)\s*(?:[\$€£]|USD|EUR|GBP)?\s*([\d,]+)(?:\s*(?:k|thousand))?/i);
+          if (matches) {
+            let parsedMin = Number(matches[1].replace(/,/g, ''));
+            let parsedMax = Number(matches[2].replace(/,/g, ''));
+            if (/k|thousand/i.test(matches[0])) {
+              if (parsedMin < 1000) parsedMin *= 1000;
+              if (parsedMax < 1000) parsedMax *= 1000;
+            }
+            if (!isNaN(parsedMin) && minSalary === undefined) minSalary = parsedMin;
+            if (!isNaN(parsedMax) && maxSalary === undefined) maxSalary = parsedMax;
+          }
         }
 
         return {
