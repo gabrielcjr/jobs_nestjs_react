@@ -134,6 +134,24 @@ describe('JobsService (Integration)', () => {
     });
   });
 
+  describe('getTopTags', () => {
+    it('should return top tags dynamically up to requested limit', async () => {
+      mockPrismaService.job.groupBy.mockResolvedValue([]);
+      mockPrismaService.job.findMany.mockResolvedValue([
+        { tags: ['TypeScript', 'Node.js', 'React'] },
+        { tags: ['TypeScript', 'React', 'Go'] },
+        { tags: ['TypeScript', 'Python'] },
+      ]);
+
+      const tags = await service.getTopTags(2);
+      expect(tags).toHaveLength(2);
+      expect(tags[0].name).toBe('TypeScript');
+      expect(tags[0].count).toBe(3);
+      expect(tags[1].name).toBe('React');
+      expect(tags[1].count).toBe(2);
+    });
+  });
+
   describe('pruneStaleJobs', () => {
     it('should perform dry-run audit without updating records', async () => {
       mockPrismaService.job.count.mockResolvedValue(15);
