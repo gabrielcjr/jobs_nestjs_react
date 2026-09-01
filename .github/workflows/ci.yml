@@ -208,6 +208,7 @@ jobs:
     needs: ci-gate
     if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
+    environment: DOCKERHUB
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
