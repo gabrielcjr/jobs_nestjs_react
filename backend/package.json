@@ -18,7 +18,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:generate": "prisma generate",
     "prisma:db:push": "prisma db push",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "prune:non-it": "ts-node --transpile-only scripts/prune-non-it-jobs.ts",
+    "prune:non-it:dry": "ts-node --transpile-only scripts/prune-non-it-jobs.ts --dry-run"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.2",

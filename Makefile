@@ -22,6 +22,12 @@ prune-stale: ## Run automated stale job pruning (soft delete jobs >45 days old)
 prune-stale-dry: ## Run dry-run audit of stale jobs (>45 days old) without modifying database
 	@./cron_prune_stale_jobs.sh 45 true
 
+prune-non-it: ## Prune/deactivate all non-IT jobs from the database
+	cd backend && npm run prune:non-it
+
+prune-non-it-dry: ## Dry-run audit of non-IT jobs in the database without modifying
+	cd backend && npm run prune:non-it:dry
+
 
 
 

@@ -16,6 +16,7 @@ describe('JobsService (Integration)', () => {
       findFirst: jest.fn(),
       groupBy: jest.fn(),
       updateMany: jest.fn(),
+      deleteMany: jest.fn(),
     },
     $queryRaw: jest.fn(),
   };
@@ -206,6 +207,58 @@ describe('JobsService (Integration)', () => {
       expect(result.daysThreshold).toBe(30);
       expect(result.deactivatedCount).toBe(5);
       expect(mockPrismaService.job.updateMany).toHaveBeenCalled();
+    });
+  });
+
+  describe('pruneNonItJobs', () => {
+    it('should audit non-IT jobs without modifying database in dry-run mode', async () => {
+      mockPrismaService.job.findMany.mockResolvedValue([
+        { id: 'job-1', title: 'Account Executive, AI Sales', department: 'Sales' },
+        { id: 'job-2', title: 'Senior Software Engineer', department: 'Engineering' },
+        { id: 'job-3', title: 'Lead Technical Recruiter', department: 'HR' },
+      ]);
+
+      const result = await service.pruneNonItJobs({ dryRun: true });
+
+      expect(result.processedCount).toBe(3);
+      expect(result.deactivatedCount).toBe(2);
+      expect(result.dryRun).toBe(true);
+      expect(mockPrismaService.job.updateMany).not.toHaveBeenCalled();
+      expect(mockPrismaService.job.deleteMany).not.toHaveBeenCalled();
+    });
+
+    it('should deactivate non-IT jobs when dryRun is false', async () => {
+      mockPrismaService.job.findMany.mockResolvedValue([
+        { id: 'job-1', title: 'Account Executive, AI Sales', department: 'Sales' },
+        { id: 'job-2', title: 'Senior Software Engineer', department: 'Engineering' },
+      ]);
+      mockPrismaService.job.updateMany.mockResolvedValue({ count: 1 });
+
+      const result = await service.pruneNonItJobs({ dryRun: false });
+
+      expect(result.deactivatedCount).toBe(1);
+      expect(result.dryRun).toBe(false);
+      expect(mockPrismaService.job.updateMany).toHaveBeenCalledWith({
+        where: { id: { in: ['job-1'] } },
+        data: { isActive: false },
+      });
+      expect(mockRedisCacheService.invalidatePattern).toHaveBeenCalledWith('devats:cache:jobs:*');
+    });
+
+    it('should hard delete non-IT jobs when hardDelete is true', async () => {
+      mockPrismaService.job.deleteMany = jest.fn().mockResolvedValue({ count: 1 });
+      mockPrismaService.job.findMany.mockResolvedValue([
+        { id: 'job-1', title: 'Performance Marketing Manager', department: 'Marketing' },
+        { id: 'job-2', title: 'Staff DevOps Engineer', department: 'Cloud' },
+      ]);
+
+      const result = await service.pruneNonItJobs({ dryRun: false, hardDelete: true });
+
+      expect(result.deactivatedCount).toBe(1);
+      expect(result.hardDelete).toBe(true);
+      expect(mockPrismaService.job.deleteMany).toHaveBeenCalledWith({
+        where: { id: { in: ['job-1'] } },
+      });
     });
   });
 });

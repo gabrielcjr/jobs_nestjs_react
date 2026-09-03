@@ -77,4 +77,20 @@ export class JobsController {
       data,
     };
   }
+
+  @Post('prune-non-it')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalhostOnlyGuard)
+  @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'jobs:prune-non-it' })
+  async pruneNonItJobs(
+    @Body() body: { dryRun?: boolean; hardDelete?: boolean },
+  ): Promise<{ success: boolean; message: string; data: any }> {
+    const data = await this.jobsService.pruneNonItJobs(body);
+    const action = data.dryRun ? 'Audited' : data.hardDelete ? 'Deleted' : 'Deactivated';
+    return {
+      success: true,
+      message: `${action} ${data.deactivatedCount} non-IT jobs out of ${data.processedCount} processed`,
+      data,
+    };
+  }
 }

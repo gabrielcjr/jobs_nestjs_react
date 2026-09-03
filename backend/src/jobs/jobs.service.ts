@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { RedisCacheService } from '../redis/redis-cache.service';
 import { GetJobsQueryDto, DatePostedWindow, JobSortBy, SortOrder } from './dto/get-jobs-query.dto';
 import { PruneJobsDto, PruneJobsResponse } from './dto/prune-jobs.dto';
+import { isItJob } from '../ingestion/utils/tech-classifier.util';
 
 export interface PaginatedJobsResponse {
   jobs: any[];
@@ -412,6 +413,92 @@ export class JobsService {
       cutoffDate: cutoffDate.toISOString(),
       daysThreshold: days,
       dryRun: false,
+      executionTimeMs,
+    };
+  }
+
+  /**
+   * Identifies and deactivates (or deletes) all non-IT jobs from the database.
+   */
+  async pruneNonItJobs(options: { dryRun?: boolean; hardDelete?: boolean } = {}): Promise<{
+    processedCount: number;
+    deactivatedCount: number;
+    dryRun: boolean;
+    hardDelete: boolean;
+    executionTimeMs: number;
+  }> {
+    const startTime = Date.now();
+    const dryRun = Boolean(options.dryRun);
+    const hardDelete = Boolean(options.hardDelete);
+
+    this.logger.log(`Running non-IT job pruning: dryRun=${dryRun}, hardDelete=${hardDelete}`);
+
+    const jobs = await this.prisma.job.findMany({
+      where: { isActive: true },
+      select: { id: true, title: true, department: true },
+    });
+
+    const nonItJobIds: string[] = [];
+    for (const job of jobs) {
+      if (!isItJob(job.title, job.department || undefined)) {
+        nonItJobIds.push(job.id);
+      }
+    }
+
+    if (dryRun) {
+      const executionTimeMs = Date.now() - startTime;
+      this.logger.log(
+        `[DRY RUN] Non-IT pruning audit: identified ${nonItJobIds.length} non-IT jobs out of ${jobs.length} active jobs in ${executionTimeMs}ms`,
+      );
+      return {
+        processedCount: jobs.length,
+        deactivatedCount: nonItJobIds.length,
+        dryRun: true,
+        hardDelete,
+        executionTimeMs,
+      };
+    }
+
+    let affectedCount = 0;
+    if (nonItJobIds.length > 0) {
+      const chunkSize = 500;
+      for (let i = 0; i < nonItJobIds.length; i += chunkSize) {
+        const chunk = nonItJobIds.slice(i, i + chunkSize);
+        if (hardDelete) {
+          const res = await this.prisma.job.deleteMany({
+            where: { id: { in: chunk } },
+          });
+          affectedCount += res.count;
+        } else {
+          const res = await this.prisma.job.updateMany({
+            where: { id: { in: chunk } },
+            data: { isActive: false },
+          });
+          affectedCount += res.count;
+        }
+      }
+    }
+
+    const executionTimeMs = Date.now() - startTime;
+    this.logger.log(
+      `Non-IT job pruning completed: ${hardDelete ? 'deleted' : 'deactivated'} ${affectedCount} non-IT jobs in ${executionTimeMs}ms`,
+    );
+
+    if (affectedCount > 0) {
+      this.cachedFacets = null;
+      this.lastFacetComputeTime = 0;
+
+      if (this.redisCacheService) {
+        await this.redisCacheService.invalidatePattern('devats:cache:jobs:*');
+        await this.redisCacheService.invalidatePattern('devats:cache:analytics:*');
+      }
+    }
+
+    return {
+      processedCount: jobs.length,
+      deactivatedCount: affectedCount,
+      dryRun: false,
+      hardDelete,
       executionTimeMs,
     };
   }
