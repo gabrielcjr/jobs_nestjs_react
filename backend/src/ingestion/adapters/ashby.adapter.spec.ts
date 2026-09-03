@@ -75,4 +75,38 @@ describe('AshbyAdapter', () => {
     const jobs = await adapter.fetchJobs('unknown-company');
     expect(jobs).toEqual([]);
   });
+
+  it('should filter out non-IT positions from raw Ashby job board', async () => {
+    mockedAxios.get.mockResolvedValue({
+      status: 200,
+      data: {
+        jobs: [
+          {
+            id: 'ashby-sales',
+            title: 'Account Executive, Commercial Hunter',
+            department: 'Sales',
+            location: 'New York, NY',
+          },
+          {
+            id: 'ashby-hr',
+            title: 'Lead Technical Recruiter',
+            department: 'People Operations',
+            location: 'Remote',
+          },
+          {
+            id: 'ashby-dev',
+            title: 'Staff DevOps Engineer',
+            department: 'Infrastructure',
+            location: 'Remote',
+          },
+        ],
+      },
+    });
+
+    const jobs = await adapter.fetchJobs('linear');
+
+    expect(jobs).toHaveLength(1);
+    expect(jobs[0].externalJobId).toBe('ashby-dev');
+    expect(jobs[0].title).toBe('Staff DevOps Engineer');
+  });
 });

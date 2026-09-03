@@ -6,7 +6,7 @@ import { AtsAdapter } from './interfaces/ats-adapter.interface';
 import { GreenhouseAdapter } from './adapters/greenhouse.adapter';
 import { LeverAdapter } from './adapters/lever.adapter';
 import { AshbyAdapter } from './adapters/ashby.adapter';
-import { cleanCompanyName, isLatamUsdEligible } from './utils/tech-classifier.util';
+import { cleanCompanyName, isLatamUsdEligible, isItJob } from './utils/tech-classifier.util';
 import slugify from 'slugify';
 
 export interface SyncResult {
@@ -165,6 +165,10 @@ export class IngestionService {
       const staleCutoff = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000);
 
       for (const job of jobs) {
+        if (!isItJob(job.title, job.department)) {
+          continue;
+        }
+
         const isLatam = isLatamUsdEligible(
           job.location || '',
           job.description || '',

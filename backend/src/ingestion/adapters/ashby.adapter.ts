@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { AtsProvider } from '@prisma/client';
 import { AtsAdapter, NormalizedJob } from '../interfaces/ats-adapter.interface';
-import { extractTechTags, inferRoleCategory, inferSeniority, inferWorkplaceType } from '../utils/tech-classifier.util';
+import { extractTechTags, inferRoleCategory, inferSeniority, inferWorkplaceType, isItJob } from '../utils/tech-classifier.util';
 
 @Injectable()
 export class AshbyAdapter implements AtsAdapter {
@@ -21,7 +21,9 @@ export class AshbyAdapter implements AtsAdapter {
       });
       const rawJobs = response.data?.jobs || [];
 
-      return rawJobs.map((job: any): NormalizedJob => {
+      return rawJobs
+        .filter((job: any) => isItJob(job.title || '', job.department || job.departmentName || job.team))
+        .map((job: any): NormalizedJob => {
         const title = job.title || 'Untitled';
         const location = job.location || job.locationName || (job.secondaryLocations?.length ? job.secondaryLocations.join(', ') : 'Unspecified');
         const workplace = job.workplaceType || '';

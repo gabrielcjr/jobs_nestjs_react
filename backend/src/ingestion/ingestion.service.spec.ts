@@ -148,4 +148,55 @@ describe('IngestionService (Stale Ingestion Safeguards)', () => {
       }),
     );
   });
+
+  it('should skip non-IT job positions and only upsert IT-related jobs to DB', async () => {
+    mockGreenhouseAdapter.fetchJobs.mockResolvedValue([
+      {
+        externalJobId: 'sales-001',
+        atsProvider: AtsProvider.GREENHOUSE,
+        title: 'Account Executive, AI Sales',
+        location: 'Remote',
+        description: 'Selling developer platforms',
+        applyUrl: 'https://example.com/apply-sales',
+        tags: ['AWS'],
+      },
+      {
+        externalJobId: 'rec-002',
+        atsProvider: AtsProvider.GREENHOUSE,
+        title: 'Lead Technical Recruiter',
+        location: 'Remote',
+        description: 'Recruiting engineers',
+        applyUrl: 'https://example.com/apply-rec',
+        tags: [],
+      },
+      {
+        externalJobId: 'eng-003',
+        atsProvider: AtsProvider.GREENHOUSE,
+        title: 'Senior Software Engineer, Core Systems',
+        location: 'Remote',
+        description: 'Building distributed backend in Go',
+        applyUrl: 'https://example.com/apply-eng',
+        tags: ['Go', 'PostgreSQL'],
+      },
+    ]);
+
+    const result = await service.syncCompanyJobs('acme', AtsProvider.GREENHOUSE, 'Acme Corp');
+
+    // Only the software engineer should be upserted
+    expect(result.upsertedCount).toBe(1);
+    expect(mockPrismaService.job.upsert).toHaveBeenCalledTimes(1);
+    expect(mockPrismaService.job.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          atsProvider_externalJobId: {
+            atsProvider: AtsProvider.GREENHOUSE,
+            externalJobId: 'eng-003',
+          },
+        },
+        create: expect.objectContaining({
+          title: 'Senior Software Engineer, Core Systems',
+        }),
+      }),
+    );
+  });
 });
