@@ -106,6 +106,118 @@ export function inferRoleCategory(title: string): RoleCategory {
   return RoleCategory.OTHER;
 }
 
+/**
+ * Strict exclusion patterns for non-IT / non-development roles.
+ * Matches roles that must NOT be treated as IT positions, even if they contain
+ * incidental tech buzzwords or are located within tech companies.
+ */
+export const NON_IT_ROLE_PATTERNS: RegExp[] = [
+  // 1. Sales, Business Development, Commercial & Account Management
+  /\b(account executive|account rep(resentative)?|sales rep(resentative)?|sales manager|sales director|sales lead|sales associate|sales development|sdr|bdr|inside sales|commercial sales|enterprise sales|field sales|quota|closing specialist|business development rep(resentative)?|business development manager|partnerships? manager|partner manager|merchant success|commercial hunter|commercial grower|sales consultant|sales specialist|client executive)\b/i,
+
+  // 2. Marketing, PR, Communications, SEO & Brand
+  /\b(marketing manager|marketing specialist|marketing director|marketing lead|marketing coordinator|marketing associate|product marketing|performance marketing|digital marketing|brand marketing|growth marketing|content marketing|content creator|copywriter|copy editor|social media|seo specialist|public relations|\bpr\b|brand manager|communications manager|event planner|events manager|field marketing|demand gen(eration)?|campaign manager)\b/i,
+
+  // 3. Recruiting, Talent Acquisition & Human Resources
+  /\b(recruiter|recruiting|talent acquisition|sourcer|talent partner|human resources|\bhr\b|hrbp|people partner|people operations|employee relations|compensation & benefits|benefits manager|people experience|talent coordinator)\b/i,
+
+  // 4. Legal, Compliance, Regulatory & Governance
+  /\b(legal counsel|commercial counsel|corporate counsel|general counsel|counsel|attorney|lawyer|paralegal|compliance officer|regulatory counsel|contracts manager|privacy officer|policy manager)\b/i,
+
+  // 5. Finance, Accounting, Tax, Underwriting & Collections
+  /\b(accountant|accounting|financial analyst|controller|bookkeeper|billing specialist|payroll|treasury|underwriter|underwriting|collections analyst|collections rep(resentative)?|credit risk|credit operations|finance & strategy partner|strategic finance lead|tax manager|tax analyst)\b/i,
+
+  // 6. Administrative, Office, Workplace & Facilities
+  /\b(executive assistant|administrative assistant|office manager|receptionist|workplace coordinator|facilities|janitor|custodian|security guard|culinary|chef|cook|barista|kitchen|warehouse associate|logistics coordinator|driver)\b/i,
+
+  // 7. Non-technical Customer Operations / Support / Retail
+  /\b(customer service|customer success manager|client success manager|community manager|guest services|store manager|retail associate|call center rep(resentative)?)\b/i,
+
+  // 8. Traditional non-software engineering disciplines
+  /\b(civil engineer|chemical engineer|structural engineer|hvac|acoustic engineer|environmental engineer|sanitation engineer|petroleum engineer|biomedical engineer|geotechnical engineer)\b/i,
+];
+
+/**
+ * Positive patterns for IT, Software Development, Data, Security, Infrastructure & Technical roles.
+ */
+export const IT_ROLE_PATTERNS: RegExp[] = [
+  // Software Engineering & Development
+  /\b(software|developer|programmer|coder)\b/i,
+  /\b(frontend|front-end|backend|back-end|fullstack|full-stack|full stack)\b/i,
+  /\b(web developer|webmaster|ui engineer|ux engineer|ui\/ux engineer)\b/i,
+  /\b(mobile engineer|mobile developer|ios developer|ios engineer|android developer|android engineer|react native|flutter)\b/i,
+  /\b(firmware|embedded systems|embedded software|embedded engineer|kernel developer|systems engineer|systems programmer|graphics engineer|game developer|compiler engineer|hardware engineer|robotics engineer|perception engineer|simulation engineer)\b/i,
+
+  // Architecture
+  /\b(software architect|solutions architect|enterprise architect|technical architect|system architect|cloud architect|data architect|infrastructure architect|security architect)\b/i,
+
+  // DevOps, SRE, Cloud & Infrastructure
+  /\b(devops|dev ops|dev-ops|devsecops|sre|site reliability|cloud engineer|platform engineer|infrastructure engineer|systems administrator|sysadmin|network engineer|network administrator|database administrator|dba|database engineer|reliability engineer)\b/i,
+
+  // Data, AI, Machine Learning & Analytics
+  /\b(data engineer|data scientist|data analyst|analytics engineer|bi developer|bi engineer|business intelligence developer|machine learning|ml engineer|ai engineer|artificial intelligence|deep learning|computer vision|nlp engineer|llm engineer|prompt engineer|algorithm engineer|applied scientist|research scientist|research engineer|data operations)\b/i,
+
+  // Cybersecurity & Information Security
+  /\b(security engineer|infosec|appsec|application security|cybersecurity|cyber security|information security|soc analyst|penetration test(er|ing)?|pentest(er|ing)?|vulnerability|devsecops|iam engineer|cryptography|secops)\b/i,
+
+  // Quality Assurance & Software Testing
+  /\b(qa engineer|quality assurance|sdet|test automation|test engineer|software test|automation engineer|qa analyst|quality engineer)\b/i,
+
+  // IT Support, Services, TechOps & Technical Customer Solutions
+  /\b(it specialist|it support|it engineer|it technician|it administrator|it analyst|desktop support|helpdesk|help desk|service desk|techops|systems support|technical support engineer|customer reliability engineer|forward deployed engineer|solution engineer|sales engineer|pre-sales engineer|pre-sales solutions architect)\b/i,
+
+  // Engineering & Technical Leadership / Management
+  /\b(cto|chief technology officer|cio|chief information officer|ciso|chief information security officer)\b/i,
+  /\b(engineering manager|director of engineering|vp of engineering|head of engineering|vp of technology|director of technology|head of technology|it manager|it director|head of it|dev manager)\b/i,
+  /\b((manager|director|lead|head|vp)[,\s]+(engineering|it|technology|tech))\b/i,
+  /\b((engineering|it|technology|tech)\s+(manager|director|lead|head|vp))\b/i,
+  /\b(tech lead|technical lead|lead developer|lead software engineer)\b/i,
+  /\b(technical program manager|technical product manager|tpm|scrum master|agile coach)\b/i,
+  /\b(staff engineer|principal engineer|founding engineer|member of technical staff|distinguished engineer)\b/i,
+];
+
+/**
+ * Checks if a job is directly related with IT, software engineering, or technical operations.
+ *
+ * @param title The job title
+ * @param department Optional department name from ATS
+ * @returns true if the job is directly related with IT; false otherwise
+ */
+export function isItJob(title: string, department?: string): boolean {
+  if (!title) return false;
+  const cleanTitle = title.trim();
+
+  // 1. Check strict exclusions (non-IT roles)
+  for (const pattern of NON_IT_ROLE_PATTERNS) {
+    if (pattern.test(cleanTitle)) {
+      return false;
+    }
+  }
+
+  // 2. Check positive IT role matches
+  for (const pattern of IT_ROLE_PATTERNS) {
+    if (pattern.test(cleanTitle)) {
+      return true;
+    }
+  }
+
+  // 3. Fallback: Generic "engineer" or "engineering" title (e.g. "Engineer II", "Staff Engineer", "Chief Engineer")
+  if (/\b(engineer|engineering|architect)\b/i.test(cleanTitle)) {
+    return true;
+  }
+
+  // 4. Department-assisted fallback: if department strongly indicates IT/Engineering and title is a technical role
+  if (department) {
+    const dept = department.trim().toLowerCase();
+    const isTechDept = /\b(engineering|software engineering|technology|information technology|it|dev eng|core infrastructure|platform engineering|r&d)\b/i.test(dept);
+    if (isTechDept && /\b(specialist|analyst|technician|lead|director|manager|head)\b/i.test(cleanTitle)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function inferWorkplaceType(locationStr: string = '', workplaceStr: string = ''): WorkplaceType {
   const combined = `${locationStr} ${workplaceStr}`.toLowerCase();
   if (/\bremote|virtual|work from home|wfh\b/i.test(combined)) return WorkplaceType.REMOTE;
