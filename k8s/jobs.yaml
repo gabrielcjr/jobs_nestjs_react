@@ -64,6 +64,7 @@ metadata:
   namespace: jobs
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: redis
@@ -109,6 +110,7 @@ metadata:
   namespace: jobs
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: backend
@@ -167,6 +169,7 @@ metadata:
   namespace: jobs
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: frontend
