@@ -17,7 +17,8 @@ set -eo pipefail
 
 TIER="${1:-4}"
 CONCURRENCY="${2:-8}"
-BACKEND_URL="${DEVATS_BACKEND_URL:-http://127.0.0.1:3001}"
+# In Kubernetes (K3s), frontend NodePort proxies /api/ requests to backend:3001
+BACKEND_URL="${DEVATS_BACKEND_URL:-http://127.0.0.1:30082}"
 
 # Determine writable log destination
 if [ -w "/var/log" ] || ([ ! -e "/var/log/findjobs_cron.log" ] && [ -w "/var/log" ]) || [ -w "/var/log/findjobs_cron.log" ]; then

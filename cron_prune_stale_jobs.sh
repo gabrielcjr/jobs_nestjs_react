@@ -18,7 +18,8 @@ set -eo pipefail
 
 DAYS="${1:-45}"
 DRY_RUN="${2:-false}"
-BACKEND_URL="${DEVATS_BACKEND_URL:-http://127.0.0.1:3001}"
+# In Kubernetes (K3s), frontend NodePort proxies /api/ requests to backend:3001
+BACKEND_URL="${DEVATS_BACKEND_URL:-http://127.0.0.1:30082}"
 
 # Determine writable log destination
 if [ -w "/var/log" ] || ([ ! -e "/var/log/findjobs_prune_cron.log" ] && [ -w "/var/log" ]) || [ -w "/var/log/findjobs_prune_cron.log" ]; then
