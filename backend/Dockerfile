@@ -32,4 +32,4 @@ COPY global-hiring-companies.csv ./
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "npx prisma db push && (npm run prisma:seed || true) && node dist/src/main.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && (npm run prisma:seed || true) && node dist/src/main.js"]

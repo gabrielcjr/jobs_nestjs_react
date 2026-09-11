@@ -107,7 +107,11 @@ make docker-up
 
 - **Frontend UI**: `http://localhost:5173`
 - **Backend API**: `http://localhost:3001`
-- **PostgreSQL**: `localhost:5435`
+- **PostgreSQL**: `localhost:5435` (mapped to standard internal port `5432` to prevent conflicts with local PostgreSQL services)
+- **Redis**: `localhost:6379`
+
+> [!NOTE]
+> For local development and tests via Docker Compose, PostgreSQL is bound to port `5435` (`DATABASE_URL="postgresql://postgres:postgrespassword@127.0.0.1:5435/jobs_db?schema=public"` as configured in `backend/.env.example`). In CI and Kubernetes environments, PostgreSQL runs on standard internal port `5432`.
 
 ---
 
@@ -118,10 +122,10 @@ make docker-up
 make install
 ```
 
-#### 2. Start PostgreSQL Database
+#### 2. Start PostgreSQL Database & Apply Migrations
 ```bash
 make dev
-make db-push
+make db-migrate-deploy  # or 'make db-push' for schema prototyping
 ```
 
 #### 3. Start Backend & Frontend
