@@ -18,8 +18,17 @@ set -eo pipefail
 
 DAYS="${1:-45}"
 DRY_RUN="${2:-false}"
-# In Kubernetes (K3s), frontend NodePort proxies /api/ requests to backend:3001
-BACKEND_URL="${DEVATS_BACKEND_URL:-http://127.0.0.1:30082}"
+# In Kubernetes (K3s), frontend NodePort proxies /api/ requests to backend:3001 on port 30082.
+# For local development or Docker Compose, direct backend is on port 3001.
+if [ -n "$DEVATS_BACKEND_URL" ]; then
+  BACKEND_URL="$DEVATS_BACKEND_URL"
+elif curl -s -f -o /dev/null --connect-timeout 1 "http://127.0.0.1:30082/api/v1/ingest/providers" 2>/dev/null; then
+  BACKEND_URL="http://127.0.0.1:30082"
+elif curl -s -f -o /dev/null --connect-timeout 1 "http://127.0.0.1:3001/api/v1/ingest/providers" 2>/dev/null; then
+  BACKEND_URL="http://127.0.0.1:3001"
+else
+  BACKEND_URL="http://127.0.0.1:30082"
+fi
 
 # Determine writable log destination
 if [ -w "/var/log" ] || ([ ! -e "/var/log/findjobs_prune_cron.log" ] && [ -w "/var/log" ]) || [ -w "/var/log/findjobs_prune_cron.log" ]; then
