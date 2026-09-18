@@ -28,16 +28,16 @@ describe('ThemeContext & ThemeProvider', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders default cyber-indigo palette on initial load', () => {
+  it('renders default electric-cyan palette on initial load', () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
     );
 
-    expect(screen.getByTestId('current-palette-id')).toHaveTextContent('cyber-indigo');
-    expect(screen.getByTestId('current-palette-name')).toHaveTextContent('Cyber Indigo');
-    expect(document.documentElement.getAttribute('data-theme')).toBe('cyber-indigo');
+    expect(screen.getByTestId('current-palette-id')).toHaveTextContent('electric-cyan');
+    expect(screen.getByTestId('current-palette-name')).toHaveTextContent('Electric Cyan');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('electric-cyan');
     expect(screen.getByTestId('palettes-count')).toHaveTextContent('5');
   });
 
@@ -91,7 +91,7 @@ describe('ThemeContext & ThemeProvider', () => {
 
     await user.click(screen.getByRole('button', { name: 'Reset Theme' }));
 
-    expect(screen.getByTestId('current-palette-id')).toHaveTextContent('cyber-indigo');
-    expect(document.documentElement.getAttribute('data-theme')).toBe('cyber-indigo');
+    expect(screen.getByTestId('current-palette-id')).toHaveTextContent('electric-cyan');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('electric-cyan');
   });
 });

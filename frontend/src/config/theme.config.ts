@@ -90,11 +90,11 @@ const resolveDefaultPalette = (): PaletteId => {
   if (envTheme && envTheme in COLOR_PALETTES) {
     return envTheme as PaletteId;
   }
-  return 'cyber-indigo';
+  return 'electric-cyan';
 };
 
 export const themeConfig: ThemeConfig = {
   defaultPalette: resolveDefaultPalette(),
-  showThemePicker: parseEnvBoolean(import.meta.env.VITE_APP_SHOW_THEME_PICKER, true),
+  showThemePicker: parseEnvBoolean(import.meta.env.VITE_APP_SHOW_THEME_PICKER, false),
   allowThemeCustomization: parseEnvBoolean(import.meta.env.VITE_APP_ALLOW_THEME_CUSTOMIZATION, true),
 };
