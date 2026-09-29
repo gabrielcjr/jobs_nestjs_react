@@ -65,6 +65,7 @@ export const App: React.FC = () => {
   // Filter jobs if "Saved Only" is active
   const jobs = showSavedOnly ? rawJobs.filter((j) => isBookmarked(j.id)) : rawJobs;
   const displayTotalCount = showSavedOnly ? jobs.length : totalCount;
+  const displayTotalPages = showSavedOnly ? Math.ceil(jobs.length / 20) || 1 : totalPages;
 
   // Auto-select first job and mark as viewed
   useEffect(() => {
@@ -129,12 +130,16 @@ export const App: React.FC = () => {
       filters.tags.length > 0
   );
 
+  const globalTotalCount = facets?.roleCategoryCounts 
+    ? Object.values(facets.roleCategoryCounts).reduce((a, b) => a + b, 0)
+    : totalCount;
+
   return (
     <div className="min-h-screen flex flex-col bg-dark-950 text-slate-100 selection:bg-brand-500 selection:text-white">
       {/* Top Navbar */}
       <Navbar
         onOpenAnalyticsModal={() => setIsAnalyticsOpen(true)}
-        totalJobsCount={totalCount}
+        totalJobsCount={globalTotalCount}
       />
 
 
@@ -174,7 +179,7 @@ export const App: React.FC = () => {
               jobs={jobs}
               totalCount={displayTotalCount}
               currentPage={filters.page || 1}
-              totalPages={totalPages}
+              totalPages={displayTotalPages}
               isLoading={isLoading}
               selectedJob={selectedJob}
               onSelectJob={handleSelectJob}

@@ -63,7 +63,8 @@ export const RoleCategoryTabs: React.FC<RoleCategoryTabsProps> = ({
 
         {ROLES.map((role) => {
           const isSelected = !showSavedOnly && selectedRole === role.id;
-          const count = role.id === 'ALL' ? totalCount : roleCounts[role.id] || 0;
+          const globalRoleTotal = Object.values(roleCounts).reduce((sum, val) => sum + val, 0);
+          const count = role.id === 'ALL' ? (globalRoleTotal > 0 ? globalRoleTotal : totalCount) : roleCounts[role.id] || 0;
 
           return (
             <button
