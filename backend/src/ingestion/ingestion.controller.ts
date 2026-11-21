@@ -1,9 +1,13 @@
 import { Controller, Post, Body, Get, Query, Sse, MessageEvent, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 import { IngestionService, SyncResult } from './ingestion.service';
-import { AtsDiscoveryService, DiscoveryProbeResult, BackgroundDiscoveryJob } from './services/ats-discovery.service';
-import { SyncCompanyDto } from './dto/sync-company.dto';
-import { DiscoverCompanyDto, DiscoverBatchDto } from './dto/discover-company.dto';
+import {
+  AtsDiscoveryService,
+  DiscoveredAtsHit,
+  DiscoveryProbeResult,
+  BackgroundDiscoveryJob,
+} from './services/ats-discovery.service';
+import { DiscoverCompanyDto, DiscoverBatchDto, StartCsvDiscoveryDto } from './dto/discover-company.dto';
 import { RedisRateLimiterGuard } from '../redis/guards/redis-rate-limiter.guard';
 import { LocalhostOnlyGuard } from '../common/guards/localhost-only.guard';
 import { RateLimit } from '../redis/decorators/rate-limit.decorator';
@@ -26,7 +30,8 @@ export class IngestionController {
 
   @Get('csv-summary')
   getCsvSummary(@Query('tier') tier?: string) {
-    const tierMax = tier ? parseInt(tier, 10) : 1;
+    const parsedTier = tier ? parseInt(tier, 10) : 1;
+    const tierMax = Number.isFinite(parsedTier) ? Math.min(Math.max(parsedTier, 1), 5) : 1;
     const rows = this.discoveryService.readCompanyCsv(tierMax);
     return {
       success: true,
@@ -60,7 +65,7 @@ export class IngestionController {
   @UseGuards(LocalhostOnlyGuard)
   @RateLimit({ limit: 5, ttlSeconds: 60, keyPrefix: 'ingest:csv-discovery' })
   async startCsvDiscovery(
-    @Body() body: { tier?: number; limit?: number; concurrency?: number },
+    @Body() body: StartCsvDiscoveryDto,
   ): Promise<{ success: boolean; message: string; data: BackgroundDiscoveryJob }> {
     const tier = body.tier || 1;
     const limit = body.limit;
@@ -84,6 +89,7 @@ export class IngestionController {
 
   @Post('discover')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalhostOnlyGuard)
   @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'ingest:discover' })
   async discoverCompany(@Body() dto: DiscoverCompanyDto): Promise<{ success: boolean; data: DiscoveryProbeResult }> {
     const result = await this.discoveryService.discoverCompanyAts(dto.companyName, dto.slug);
@@ -95,6 +101,7 @@ export class IngestionController {
 
   @Post('discover-and-sync')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalhostOnlyGuard)
   @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'ingest:discover-and-sync' })
   async discoverAndSync(
     @Body() dto: DiscoverCompanyDto,
@@ -122,6 +129,7 @@ export class IngestionController {
 
   @Post('discover-batch')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalhostOnlyGuard)
   @RateLimit({ limit: 5, ttlSeconds: 60, keyPrefix: 'ingest:discover-batch' })
   async discoverBatch(
     @Body() dto: DiscoverBatchDto,
@@ -131,28 +139,39 @@ export class IngestionController {
       totalInput: number;
       discoveredCount: number;
       totalJobsSynced: number;
-      results: { company: string; hit?: any; sync?: SyncResult }[];
+      results: { company: string; hit?: DiscoveredAtsHit; sync?: SyncResult }[];
     };
   }> {
     const companies = dto.companies.map((c) => ({ name: c.trim() })).filter((c) => c.name.length > 0);
     const discoveries = await this.discoveryService.discoverBatch(companies);
 
-    const results: { company: string; hit?: any; sync?: SyncResult }[] = [];
+    const results: { company: string; hit?: DiscoveredAtsHit; sync?: SyncResult }[] = new Array(discoveries.length);
     let totalJobsSynced = 0;
 
-    for (const d of discoveries) {
-      if (d.hit) {
-        const sync = await this.ingestionService.syncCompanyJobs(d.hit.slug, d.hit.provider, d.hit.company);
-        if (sync.success) {
-          totalJobsSynced += sync.upsertedCount;
-        }
-        results.push({ company: d.company, hit: d.hit, sync });
-      } else {
-        results.push({ company: d.company });
-      }
-    }
+    // Sync discovered companies with bounded concurrency (4 concurrent sync workers)
+    const SYNC_CONCURRENCY = 4;
+    let cursor = 0;
 
-    const discoveredCount = results.filter((r) => Boolean(r.hit)).length;
+    const runSyncWorker = async () => {
+      while (cursor < discoveries.length) {
+        const idx = cursor++;
+        const d = discoveries[idx];
+        if (d.hit) {
+          const sync = await this.ingestionService.syncCompanyJobs(d.hit.slug, d.hit.provider, d.hit.company);
+          if (sync.success) {
+            totalJobsSynced += sync.upsertedCount;
+          }
+          results[idx] = { company: d.company, hit: d.hit, sync };
+        } else {
+          results[idx] = { company: d.company };
+        }
+      }
+    };
+
+    const workers = Array.from({ length: Math.min(SYNC_CONCURRENCY, discoveries.length) }, () => runSyncWorker());
+    await Promise.all(workers);
+
+    const discoveredCount = results.filter((r) => Boolean(r?.hit)).length;
 
     return {
       success: true,

@@ -88,6 +88,22 @@ describe('JobsController', () => {
       );
       expect(result.data).toEqual(['TypeScript', 'React', 'PostgreSQL']);
     });
+
+    it('should clamp invalid or out-of-range limit query values to prevent cache key pollution', async () => {
+      await controller.getTags('not-a-number');
+      expect(mockRedisCacheService.getOrSet).toHaveBeenCalledWith(
+        'devats:cache:jobs:tags:30',
+        600,
+        expect.any(Function),
+      );
+
+      await controller.getTags(9999);
+      expect(mockRedisCacheService.getOrSet).toHaveBeenCalledWith(
+        'devats:cache:jobs:tags:100',
+        600,
+        expect.any(Function),
+      );
+    });
   });
 
   describe('getJob', () => {

@@ -15,6 +15,18 @@ export class PruneJobsDto {
   dryRun?: boolean = false;
 }
 
+export class PruneNonItJobsDto {
+  @IsOptional()
+  @Transform(({ value }) => value === true || value === 'true' || value === 1 || value === '1')
+  @IsBoolean()
+  dryRun?: boolean = false;
+
+  @IsOptional()
+  @Transform(({ value }) => value === true || value === 'true' || value === 1 || value === '1')
+  @IsBoolean()
+  hardDelete?: boolean = false;
+}
+
 export interface PruneJobsResponse {
   success: boolean;
   message: string;
@@ -23,6 +35,18 @@ export interface PruneJobsResponse {
     cutoffDate: string;
     daysThreshold: number;
     dryRun: boolean;
+    executionTimeMs: number;
+  };
+}
+
+export interface PruneNonItJobsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    processedCount: number;
+    deactivatedCount: number;
+    dryRun: boolean;
+    hardDelete: boolean;
     executionTimeMs: number;
   };
 }

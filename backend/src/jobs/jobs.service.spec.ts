@@ -116,6 +116,29 @@ describe('JobsService (Integration)', () => {
         }),
       );
     });
+
+    it('should only fall back to firstSeenAt in datePosted filter when postedAt is null', async () => {
+      mockPrismaService.job.findMany.mockResolvedValue([]);
+      mockPrismaService.job.count.mockResolvedValue(0);
+      mockPrismaService.job.groupBy.mockResolvedValue([]);
+
+      await service.findAll({ datePosted: '24h' as any });
+
+      expect(mockPrismaService.job.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            AND: expect.arrayContaining([
+              expect.objectContaining({
+                OR: [
+                  { postedAt: { gte: expect.any(Date) } },
+                  { AND: [{ postedAt: null }, { firstSeenAt: { gte: expect.any(Date) } }] },
+                ],
+              }),
+            ]),
+          }),
+        }),
+      );
+    });
   });
 
   describe('findOne', () => {
@@ -136,12 +159,12 @@ describe('JobsService (Integration)', () => {
   });
 
   describe('getTopTags', () => {
-    it('should return top tags dynamically up to requested limit', async () => {
+    it('should return top tags via SQL unnest aggregation up to requested limit', async () => {
       mockPrismaService.job.groupBy.mockResolvedValue([]);
-      mockPrismaService.job.findMany.mockResolvedValue([
-        { tags: ['TypeScript', 'Node.js', 'React'] },
-        { tags: ['TypeScript', 'React', 'Go'] },
-        { tags: ['TypeScript', 'Python'] },
+      mockPrismaService.$queryRaw.mockResolvedValue([
+        { name: 'TypeScript', count: 3 },
+        { name: 'React', count: 2 },
+        { name: 'Go', count: 1 },
       ]);
 
       const tags = await service.getTopTags(2);
