@@ -121,7 +121,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gacarneirojrx/jobs-backend:fe8f1f4a21530cf223feefd4f20c5f879e004717
+          image: gacarneirojrx/jobs-backend:17ee8c55782741143faf91d941141a9a90129ec4
           imagePullPolicy: Always
           envFrom:
             - secretRef:
@@ -184,7 +184,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: gacarneirojrx/jobs-frontend:fe8f1f4a21530cf223feefd4f20c5f879e004717
+          image: gacarneirojrx/jobs-frontend:17ee8c55782741143faf91d941141a9a90129ec4
           imagePullPolicy: Always
           ports:
             - containerPort: 80
