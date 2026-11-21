@@ -55,6 +55,7 @@ model Company {
   updatedAt   DateTime    @updatedAt
 
   @@index([slug, atsProvider])
+  @@index([name])
 }
 
 model Job {
@@ -106,5 +107,6 @@ model Job {
   @@index([postedAt(sort: Desc)])
   @@index([firstSeenAt(sort: Desc)])
   @@index([location])
+  @@index([department])
   @@index([title])
 }
