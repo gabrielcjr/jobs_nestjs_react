@@ -85,4 +85,51 @@ describe('LocalhostOnlyGuard', () => {
       expect(err.getStatus()).toBe(HttpStatus.FORBIDDEN);
     }
   });
+
+  it('should throw 403 Forbidden if x-forwarded-for prepends a spoofed loopback IP ahead of a public hop', () => {
+    const ctx = createMockContext({
+      ip: '127.0.0.1',
+      headers: {
+        'x-forwarded-for': '127.0.0.1, 203.0.113.195',
+      },
+    });
+
+    expect(() => guard.canActivate(ctx)).toThrow(HttpException);
+  });
+
+  it('should throw 403 Forbidden when direct IP is missing/empty (fail-closed)', () => {
+    const ctx = createMockContext({
+      ip: '',
+      headers: {},
+    });
+
+    expect(() => guard.canActivate(ctx)).toThrow(HttpException);
+  });
+
+  it('should enforce ADMIN_API_KEY when configured in environment', () => {
+    const prevKey = process.env.ADMIN_API_KEY;
+    process.env.ADMIN_API_KEY = 'super-secret-key';
+
+    try {
+      const unauthorizedCtx = createMockContext({
+        ip: '127.0.0.1',
+        headers: {},
+      });
+      expect(() => guard.canActivate(unauthorizedCtx)).toThrow(HttpException);
+
+      const authorizedCtx = createMockContext({
+        ip: '127.0.0.1',
+        headers: {
+          'x-admin-api-key': 'super-secret-key',
+        },
+      });
+      expect(guard.canActivate(authorizedCtx)).toBe(true);
+    } finally {
+      if (prevKey === undefined) {
+        delete process.env.ADMIN_API_KEY;
+      } else {
+        process.env.ADMIN_API_KEY = prevKey;
+      }
+    }
+  });
 });

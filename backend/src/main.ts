@@ -14,7 +14,7 @@ async function bootstrap() {
   );
 
   // Security Headers via Fastify Helmet
-  await (app as any).register(fastifyHelmet, {
+  await app.register(fastifyHelmet as Parameters<NestFastifyApplication['register']>[0], {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: [`'self'`],
@@ -26,9 +26,17 @@ async function bootstrap() {
     crossOriginEmbedderPolicy: false,
   });
 
-  // CORS Configuration
-  await (app as any).register(fastifyCors, {
-    origin: true,
+  // CORS Configuration: restrict allowed origins via CORS_ORIGINS env var or localhost in dev
+  const rawCorsOrigins = process.env.CORS_ORIGINS;
+  const allowedOrigins: (string | RegExp)[] = rawCorsOrigins
+    ? rawCorsOrigins
+        .split(',')
+        .map((o) => o.trim())
+        .filter(Boolean)
+    : [/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/];
+
+  await app.register(fastifyCors as Parameters<NestFastifyApplication['register']>[0], {
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   });

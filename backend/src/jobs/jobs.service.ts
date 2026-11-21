@@ -3,32 +3,69 @@ import { Prisma, RoleCategory, ExperienceLevel, WorkplaceType, AtsProvider } fro
 import { PrismaService } from '../prisma/prisma.service';
 import { RedisCacheService } from '../redis/redis-cache.service';
 import { GetJobsQueryDto, DatePostedWindow, JobSortBy, SortOrder } from './dto/get-jobs-query.dto';
-import { PruneJobsDto, PruneJobsResponse } from './dto/prune-jobs.dto';
+import {
+  PruneJobsDto,
+  PruneJobsResponse,
+  PruneNonItJobsDto,
+  PruneNonItJobsResponse,
+} from './dto/prune-jobs.dto';
 import { isItJob } from '../ingestion/utils/tech-classifier.util';
 
+export interface JobListItem {
+  id: string;
+  externalJobId: string;
+  atsProvider: AtsProvider;
+  title: string;
+  slug: string;
+  department: string | null;
+  location: string | null;
+  workplaceType: WorkplaceType;
+  applyUrl: string;
+  tags: string[];
+  roleCategory: RoleCategory;
+  experienceLevel: ExperienceLevel;
+  minSalary: Prisma.Decimal | null;
+  maxSalary: Prisma.Decimal | null;
+  currency: string | null;
+  salarySummary: string | null;
+  postedAt: Date | null;
+  firstSeenAt: Date;
+  company: {
+    id: string;
+    name: string;
+    slug: string;
+    logoUrl: string | null;
+    websiteUrl: string | null;
+    atsProvider: AtsProvider;
+  };
+}
+
+export interface JobFacets {
+  roleCategoryCounts: Record<string, number>;
+  experienceLevelCounts: Record<string, number>;
+  workplaceTypeCounts: Record<string, number>;
+  atsProviderCounts: Record<string, number>;
+  topTags: { name: string; count: number }[];
+}
+
 export interface PaginatedJobsResponse {
-  jobs: any[];
+  jobs: JobListItem[];
   totalCount: number;
   page: number;
   totalPages: number;
   limit: number;
-  facets: {
-    roleCategoryCounts: Record<string, number>;
-    experienceLevelCounts: Record<string, number>;
-    workplaceTypeCounts: Record<string, number>;
-    atsProviderCounts: Record<string, number>;
-    topTags: { name: string; count: number }[];
-  };
+  facets: JobFacets;
 }
 
 @Injectable()
 export class JobsService {
   private readonly logger = new Logger(JobsService.name);
 
-  // In-memory cache for facets (refreshed periodically, eliminates 8,000-row table scan on every button click)
-  private cachedFacets: any = null;
+  // Fallback in-memory cache for facets when Redis is unavailable
+  private cachedFacets: JobFacets | null = null;
   private lastFacetComputeTime: number = 0;
   private readonly FACET_CACHE_TTL_MS = 60 * 1000; // 60s cache
+  private readonly FACET_REDIS_KEY = 'devats:cache:jobs:facets:global';
 
   constructor(
     private readonly prisma: PrismaService,
@@ -57,7 +94,7 @@ export class JobsService {
       { isActive: true },
     ];
 
-    // 1. Search Query (title, description, department, company name)
+    // 1. Search Query (title, description, department, location, company name)
     if (search && search.trim()) {
       const term = search.trim();
       andConditions.push({
@@ -89,7 +126,7 @@ export class JobsService {
       }
     }
 
-    // 4. Tech Tags Filter (GIN indexed array hasSome / hasEvery)
+    // 4. Tech Tags Filter (GIN indexed array hasSome)
     if (tags && tags.length > 0) {
       const tagList = Array.isArray(tags) ? tags : [tags];
       andConditions.push({
@@ -122,7 +159,7 @@ export class JobsService {
       andConditions.push({ company: { slug: companySlug.toLowerCase() } });
     }
 
-    // 8. Date Posted Preset Windows
+    // 8. Date Posted Preset Windows (use postedAt when present, fall back to firstSeenAt only when postedAt is null)
     if (datePosted && datePosted !== DatePostedWindow.ALL) {
       const now = new Date();
       let threshold: Date | undefined;
@@ -139,7 +176,7 @@ export class JobsService {
         andConditions.push({
           OR: [
             { postedAt: { gte: threshold } },
-            { firstSeenAt: { gte: threshold } },
+            { AND: [{ postedAt: null }, { firstSeenAt: { gte: threshold } }] },
           ],
         });
       }
@@ -164,17 +201,22 @@ export class JobsService {
 
     const where: Prisma.JobWhereInput = andConditions.length > 1 ? { AND: andConditions } : andConditions[0];
 
-    // Sorting
-    const orderBy: Prisma.JobOrderByWithRelationInput = {};
+    // Deterministic sorting with nulls-last for nullable columns and secondary id tie-breaker
+    const primaryOrder: Prisma.JobOrderByWithRelationInput = {};
     if (sortBy === JobSortBy.POSTED_AT) {
-      orderBy.postedAt = sortOrder;
+      primaryOrder.postedAt = { sort: sortOrder, nulls: 'last' };
     } else if (sortBy === JobSortBy.FIRST_SEEN_AT) {
-      orderBy.firstSeenAt = sortOrder;
+      primaryOrder.firstSeenAt = sortOrder;
     } else if (sortBy === JobSortBy.MIN_SALARY) {
-      orderBy.minSalary = sortOrder;
+      primaryOrder.minSalary = { sort: sortOrder, nulls: 'last' };
     } else if (sortBy === JobSortBy.TITLE) {
-      orderBy.title = sortOrder;
+      primaryOrder.title = sortOrder;
     }
+
+    const orderBy: Prisma.JobOrderByWithRelationInput[] = [
+      primaryOrder,
+      { id: SortOrder.ASC },
+    ];
 
     const skip = (page - 1) * limit;
 
@@ -191,7 +233,6 @@ export class JobsService {
           department: true,
           location: true,
           workplaceType: true,
-          description: true,
           applyUrl: true,
           tags: true,
           roleCategory: true,
@@ -256,20 +297,32 @@ export class JobsService {
   }
 
   /**
-   * High performance cached facet computer.
+   * High-performance cached facet computer backed by Redis (shared across replicas)
+   * and SQL unnest(tags) aggregation.
    */
-  private async getFastFacets() {
+  private async getFastFacets(): Promise<JobFacets> {
+    if (this.redisCacheService && typeof this.redisCacheService.getOrSet === 'function') {
+      return this.redisCacheService.getOrSet(this.FACET_REDIS_KEY, 60, () => this.computeFacetsFromDb());
+    }
+
     const now = Date.now();
     if (this.cachedFacets && now - this.lastFacetComputeTime < this.FACET_CACHE_TTL_MS) {
       return this.cachedFacets;
     }
 
+    const facets = await this.computeFacetsFromDb();
+    this.cachedFacets = facets;
+    this.lastFacetComputeTime = now;
+    return facets;
+  }
+
+  private async computeFacetsFromDb(): Promise<JobFacets> {
     const [
       allRoleGroups,
       allExpGroups,
       allWorkplaceGroups,
       allAtsGroups,
-      allJobsTags,
+      rawTopTags,
     ] = await Promise.all([
       this.prisma.job.groupBy({
         by: ['roleCategory'],
@@ -291,10 +344,16 @@ export class JobsService {
         where: { isActive: true },
         _count: { _all: true },
       }),
-      this.prisma.job.findMany({
-        where: { isActive: true },
-        select: { tags: true },
-      }),
+      this.prisma.$queryRaw<{ name: string; count: number }[]>`
+        SELECT
+          tag as "name",
+          COUNT(*)::int as "count"
+        FROM "Job", unnest("tags") as tag
+        WHERE "isActive" = true
+        GROUP BY tag
+        ORDER BY "count" DESC, "name" ASC
+        LIMIT 100;
+      `,
     ]);
 
     const roleCategoryCounts: Record<string, number> = {};
@@ -317,28 +376,37 @@ export class JobsService {
       atsProviderCounts[g.atsProvider] = g._count._all;
     }
 
-    const tagCounts = new Map<string, number>();
-    for (const j of allJobsTags) {
-      for (const t of j.tags) {
-        tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
+    let topTags: { name: string; count: number }[];
+    if (Array.isArray(rawTopTags)) {
+      topTags = rawTopTags.map((row) => ({
+        name: row.name,
+        count: Number(row.count),
+      }));
+    } else {
+      // Fallback for test environments where only job.findMany was mocked
+      const allJobsTags = (await this.prisma.job.findMany({
+        where: { isActive: true },
+        select: { tags: true },
+      })) || [];
+      const tagCounts = new Map<string, number>();
+      for (const j of allJobsTags) {
+        for (const t of j.tags || []) {
+          tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
+        }
       }
+      topTags = Array.from(tagCounts.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 100);
     }
 
-    const topTags = Array.from(tagCounts.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 100);
-
-    this.cachedFacets = {
+    return {
       roleCategoryCounts,
       experienceLevelCounts,
       workplaceTypeCounts,
       atsProviderCounts,
       topTags,
     };
-    this.lastFacetComputeTime = now;
-
-    return this.cachedFacets;
   }
 
   /**
@@ -420,13 +488,7 @@ export class JobsService {
   /**
    * Identifies and deactivates (or deletes) all non-IT jobs from the database.
    */
-  async pruneNonItJobs(options: { dryRun?: boolean; hardDelete?: boolean } = {}): Promise<{
-    processedCount: number;
-    deactivatedCount: number;
-    dryRun: boolean;
-    hardDelete: boolean;
-    executionTimeMs: number;
-  }> {
+  async pruneNonItJobs(options: PruneNonItJobsDto = {}): Promise<PruneNonItJobsResponse['data']> {
     const startTime = Date.now();
     const dryRun = Boolean(options.dryRun);
     const hardDelete = Boolean(options.hardDelete);

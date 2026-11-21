@@ -8,12 +8,15 @@ import {
   Post,
   Query,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { GetJobsQueryDto } from './dto/get-jobs-query.dto';
-import { PruneJobsDto, PruneJobsResponse } from './dto/prune-jobs.dto';
+import {
+  PruneJobsDto,
+  PruneJobsResponse,
+  PruneNonItJobsDto,
+  PruneNonItJobsResponse,
+} from './dto/prune-jobs.dto';
 import { RedisCacheService } from '../redis/redis-cache.service';
 import { RedisRateLimiterGuard } from '../redis/guards/redis-rate-limiter.guard';
 import { LocalhostOnlyGuard } from '../common/guards/localhost-only.guard';
@@ -21,7 +24,6 @@ import { RateLimit } from '../redis/decorators/rate-limit.decorator';
 
 @Controller('api/v1/jobs')
 @UseGuards(RedisRateLimiterGuard)
-@UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
 export class JobsController {
   constructor(
     private readonly jobsService: JobsService,
@@ -37,8 +39,11 @@ export class JobsController {
 
   @Get('tags')
   @RateLimit({ limit: 60, ttlSeconds: 60, keyPrefix: 'jobs:tags' })
-  async getTags(@Query('limit') limit?: number) {
-    const numLimit = limit ? Number(limit) : 30;
+  async getTags(@Query('limit') limit?: number | string) {
+    const parsed = limit !== undefined && limit !== '' ? Number(limit) : 30;
+    const numLimit = Number.isFinite(parsed)
+      ? Math.min(Math.max(Math.trunc(parsed), 1), 100)
+      : 30;
     const cacheKey = `devats:cache:jobs:tags:${numLimit}`;
 
     return this.redisCacheService.getOrSet(cacheKey, 600, async () => {
@@ -82,9 +87,7 @@ export class JobsController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalhostOnlyGuard)
   @RateLimit({ limit: 10, ttlSeconds: 60, keyPrefix: 'jobs:prune-non-it' })
-  async pruneNonItJobs(
-    @Body() body: { dryRun?: boolean; hardDelete?: boolean },
-  ): Promise<{ success: boolean; message: string; data: any }> {
+  async pruneNonItJobs(@Body() body: PruneNonItJobsDto): Promise<PruneNonItJobsResponse> {
     const data = await this.jobsService.pruneNonItJobs(body);
     const action = data.dryRun ? 'Audited' : data.hardDelete ? 'Deleted' : 'Deactivated';
     return {

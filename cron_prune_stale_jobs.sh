@@ -35,7 +35,8 @@ if [ -w "/var/log" ] || ([ ! -e "/var/log/findjobs_prune_cron.log" ] && [ -w "/v
   LOGFILE="/var/log/findjobs_prune_cron.log"
 else
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  LOGFILE="${SCRIPT_DIR}/cron_prune.log"
+  mkdir -p "${SCRIPT_DIR}/logs"
+  LOGFILE="${SCRIPT_DIR}/logs/cron_prune.log"
 fi
 
 log() {

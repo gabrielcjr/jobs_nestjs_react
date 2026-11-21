@@ -46,7 +46,7 @@ export interface Job {
   location?: string | null;
   workplaceType: WorkplaceType;
   allowedLocations?: string[];
-  description: string;
+  description?: string;
   applyUrl: string;
   minSalary?: number | null;
   maxSalary?: number | null;

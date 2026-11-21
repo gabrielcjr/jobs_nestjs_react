@@ -20,6 +20,7 @@ import { Job } from '../types/jobs';
 import { CompanyAvatar } from './CompanyAvatar';
 import { sanitizeHtml } from '../utils/sanitize';
 import { ApplicationStatus } from '../hooks/useBookmarks';
+import { useJobDetail } from '../hooks/useJobs';
 import {
   formatSalary,
   formatTimeAgo,
@@ -50,6 +51,10 @@ export const JobDetail: React.FC<JobDetailProps> = ({
   onUpdateStatus,
 }) => {
   const [copied, setCopied] = useState(false);
+  const shouldFetchDetail = Boolean(job?.id && job.description === undefined);
+  const { data: detailedJob, isLoading: isDetailLoading } = useJobDetail(
+    shouldFetchDetail && job ? job.id : null,
+  );
 
   if (!job) {
     return (
@@ -68,7 +73,8 @@ export const JobDetail: React.FC<JobDetailProps> = ({
   const atsBadge = getAtsBadgeStyles(job.atsProvider);
   const isNew = isNewJob(job.firstSeenAt);
   const salaryText = formatSalary(job.minSalary, job.maxSalary, job.currency || 'USD', job.salarySummary);
-  const cleanHtml = sanitizeHtml(job.description);
+  const rawDescription = job.description ?? detailedJob?.description ?? '';
+  const cleanHtml = sanitizeHtml(rawDescription);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -301,7 +307,14 @@ export const JobDetail: React.FC<JobDetailProps> = ({
             </span>
           </h4>
 
-          {cleanHtml ? (
+          {isDetailLoading && !cleanHtml ? (
+            <div className="space-y-2.5 animate-pulse">
+              <div className="h-3 bg-dark-800 rounded w-3/4" />
+              <div className="h-3 bg-dark-800 rounded w-full" />
+              <div className="h-3 bg-dark-800 rounded w-5/6" />
+              <div className="h-3 bg-dark-800 rounded w-2/3" />
+            </div>
+          ) : cleanHtml ? (
             <div
               className="prose-job-desc"
               dangerouslySetInnerHTML={{ __html: cleanHtml }}

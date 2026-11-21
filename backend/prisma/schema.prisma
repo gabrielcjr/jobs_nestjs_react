@@ -99,6 +99,7 @@ model Job {
 
   @@unique([atsProvider, externalJobId])
   @@index([atsProvider, isActive])
+  @@index([isActive, postedAt(sort: Desc)])
   @@index([roleCategory, experienceLevel])
   @@index([tags], type: Gin)
   @@index([isLatamEligible, isActive])
